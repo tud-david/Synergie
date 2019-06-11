@@ -6,7 +6,7 @@ import zipfile
 import numpy as np
 
 sys.path.insert(0, os.path.join('C:\\',
-                                'Program Files',
+                                'Program Files (x86)',
                                 'Dymola 2018',
                                 'Modelica',
                                 'Library',
@@ -122,7 +122,7 @@ def get_unzip_FMU(mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
     dymola.openModel(mo_path)
-    dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
+    dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False)#, includeImage = 2)
     with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
         boolean_unzip = zip_ref.extractall()
     dymola.close()

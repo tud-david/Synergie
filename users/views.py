@@ -48,8 +48,10 @@ def delete(request):
         form = SimulationForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Ihre Simulationsdatei wurde hochgeladen!')
+            messages.success(request, 'Ihre Simulationsdatei wurde hochgeladen!')
             return redirect('ablage-view')
+        else:
+            messages.success(request, 'Ups, da ist was schief gelaufen!')
     else:
         form = SimulationForm()
     return render(request, 'users/ablage.html', {'form': form, 'files': files})

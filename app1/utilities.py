@@ -7,7 +7,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.join('C:\\',
                                 'Program Files',
-                                'Dymola 2019 FD01',
+                                'Dymola 2018',
                                 'Modelica',
                                 'Library',
                                 'python_interface',

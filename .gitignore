@@ -3,3 +3,7 @@ uploads/
 
 # ignore venv
 venv/
+
+binaries/
+documentation/
+media/

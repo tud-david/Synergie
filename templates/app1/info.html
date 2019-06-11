@@ -1,0 +1,28 @@
+{% extends 'app1/layout.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+  <div class="row">
+    <div class="col-9">
+      <div class="card shadow">
+        <h6 class="card-header">Synergie-Konfigurationstool | Info-Startseite</h6>
+        <div class="card-body">
+          <p>some info on what to do Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus eum magnam cum. Blanditiis deserunt dolor obcaecati, adipisci ipsum eos incidunt iste suscipit magnam facilis, accusantium quos, iure unde autem! Au</p>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'app1-start' %}"><button class="btn btn-primary btn-sm float-right">Konfigurationstool Starten</button></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="card">
+        <div class="card-header info"><i class="fas fa-info-circle mr-2"></i>Info-Box</div>
+        <div class="card-body">
+          <p>some info on what to do Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus eum magnam cum. Blanditiis deserunt dolor obcaecati, adipisci ipsum eos incidunt iste suscipit magnam facilis, accusantium quos, iure unde autem! Au</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

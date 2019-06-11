@@ -1,0 +1,77 @@
+{% extends 'app1/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block card-titel %}Start{% endblock card-titel%}
+
+{% block card-inhalt %}
+
+      <div class="container-fluid">
+        <div class="form-wrapper">
+          <div class="form-group">
+            <label for="FlexOptions">Flexibilisierungsmaßnahme wählen:</label>
+            <select class="form-control" id="FlexOptions" autocomplete="off">
+              <option id="0">Bitte Option wählen...</option>
+              <option id="1">Bivalenz</option>
+              <option id="2">Flexibilisierung der Eigenerzeugung</option>
+            </select>
+          </div>
+
+          <hr>
+
+          <div class="form-group all" id="{{ form.flex_var.name }}">
+            <div class="d-inline-block">{{ form.flex_var }} </div>
+            <label class="d-inline-block ml-1"> flex_var </label>
+          </div>
+
+          <div class="form-group  flex2 all" id="{{ form.bhkw.name }}">
+            <div class="d-inline-block">{{ form.konf_BHKW }}</div>
+            <label class="d-inline-block ml-1"> Ist ein BHKW vorhanden? </label>
+          </div>
+
+          <!-- <div class="form-group flex2 all" id="{{ form.bhkw_str.name }}">
+            <div class="d-inline-block">{{ form.bhkw_str }}</div>
+            <label class="d-inline-block ml-1"> Ist das BHKW stromgeführt? </label>
+          </div> -->
+
+          <div class="form-group flex2 all" id="{{ form.p_speicher.name }}">
+            <div class="d-inline-block">{{ form.konf_Pufferspeicher }}</div>
+            <label class="d-inline-block ml-1"> Ist ein Pufferspeicher vorhanden? </label>
+          </div>
+
+          <div class="form-group flex2 flex1 all" id="{{ form.wrg.name }}">
+            <div class="d-inline-block">{{ form.konf_WRG}}</div>
+            <label class="d-inline-block ml-1"> Wird eine WRG eingesetzt? </label>
+          </div>
+
+          <div class="form-group flex1 all" id="{{ form.hk.name }}">
+            <div class="d-inline-block">{{ form.konf_HK }}</div>
+            <label class="d-inline-block ml-1"> Ist ein Heizkessel vorhanden? </label>
+          </div>
+
+          <!-- <div class="form-group all" id="{{ form.ek.name }}">
+            <div class="d-inline-block">{{ form.ek }}</div>
+            <label class="d-inline-block ml-1"> Ist ein Elektrokessel vorhanden? </label>
+          </div> -->
+
+          <div class="form-group flex1  flex2 all" id="{{ form.anz_wrg.name }}">
+            <label class="d-inline-block"> Anzahl WRG: </label>
+            <div class="">{{ form.Anzahl_WRG }}</div>
+          </div>
+
+          <div class="form-group flex1 flex2 all" id="{{ form.anz_hk.name }}">
+            <label class="d-inline-block"> Anzahl HK: </label>
+            <div class="">{{ form.Anzahl_HK }}</div>
+          </div>
+        </div>
+      </div>
+
+{% endblock card-inhalt %}
+
+{% block infobox-titel %}{% endblock infobox-titel %}
+
+{% block infobox-inhalt %}{% endblock infobox-inhalt %}
+
+

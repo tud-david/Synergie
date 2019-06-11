@@ -1,0 +1,171 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.models import User
+import xlrd
+import pandas as pd
+import os, sys
+from .forms import ModelFileForm, ParameterForm, ModelSelectForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
+from .models import Simulation
+from .utilities import get_unzip_FMU, search_xml, PackageBrowser, param_df, param_setzen, search_xml_ctt, CombiTablesFormat, simulate_flex
+from dymola.dymola_interface import DymolaInterface
+
+
+def layout(request):
+    return render(request, 'app1/layout.html')
+
+
+@login_required
+def info(request):
+    request.session['model_name'] = None
+    request.session['file_chosen'] = False
+    request.session['model_unpacked'] = False
+    request.session['params_uploaded'] = False
+    request.session['flex_chosen'] = False
+    return render(request, 'app1/info.html')
+
+@login_required
+def start(request):
+    files = []
+    for sim in Simulation.objects.filter(creator=request.user):
+        file = (sim.id, sim.file.name.split('uploads')[-1])
+        files.append(file)
+    if request.method == 'POST':
+        form = SimSelectForm(files, request.POST)
+        if form.is_valid():
+            request.session['sim_id'] = form.cleaned_data['sim_id']
+            request.session['file_chosen'] = True
+            return redirect('app1-step1')
+        else:
+            messages.warning(request, 'Da ist etwas schief gelaufen!')
+    else:
+        form = SimSelectForm(files, request.POST)
+
+    context = {
+        'form': form,
+        'files': Simulation.objects.filter(creator=request.user),
+        'step': 0,
+        'ladezeit': True,
+        'file_chosen': request.session['file_chosen'],
+        'model_unpacked': request.session['model_unpacked'],
+        'params_uploaded': request.session['params_uploaded'],
+        'flex_chosen': request.session['flex_chosen'],
+    }
+    return render(request, 'app1/start.html', context)
+
+
+@login_required
+def step1(request):
+    curr_sim = Simulation.objects.get(id=request.session['sim_id'])
+    model_path = curr_sim.file.path
+    models = []
+    for model in PackageBrowser(model_path):
+        item = (f'Bibliothek.Simulationswerkzeug.Modelle.{model}', model)
+        models.append(item)
+    if request.method == 'POST':
+        form = ModelSelectForm(models, request.POST)
+        if form.is_valid():
+            request.session['model_name'] = form.cleaned_data['model_name']
+            request.session['model_unpacked'] = True
+            get_unzip_FMU(model_path, request.session['model_name'])
+            return redirect('app1-step2')
+        else:
+            messages.warning(request, 'Ups, da ist was schief gelaufen!')
+            return redirect('app1-step1')
+    else:
+        form = ModelSelectForm(models)
+
+    context = {
+        'form': form,
+        'check' : request.session['model_unpacked'],
+        'model' : request.session['model_name'],
+        'step': 1,
+        'ladezeit': True,
+        'file_chosen': request.session['file_chosen'],
+        'model_unpacked': request.session['model_unpacked'],
+        'params_uploaded': request.session['params_uploaded'],
+        'flex_chosen': request.session['flex_chosen'],
+    }
+    return render(request, 'app1/step1.html', context=context)
+
+
+@login_required
+def step2(request):
+    curr_sim = Simulation.objects.get(id=request.session['sim_id'])
+    model_path = curr_sim.file.path
+    img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
+    xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
+    params, paths = search_xml(xml_path)
+    params_ctt, paths_ctt = search_xml_ctt(xml_path)
+
+    if request.method == 'POST':
+        form = ParameterForm(params, request.POST, request.FILES)
+        form_ctt = CombiTableForm(params_ctt, request.POST, request.FILES)
+        if form.is_valid():
+            #messages.success(request, 'Die Paramter wurden hochgeladen ...')
+            #df_final = param_df(request.FILES, paths)
+            #param_setzen(df_final, model_path)
+            request.session['params_uploaded'] = True
+            return redirect('app1-step3')
+        else:
+            messages.warning(request, 'Bitte verwenden Sie das richtige Dateiformat (.xslx)')
+    else:
+        form = ParameterForm(params)
+        form_ctt = CombiTableForm(params_ctt)
+
+    context={
+        'form': form,
+        'form_ctt': form_ctt,
+        'title': 'Step2',
+        'img_path': img_path,
+        'sim': curr_sim,
+        'step': 2,
+        'file_chosen': request.session['file_chosen'],
+        'model_unpacked': request.session['model_unpacked'],
+        'params_uploaded': request.session['params_uploaded'],
+        'flex_chosen': request.session['flex_chosen'],
+    }
+    return render(request, 'app1/step2.html', context)
+
+
+@login_required
+def step3(request):
+    if request.session['sim_id']:
+        curr_sim = Simulation.objects.get(id=request.session['sim_id'])
+        model_path = curr_sim.file.path
+        model_name = request.session['model_name']
+        if request.method == 'POST':
+            form = FlexForm(request.POST)
+            if form.is_valid():
+                simulate_flex(model_name, model_path, 1, form.cleaned_data)
+                request.session['flex_chosen'] = True
+                return redirect('app1-results')
+            else:
+                messages.warning(request, 'Bitte wählen sie eine Flex_Maßnahme aus')
+        else:
+            form = FlexForm()
+    else:
+        messages.warning(request, 'Sie haben noch kein Modell ausgewählt')
+        form = FlexForm()
+        
+    context = {
+        'form': form,
+        'step': 3,
+        'file_chosen': request.session['file_chosen'],
+        'model_unpacked': request.session['model_unpacked'],
+        'params_uploaded': request.session['params_uploaded'],
+        'flex_chosen': request.session['flex_chosen'],
+    }
+    return render(request, 'app1/step3.html', context)
+
+
+@login_required
+def results(request):
+    context = {
+        'step': 4,
+        'file_chosen': request.session['file_chosen'],
+        'model_unpacked': request.session['model_unpacked'],
+        'params_uploaded': request.session['params_uploaded'],
+        'flex_chosen': request.session['flex_chosen'],
+    }
+    return render(request, 'app1/results.html', context=context)

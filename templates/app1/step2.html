@@ -1,0 +1,30 @@
+{% extends 'app1/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block card-titel %}Start{% endblock %}
+
+{% block card-inhalt %}
+      <h6>Modellabbildung</h6>
+      <hr>
+
+      <img class="model_png" src="{{ img_path }}" alt="">
+
+      <div class="form-wrapper">
+        <h6>Parameter Sets</h6>
+        <hr>
+
+        {{ form|crispy }}
+        <h6>Combi Tables</h6>
+        <hr>
+        {{ form_ctt|crispy }}
+      </div>
+
+{% endblock %}
+
+{% block infobox-titel %}{% endblock %}
+
+{% block infobox-inhalt %}{% endblock %}
+

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/register.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+{% block content %}
+  {% if request.user.is_superuser %}
+    <div class="row">
+      <div class="col-9">
+        <div class="card register-form">
+          <div class="card-header">Neuen Benutzer anlegen:</div>
+          <div class="card-body">
+            <form action="" method="post">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                  {{ form|crispy }}
+                </legend>
+              </fieldset>
+              <button type="submit">submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="card">
+          <div class="card-header info"><i class="fas fa-info-circle mr-2"></i>Info-Box</div>
+          <div class="card-body">
+            <p>some info on what to do Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus eum magnam cum. Blanditiis deserunt dolor obcaecati, adipisci ipsum eos incidunt iste suscipit magnam facilis, accusantium quos, iure unde autem! Au</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% else %}
+    <p>Sorry, auf diese Seite darfst leider nicht zugreifen</p>
+  {% endif %}
+
+{% endblock content %}
+

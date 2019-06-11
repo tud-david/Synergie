@@ -1,0 +1,18 @@
+{% extends 'app1/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block card-titel %}Start{% endblock %}
+
+{% block card-inhalt %}
+  <h6>Wählen sie ein Modell aus:</h6>
+  {{ form|crispy }}
+{% endblock %}
+
+{% block infobox-titel %}{% endblock %}
+
+{% block infobox-inhalt %}{% endblock %}
+
+

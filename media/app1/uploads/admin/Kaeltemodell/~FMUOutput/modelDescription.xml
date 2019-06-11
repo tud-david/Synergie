@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiModelDescription
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  fmiVersion="2.0"
+  modelName="Bibliothek_Simulationswerkzeug_Modelle_Kaelte"
+  guid="{4e734008-e8bc-479b-b02a-fceef9095d8e}"
+  version="1"
+  generationTool="Dymola Version 2020 (64-bit), 2019-04-10"
+  generationDateAndTime="2019-06-10T17:03:21Z"
+  variableNamingConvention="structured"
+  numberOfEventIndicators="0">
+  <ModelExchange
+    modelIdentifier="Bibliothek_Simulationswerkzeug_Modelle_Kaelte"
+    providesDirectionalDerivative="true"/>
+  <CoSimulation
+    modelIdentifier="Bibliothek_Simulationswerkzeug_Modelle_Kaelte"
+    canHandleVariableCommunicationStepSize="true"
+    canInterpolateInputs="true"
+    maxOutputDerivativeOrder="1"
+    providesDirectionalDerivative="true"/>
+  <DefaultExperiment startTime="0.0"
+    stopTime="1.0"
+    tolerance="0.0001"/>
+  <ModelStructure/>
+</fmiModelDescription>

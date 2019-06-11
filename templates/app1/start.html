@@ -1,0 +1,21 @@
+{% extends 'app1/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block card-titel %}Start{% endblock %}
+
+{% block card-inhalt %}
+
+  {% if files %}
+    <h6>Wählen sie eine Simulationsdatei aus:</h6>
+    {{ form|crispy }}
+    <p>Zum hochladen weiterer Simulationsdateien, gehen sie in ihre Ablage: <a href="{% url 'ablage-view' %}">Meine Ablage</a></p>
+  {% else %}
+    <p>Sie haben noch keine Simulationen in ihrer Ablage. Diese können sie <a href="{% url 'ablage-view' %}">hier</a> hochladen.</p>
+  {% endif %}
+
+{% endblock %}
+
+{% block infobox-titel %}{% endblock %}
+
+{% block infobox-inhalt %}{% endblock %}

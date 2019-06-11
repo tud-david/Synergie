@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block css %}
+  <link href="{% static 'css/app1.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <form  method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="row">
+      <div class="col-xl-9">
+        <div class="card shadow">
+          <h6 class="card-header">Synergie-Konfigurationstool | {% block card-titel %}{% endblock %}</h6>
+          <div class="card-body">
+            <ul class="nav nav-tabs nav-justified">
+              <li class="nav-item">
+                <a class="nav-link {% if step == 0 %}active{% endif %} " {% comment %}href="{% url 'app1-start' %}"{% endcomment %}>
+                 Ablage {% if file_chosen %}<span style="color: green;"><i class="fas fa-check-circle mx-1" style="opacity: .4;"></i></span>{% endif %}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if step == 1 %}active{% endif %} " {% comment %}href="{% url 'app1-start' %}"{% endcomment %}>
+                  Modell {% if model_unpacked %}<span style="color: green;"><i class="fas fa-check-circle mx-1" style="opacity: .4;"></i></span>{% endif %}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if step == 2 %}active{% endif %} " {% comment %}href="{% url 'app1-start' %}"{% endcomment %}>
+                  Parameter {% if params_uploaded %}<span style="color: green;"><i class="fas fa-check-circle mx-1" style="opacity: .4;"></i></span>{% endif %}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if step == 3 %}active{% endif %} " {% comment %}href="{% url 'app1-start' %}"{% endcomment %}>
+                  Flexibilisieren {% if flex_chosen %}<span style="color: green;"><i class="fas fa-check-circle mx-1" style="opacity: .4;"></i></span>{% endif %}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if step == 4 %}active{% endif %} " {% comment %}href="{% url 'app1-start' %}"{% endcomment %}>
+                  Ergebnisse {% if results %}<span style="color: green;"><i class="fas fa-check-circle mx-1"></i></span>{% endif %}
+                </a>
+              </li>
+            </ul>
+
+{#          Die Funktion kommt hierhin...#}
+            <div class="card-inhalt border-right border-left border-bottom px-3 py-4">
+              {% block card-inhalt %}{% endblock %}
+            </div>
+{#          Die Funktion endet hier!!#}
+          </div>
+
+          <div class="card-footer">
+            <a class="btn btn-primary btn-sm" href="{% url 'app1-info' %}">abbrechen</a>
+            <button {% if ladezeit %}onclick="$.blockUI()"{% endif %} class="btn btn-primary btn-sm float-right" type="submit">Weiter</button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-3 infobox">
+        <div class="card shadow ">
+          <div class="card-header info"><i class="fas fa-info-circle mr-2"></i>Info-Box: {% block infobox-titel %}{% endblock %}</div>
+          <div class="card-body">
+            {% block infobox-inhalt %}{% endblock %}
+            <p>some info on what to do Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus eum magnam cum. Blanditiis deserunt dolor obcaecati, adipisci ipsum eos incidunt iste suscipit magnam facilis, accusantium quos, iure unde autem! Au</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div id="loading" style="display:none;">
+    <img src="{% static 'img/46.svg' %}" />
+  </div>
+
+{% endblock content %}

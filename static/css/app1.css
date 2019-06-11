@@ -1,0 +1,64 @@
+.bg-primary {
+  background-color: #99c000 !important;
+}
+
+/*.app1 .content {*/
+/*  border-radius: .2rem;*/
+/*  padding: 1.5rem;*/
+/*  overflow: visible;*/
+/*}*/
+
+.card .info{
+  background-color: #1d393b;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #336467), to(#1d393b));
+  background-image: linear-gradient(300deg, #336467 30%, #2a5a5c 100%);
+  background-size: cover;
+  color: white!important;
+}
+
+.card-header{
+  background-color: rgba(171, 245, 106, 0.48);
+}
+
+
+@media (max-width: 1244px) {
+   .infobox{
+      display: none;
+   }
+}
+.info-wrapper {
+  padding: 1rem;
+  border-radius: .2rem;
+}
+
+img > .model_png {
+  height: 400px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.info-wrapper .form-group {
+  border: thin solid grey;
+  border-radius: .2rem;
+}
+
+.form-wrapper .form-group {
+  border: thin solid lightgrey;
+  border-radius: .2rem;
+  padding: 1rem;
+}
+
+.form-wrapper .form-group input {
+  display: block;
+}
+
+.form-wrapper .form-group label {
+  margin: 0;
+  padding: 0 0 .2rem 0;
+}
+
+.form-wrapper .form-group label .asteriskField {
+  display: none;
+}
+
+/*# sourceMappingURL=app1.css.map */

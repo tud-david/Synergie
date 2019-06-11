@@ -1,22 +1,16 @@
 import os
+from django.contrib import messages
 import xml.etree.ElementTree as ET
 import sys
 from modelicares import *
 import zipfile
 import numpy as np
-
-sys.path.insert(0, os.path.join('C:\\',
-                                'Program Files (x86)',
-                                'Dymola 2018',
-                                'Modelica',
-                                'Library',
-                                'python_interface',
-                                'dymola.egg'))
-
 import dymola
 import pandas as pd
 from dymola.dymola_interface import DymolaInterface
 from dymola.dymola_exception import DymolaException
+
+
 
 def PackageBrowser(mo_path):
     dymola = DymolaInterface()
@@ -118,13 +112,16 @@ def param_setzen(df_final, model_path):
 
 
 
-def get_unzip_FMU(mo_path, model_name):
+def get_unzip_FMU(request, mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
-    dymola.openModel(mo_path)
-    dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False)#, includeImage = 2)
-    with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
-        boolean_unzip = zip_ref.extractall()
+    if dymola.openModel(mo_path):
+        dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
+        with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
+            boolean_unzip = zip_ref.extractall()
+    else:
+        return messages.warning(request, 'Es konnte keine Verbindung zu Dymola aufgebaut werden!')
+        print('Es konnte keine Verbindung zu Dymola hergestellt werden!')
     dymola.close()
 
 

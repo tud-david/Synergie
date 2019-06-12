@@ -7,3 +7,4 @@ venv/
 binaries/
 documentation/
 media/
+.idea/

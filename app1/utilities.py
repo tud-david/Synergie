@@ -118,14 +118,18 @@ def param_setzen(df_final, model_path):
 def get_unzip_FMU(request, mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
-    if dymola.openModel(mo_path):
+    try:
+        dymola.openModel(mo_path)
         dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False)#, includeImage = 2)
         with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
             boolean_unzip = zip_ref.extractall()
-    else:
-        return messages.warning(request, 'Es konnte keine Verbindung zu Dymola aufgebaut werden!')
-        print('Es konnte keine Verbindung zu Dymola hergestellt werden!')
-    dymola.close()
+        dymola.close()
+        return 'Das Modell wurde entpackt'
+    except:
+        dymola.close()
+        return 'Es konnte keine Verbindung zu Dymola hergestellt werden!'
+
+
 
 
 

@@ -39,6 +39,7 @@ def search_xml(xml_file):
                         ps.append(chunk)
     return(ps, paths)
 
+
 def search_xml_ctt(xml_file):
     root = ET.parse(xml_file).getroot()
     idents = ['__ctt__', '__ct1ds__', '__ct2ds__']
@@ -56,6 +57,7 @@ def search_xml_ctt(xml_file):
                     if ident in chunk and not chunk in ps:
                         ps.append(chunk)
     return(ps, paths)
+
 
 def param_df(dictionary, paths):
     files = list(dictionary.values())
@@ -103,6 +105,7 @@ def CombiTablesFormat(dictionary, paths):
         df_final.iloc[k, 1] = combi_str
     return(df_final)
 
+
 def param_setzen(df_final, model_path):
     dymola = DymolaInterface()
     dymola.openModel(model_path)
@@ -116,7 +119,7 @@ def get_unzip_FMU(request, mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
     if dymola.openModel(mo_path):
-        dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
+        dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False)#, includeImage = 2)
         with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
             boolean_unzip = zip_ref.extractall()
     else:

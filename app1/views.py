@@ -67,7 +67,7 @@ def step1(request):
         if form.is_valid():
             request.session['model_name'] = form.cleaned_data['model_name']
             request.session['model_unpacked'] = True
-            get_unzip_FMU(model_path, request.session['model_name'])
+            get_unzip_FMU(request, model_path, request.session['model_name'])
             return redirect('app1-step2')
         else:
             messages.warning(request, 'Ups, da ist was schief gelaufen!')

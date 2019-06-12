@@ -45,7 +45,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{% url 'dashboard-view'%}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -128,7 +128,7 @@
           <!-- Topbar Breadcrumbs -->
           <div class="path-wrapper">
             <ul class="path-list">
-              <li class="path-item"><a href=""><i class="fas fa-home"></i></a></li>
+              <li class="path-item"><a href="{% url 'dashboard-view'%}"><i class="fas fa-home"></i></a></li>
               <li class="separator">/</li>
               <li class="path-item"><a href="">Dymola App</a></li>
               <li class="separator">/</li>

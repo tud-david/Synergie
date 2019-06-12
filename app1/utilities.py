@@ -5,20 +5,26 @@ import sys
 from modelicares import *
 import zipfile
 import numpy as np
-import dymola
 import pandas as pd
+
+
+sys.path.insert(0, os.path.join('C:',
+                                'Program Files (x86)', 
+                                'Dymola 2018',
+                                'Modelica',
+                                'Library',
+                                'python_interface',
+                                'dymola.egg'))
+
+
+import dymola
 from dymola.dymola_interface import DymolaInterface
 from dymola.dymola_exception import DymolaException
-
-
 
 def PackageBrowser(mo_path):
     dymola = DymolaInterface()
     dymola.openModel(path=mo_path)
     models = dymola.ExecuteCommand('Bibliothek.ModelManage("Bibliothek.Simulationswerkzeug.Modelle")')
-    # model_paths = []
-    # for model in models:
-    #     model_paths.append('Bibliothek.Simulationswerkzeug.Modelle.'+ model)
     dymola.close()
     return(models)
 
@@ -115,19 +121,18 @@ def param_setzen(df_final, model_path):
 
 
 
-def get_unzip_FMU(request, mo_path, model_name):
+def get_unzip_FMU(mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
-    try:
-        dymola.openModel(mo_path)
-        dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False)#, includeImage = 2)
+    dymola.openModel(path=mo_path)   
+    if dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False):
         with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
-            boolean_unzip = zip_ref.extractall()
+            zip_ref.extractall()
         dymola.close()
-        return 'Das Modell wurde entpackt'
-    except:
+        print('Das Modell wurde entpackt')
+    else: 
         dymola.close()
-        return 'Es konnte keine Verbindung zu Dymola hergestellt werden!'
+        print('Es konnte keine Verbindung zu Dymola hergestellt werden!')
 
 
 

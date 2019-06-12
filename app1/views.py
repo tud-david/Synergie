@@ -57,9 +57,8 @@ def start(request):
 @login_required
 def step1(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
-    model_path = curr_sim.file.path
     models = []
-    for model in PackageBrowser(model_path):
+    for model in PackageBrowser(curr_sim.file.path):
         item = (f'Bibliothek.Simulationswerkzeug.Modelle.{model}', model)
         models.append(item)
     if request.method == 'POST':
@@ -67,7 +66,7 @@ def step1(request):
         if form.is_valid():
             request.session['model_name'] = form.cleaned_data['model_name']
             request.session['model_unpacked'] = True
-            get_unzip_FMU(request, model_path, request.session['model_name'])
+            get_unzip_FMU(curr_sim.file.path, request.session['model_name'])
             return redirect('app1-step2')
         else:
             messages.warning(request, 'Ups, da ist was schief gelaufen!')
@@ -93,7 +92,7 @@ def step1(request):
 def step2(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
-    img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
+    #img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
     xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
     params, paths = search_xml(xml_path)
     params_ctt, paths_ctt = search_xml_ctt(xml_path)

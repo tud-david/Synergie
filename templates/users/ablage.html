@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="card shadow">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-secondary">Meine Simulationsmodelle (.mo)</h6>
+        <h6 class="m-0 font-weight-bold text-secondary">Simulationsmodelle (.mo) von {{ username }}</h6>
       </div>
       <div class="card-body">
       {% if files %}
@@ -29,10 +29,9 @@
                   <td>{{ file.title }}</td>
                   <td>{{ file.file }}</td>
                   <td>{{ file.date_created }}</td>
-                  <td><a href="{% url 'delete-view' %}"><i class="fa fa-trash"></i></a></td>
+                  <td><a href="url:delete_view" file.id><i class="fa fa-trash"></i></a></td>
                 </tr>
               {% endfor %}
-
             </tbody>
           </table>
           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong">

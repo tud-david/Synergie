@@ -41,17 +41,9 @@ def ablage(request):
     return render(request, 'users/ablage.html', {'form': form, 'files': files})
 
 @login_required
-def delete(request):
+def delete(request, sim_id=None):
     files = Simulation.objects.filter(creator=request.user)
-    if request.method == 'POST':
-        instance = Simulation(creator=request.user)
-        form = SimulationForm(request.POST, request.FILES, instance=instance)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Ihre Simulationsdatei wurde hochgeladen!')
-            return redirect('ablage-view')
-        else:
-            messages.success(request, 'Ups, da ist was schief gelaufen!')
-    else:
-        form = SimulationForm()
-    return render(request, 'users/ablage.html', {'form': form, 'files': files})
+    file = Simulation.objects.get(id=sim_id)
+    file.delete()
+    return render(request, 'users/ablage.html',  {'files': files})
+

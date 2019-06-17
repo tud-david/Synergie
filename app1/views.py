@@ -92,7 +92,7 @@ def step1(request):
 def step2(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
-    #img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
+    img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
     xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
     params, paths = search_xml(xml_path)
     params_ctt, paths_ctt = search_xml_ctt(xml_path)
@@ -101,9 +101,9 @@ def step2(request):
         form = ParameterForm(params, request.POST, request.FILES)
         form_ctt = CombiTableForm(params_ctt, request.POST, request.FILES)
         if form.is_valid():
-            #messages.success(request, 'Die Paramter wurden hochgeladen ...')
-            #df_final = param_df(request.FILES, paths)
-            #param_setzen(df_final, model_path)
+            messages.success(request, 'Die Paramter wurden hochgeladen ...')
+            df_final = param_df(request.FILES, paths)
+            param_setzen(df_final, model_path)
             request.session['params_uploaded'] = True
             return redirect('app1-step3')
         else:

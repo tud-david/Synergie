@@ -28,14 +28,14 @@ urlpatterns = [
     #user_views
     path('', user_views.dashboard, name='dashboard-view'),
     path('ablage/', user_views.ablage, name='ablage-view'),
-    path('delete/', user_views.delete, name='delete-view'),
+    path(r'^delete/(?P<part_id>[0-9]+)/$', user_views.delete, name='delete-view'),
     path('register/', user_views.register, name='register-view'),
 
     #auth-viewss
     path('login/', LoginView.as_view(template_name="users/login.html"), name='login-view'),
     path('logout/', LogoutView.as_view(template_name="users/logout.html"), name='logout-view'),
     
-    #app1-views
+    #app-views
     path('app1/', include('app1.urls')),
 
 

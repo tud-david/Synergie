@@ -2,8 +2,6 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-
-
 {% block content %}
     <!-- Page Heading -->
     <!-- DataTales Example -->
@@ -29,14 +27,17 @@
                   <td>{{ file.title }}</td>
                   <td>{{ file.file }}</td>
                   <td>{{ file.date_created }}</td>
-                  <td><a href="url:delete_view" file.id><i class="fa fa-trash"></i></a></td>
+                  <td><a href="{% url 'delete-view' file.id %}"><i class="fa fa-trash"></i></a></td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
+        {% if form %}
           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong">
             <i class="fas fa-plus-circle"></i><span class="mx-2">Datei hochladen</span>
           </button>
+        {% endif %}
+
         </div>
 
       {% else %}

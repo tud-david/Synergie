@@ -28,7 +28,7 @@ urlpatterns = [
     #user_views
     path('', user_views.dashboard, name='dashboard-view'),
     path('ablage/', user_views.ablage, name='ablage-view'),
-    path(r'^delete/(?P<part_id>[0-9]+)/$', user_views.delete, name='delete-view'),
+    path('ablage/delete/<int:id>/', user_views.delete, name='delete-view'),
     path('register/', user_views.register, name='register-view'),
 
     #auth-viewss

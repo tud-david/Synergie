@@ -125,7 +125,7 @@ def get_unzip_FMU(mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
     dymola.openModel(path=mo_path)   
-    if dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False):
+    if dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2):
         with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
             zip_ref.extractall()
         dymola.close()

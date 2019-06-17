@@ -5,6 +5,8 @@ from .forms import UserRegisterForm
 from app1.forms import SimulationForm
 from app1.models import Simulation
 from django.contrib.auth.decorators import login_required
+import shutil
+import os
 # Create your views here.
 
 @login_required
@@ -40,10 +42,14 @@ def ablage(request):
         form = SimulationForm()
     return render(request, 'users/ablage.html', {'form': form, 'files': files})
 
+
+
 @login_required
-def delete(request, sim_id=None):
+def delete(request, id=None):
     files = Simulation.objects.filter(creator=request.user)
-    file = Simulation.objects.get(id=sim_id)
+    file = Simulation.objects.get(id=id)
+    shutil.rmtree(os.path.dirname(file.file.path), ignore_errors=True)
+    messages.success(request, f'Die Simulation {file.title} wurde entfernt')
     file.delete()
     return render(request, 'users/ablage.html',  {'files': files})
 

@@ -32,11 +32,10 @@
               {% endfor %}
             </tbody>
           </table>
-        {% if form %}
           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong">
-            <i class="fas fa-plus-circle"></i><span class="mx-2">Datei hochladen</span>
+            <a href="{% url 'ablage-view'%}"><i class="fas fa-plus-circle"></i><span class="mx-2">zurück</span></a> 
           </button>
-        {% endif %}
+
 
         </div>
 
@@ -65,8 +64,8 @@
             {{ form|crispy }}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Schließen</button>
-            <button type="submit" class="btn btn-primary btn-sm">Hochladen</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+            <button type="submit" class="btn btn-primary">Hochladen</button>
           </div>
         </form>
       </div>

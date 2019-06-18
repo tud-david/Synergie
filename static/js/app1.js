@@ -1,6 +1,7 @@
 
 $(document).ready(function(){ 
   $('#App1Menu').addClass('show');
+  $('#EASER').addClass('active');
 });
 
 $(document).ready(function() {

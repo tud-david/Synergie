@@ -60,15 +60,15 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#App1Menu" aria-expanded="true" aria-controls="App1Menu">
           <i class="fab fa-modx"></i>
           <span>Dymola App</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="App1Menu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Dymola App:</h6>
-            <a class="collapse-item" href="{% url 'app1-info' %}">Starten</a>
-            <a class="collapse-item" href="#">Dokumentation</a>
+            <h6 class="collapse-header">Applikationsmenu:</h6>
+            <a id="App1Starten" class="collapse-item" href="{% url 'app1-info' %}">Starten</a>
+            <a id="App1Dokumentation" class="collapse-item" href="#">Dokumentation</a>
           </div>
         </div>
       </li>
@@ -308,7 +308,11 @@
   <!-- Custom scripts for all pages-->
   <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
   <script src="{% static 'js/blockUI.js' %}"></script>
-  <script src="{% static 'js/app1.js' %}"></script>
+
+
+  <!-- Custom Javascript for different apps -->
+  {% block javascript %}{% endblock javascript %}
+
 
 </body>
 

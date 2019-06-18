@@ -24,6 +24,7 @@ def info(request):
     request.session['flex_chosen'] = False
     return render(request, 'app1/info.html')
 
+
 @login_required
 def start(request):
     files = []

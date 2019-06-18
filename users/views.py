@@ -38,6 +38,10 @@ def ablage(request):
             form.save()
             messages.success(request, 'Ihre Simulationsdatei wurde hochgeladen!')
             return redirect('ablage-view')
+        else:
+            messages.warning(request, 'Bitte verwenden Sie das richtige Dateiformat (.mo)!')
+            return redirect('ablage-view')
+
     else:
         form = SimulationForm()
     return render(request, 'users/ablage.html', {'form': form, 'files': files})

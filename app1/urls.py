@@ -3,7 +3,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('layout/', views.layout, name='app1-layout'),
+    path('layout/', views.layout, name='app1-layout'), # das ist das base template für die app
     path('', views.info, name='app1-info'),
     path('start/', views.start, name='app1-start'),
     path('step1/', views.step1, name='app1-step1'),

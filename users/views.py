@@ -51,5 +51,5 @@ def delete(request, id=None):
     shutil.rmtree(os.path.dirname(file.file.path), ignore_errors=True)
     messages.success(request, f'Die Simulation {file.title} wurde entfernt')
     file.delete()
-    return render(request, 'users/ablage.html',  {'files': files})
+    return redirect('ablage-view')
 

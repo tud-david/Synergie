@@ -7,7 +7,9 @@
 /*  padding: 1.5rem;*/
 /*  overflow: visible;*/
 /*}*/
-
+.card{
+  margin-bottom: 1rem;
+}
 .card .info{
   background-color: #1d393b;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #336467), to(#1d393b));

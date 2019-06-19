@@ -29,7 +29,7 @@ urlpatterns = [
     path('', user_views.dashboard, name='dashboard-view'),
     path('ablage/', user_views.ablage, name='ablage-view'),
     path('ablage/delete/<int:id>/', user_views.delete, name='delete-view'),
-    path('register/', user_views.register, name='register-view'),
+    path('nutzer_anlegen/', user_views.register, name='register-view'),
 
     #auth-viewss
     path('login/', LoginView.as_view(template_name="users/login.html"), name='login-view'),

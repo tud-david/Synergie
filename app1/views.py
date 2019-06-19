@@ -7,7 +7,7 @@ import pandas as pd
 import os, sys
 from .forms import ModelFileForm, ParameterForm, ModelSelectForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
-from .utilities import get_unzip_FMU, search_xml, PackageBrowser, param_df, param_setzen, search_xml_ctt, CombiTablesFormat, simulate_flex
+from .utilities import get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
 from dymola.dymola_interface import DymolaInterface
 
 
@@ -22,6 +22,11 @@ def info(request):
     request.session['model_unpacked'] = False
     request.session['params_uploaded'] = False
     request.session['flex_chosen'] = False
+
+    context={
+        'records': os.path.join('\media','app1','ExcelVorlage','Records.zip'), 
+        'tables': os.path.join('\media','app1','ExcelVorlage','Tables.zip'), 
+    }
     return render(request, 'app1/info.html')
 
 
@@ -95,23 +100,24 @@ def step2(request):
     model_path = curr_sim.file.path
     img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
     xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
-    params, paths = search_xml(xml_path)
-    params_ctt, paths_ctt = search_xml_ctt(xml_path)
+    records_idents, records_paths = search_xml(xml_path)
+    ctt_idents, ctt_paths = search_xml_ctt(xml_path)
 
     if request.method == 'POST':
-        form = ParameterForm(params, request.POST, request.FILES)
-        form_ctt = CombiTableForm(params_ctt, request.POST, request.FILES)
-        if form.is_valid():
+        form = ParameterForm(records_idents, request.POST, request.FILES)
+        form_ctt = CombiTableForm(ctt_idents, request.POST, request.FILES)
+        if form.is_valid() and form_ctt.is_valid():
             messages.success(request, 'Die Paramter wurden hochgeladen ...')
-            df_final = param_df(request.FILES, paths)
-            param_setzen(df_final, model_path)
+            dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
+            # param_setzen(df_final, model_path)
+            request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
             request.session['params_uploaded'] = True
             return redirect('app1-step3')
         else:
             messages.warning(request, 'Bitte verwenden Sie das richtige Dateiformat (.xslx)')
     else:
-        form = ParameterForm(params)
-        form_ctt = CombiTableForm(params_ctt)
+        form = ParameterForm(records_idents)
+        form_ctt = CombiTableForm(ctt_idents)
 
     context={
         'form': form,
@@ -130,27 +136,26 @@ def step2(request):
 
 @login_required
 def step3(request):
-    if request.session['sim_id']:
-        curr_sim = Simulation.objects.get(id=request.session['sim_id'])
-        model_path = curr_sim.file.path
-        model_name = request.session['model_name']
-        if request.method == 'POST':
-            form = FlexForm(request.POST)
-            if form.is_valid():
-                simulate_flex(model_name, model_path, 1, form.cleaned_data)
-                request.session['flex_chosen'] = True
-                return redirect('app1-results')
-            else:
-                messages.warning(request, 'Bitte wählen sie eine Flex_Maßnahme aus')
+    curr_sim = Simulation.objects.get(id=request.session['sim_id'])
+    model_path = curr_sim.file.path
+    model_name = request.session['model_name']
+
+    if request.method == 'POST':
+        form = FlexForm(request.POST)
+        if form.is_valid():
+            #simulate_flex(model_name, model_path, 1, form.cleaned_data)
+            request.session['flex_chosen'] = True
+            return redirect('app1-results')
         else:
-            form = FlexForm()
+            messages.warning(request, 'Bitte wählen sie eine Flex_Maßnahme aus')
     else:
-        messages.warning(request, 'Sie haben noch kein Modell ausgewählt')
-        form = FlexForm()
-        
+        messages.warning(request, 'Bitte wählen sie eine Flex_Maßnahme aus')
+
+    form = FlexForm()
     context = {
         'form': form,
         'step': 3,
+        'dict' : request.session['dictionary_rec_ctt'],
         'file_chosen': request.session['file_chosen'],
         'model_unpacked': request.session['model_unpacked'],
         'params_uploaded': request.session['params_uploaded'],
@@ -161,6 +166,11 @@ def step3(request):
 
 @login_required
 def results(request):
+    curr_sim = Simulation.objects.get(id=request.session['sim_id'])
+    model_path = curr_sim.file.path
+    model_name = request.session['model_name']
+    dictionary_rec_ctt = request.session['dictionary_rec_ctt']
+    simulate_complete(dictionary_rec_ctt, model_path, model_name)
     context = {
         'step': 4,
         'file_chosen': request.session['file_chosen'],

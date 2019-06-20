@@ -63,10 +63,8 @@ def start(request):
 @login_required
 def step1(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
-    models = []
-    for model in PackageBrowser(curr_sim.file.path):
-        item = (f'Bibliothek.Simulationswerkzeug.Modelle.{model}', model)
-        models.append(item)
+    models = PackageBrowser(curr_sim.file.path)
+    
     if request.method == 'POST':
         form = ModelSelectForm(models, request.POST)
         if form.is_valid():

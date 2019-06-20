@@ -1,57 +1,17 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'app1/layout.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
+{% block card-titel %}Ergebnisse{% endblock %}
+{% block card-inhalt %}
 
-<div class="container">
-  <div class="app1 mt-3">
+  Ihre Simulation läuft jetzt.
+  <br>
+  Sie bekommen eine Benachrichtung wenn die Simulation durchgelaufen ist. Die Ergebnisse können Sie sich dann unter "meine Auswertungen"
+  anschauen
 
-      <h4>Synergie-Konfigurationstool </h4>
-      <small class="text-muted">Webapplikation für die Anwendung von Flexibilisierungsmaßnahmen auf Dymola-Modelle</small>
-      <hr>
-        <ul class="nav nav-pills nav-fill">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Modell hochladen</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Modell auswählen</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Parameter setzen</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Flexibilisierung auswählen</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Ergebnisse</a>
-          </li>
-        </ul>
+{% endblock %}
 
-      <div class="content my-3 p-3 bg-white border">
-        <div class="row">
-          <div class="col-6">
-            <div class="info-wrapper">       
-              <h4 style="color: green"><i class="fas fa-info-circle"></i> Ergebnisse</h4>
-              <hr>
-              <p>some info on what to do Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus eum magnam cum. Blanditiis deserunt dolor obcaecati, adipisci ipsum eos incidunt iste suscipit magnam facilis, accusantium quos, iure unde autem! Au</p> 
-              <p>some info on what to do Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus eum magnam cum. Blanditiis deserunt dolor obcaecati, adipisci ipsum eos incidunt iste suscipit magnam facilis, accusantium quos, iure unde autem! Au</p> 
-            </div>
-          </div>
-            
-          <div class="col-6">
-            <div class="form-wrapper">  
-              
-            </div>
-          </div>
-        </div>
-      </div>
+{% block infobox-titel %}{% endblock %}
 
-      <div class="nav-wrapper">
-        <a class="btn btn-primary prev" href="{% url 'app1-step3' %}">Zurück</a> 
-        <button class="btn btn-primary next" type="submit">Herunterladen</button></a>
-      </div>
-    </form>
-  </div>
-</div>
-
-{% endblock content %}
+{% block infobox-inhalt %}{% endblock %}

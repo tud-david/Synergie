@@ -26,7 +26,11 @@ def PackageBrowser(mo_path):
     dymola.openModel(path=mo_path)
     models = dymola.ExecuteCommand('Bibliothek.ModelManage("Bibliothek.Simulationswerkzeug.Modelle")')
     dymola.close()
-    return(models)
+    choices = []
+    for model in models:
+        choice = (f'Bibliothek.Simulationswerkzeug.Modelle.{model}', model)
+        choices.append(choice)
+    return(choices)
 
 
 

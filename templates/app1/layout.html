@@ -78,4 +78,10 @@
 
 {% block javascript %}
 <script src="{% static 'js/app1.js' %}"></script>
+<script>
+$(document).ready(function(){ 
+  $('#App1Menu').addClass('show');
+  $('#EASER').addClass('active');
+});
+</script>
 {% endblock javascript %}

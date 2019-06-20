@@ -3,7 +3,6 @@ from .models import Simulation
 from django.core.validators import FileExtensionValidator
 
 
-
 class SimulationForm(forms.ModelForm):
     class Meta:
         model = Simulation
@@ -41,6 +40,7 @@ class ParameterForm(forms.Form):
             field_name = param_set
             self.fields[field_name] = forms.FileField(required=False, validators=[FileExtensionValidator(allowed_extensions=ps_extensions)])
 
+
 class CombiTableForm(forms.Form):
     def __init__(self, param_sets, *args, **kwargs):
         super(CombiTableForm, self).__init__(*args, **kwargs)
@@ -52,9 +52,10 @@ class CombiTableForm(forms.Form):
 
 class FlexForm(forms.Form):
 
-    # flex_var = [('1','Bivalenz'),
-    #             ('2','Flexibilisierung der Eigenerzeugung')]
-    flex_var = forms.CharField(required=True)
+    flex_var = [('0','Option wählen ...'),
+                ('1','Bivalenz'),
+                ('2','Flexibilisierung der Eigenerzeugung')]
+    flex_var = forms.ChoiceField(required=True, choices=flex_var)
     konf_BHKW = forms.BooleanField(required=False)
     # bhkw_str = forms.BooleanField(required=False)
     konf_Pufferspeicher = forms.BooleanField(required=False)

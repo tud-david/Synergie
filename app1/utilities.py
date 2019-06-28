@@ -8,13 +8,13 @@ import numpy as np
 import pandas as pd
 
 
-sys.path.insert(0, os.path.join('C:',
-                                'Program Files (x86)', 
-                                'Dymola 2018',
-                                'Modelica',
-                                'Library',
-                                'python_interface',
-                                'dymola.egg'))
+# sys.path.insert(0, os.path.join('C:',
+#                                 'Program Files (x86)', 
+#                                 'Dymola 2018',
+#                                 'Modelica',
+#                                 'Library',
+#                                 'python_interface',
+#                                 'dymola.egg'))
 
 
 import dymola
@@ -74,6 +74,7 @@ def dict_rec_ctt_fun(dictionary, records_paths, ctt_paths):
 
     ## differentiate between ctt'S and records
     for key in dictionary:
+        
         if '__ps__' in key:
 
             ## load the excel file as dataframe
@@ -230,21 +231,15 @@ def param_setzen(dictionary_rec_ctt, model_path):
         dymola.ExecuteCommand(str(key) + " = " + str(dictionary_rec_ctt.get(key)))
     dymola.close()
 
-# def param_setzen(df_final, model_path):
-#     dymola = DymolaInterface()
-#     dymola.openModel(model_path)
-#     for i in range(0, df_final.shape[0]):
-#         dymola.ExecuteCommand(str(df_final.iloc[i, 2]) + " = " + str(df_final.iloc[i, 1]))
-#     dymola.close()
+
 
 def get_unzip_FMU(mo_path, model_name):
     dymola = DymolaInterface()
     FMU_file = model_name.replace('.', '_')
     dymola.openModel(mo_path)
     dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
-    
     with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
-        boolean_unzip = zip_ref.extractall()
+        zip_ref.extractall()
     dymola.close()
     return(True)
 

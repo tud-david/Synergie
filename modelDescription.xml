@@ -3,10 +3,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   fmiVersion="2.0"
   modelName="Bibliothek_Simulationswerkzeug_Modelle_Waerme"
-  guid="{15fd0c09-e756-4606-88c6-f3f50c81df82}"
+  guid="{71c169ab-34ee-4c56-8ae7-8fdfb8ec68c5}"
   version="1"
   generationTool="Dymola Version 2019 FD01 (64-bit), 2018-10-10 (requires license to execute)"
-  generationDateAndTime="2019-06-20T09:11:03Z"
+  generationDateAndTime="2019-06-24T09:06:10Z"
   variableNamingConvention="structured"
   numberOfEventIndicators="224">
   <ModelExchange

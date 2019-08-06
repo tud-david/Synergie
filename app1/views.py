@@ -106,6 +106,7 @@ def step2(request):
         if form.is_valid() and form_ctt.is_valid():
             messages.success(request, 'Die Paramter wurden hochgeladen ...')
             dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
+            print(dictionary_rec_ctt.keys())
             # param_setzen(df_final, model_path)
             request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
             request.session['params_uploaded'] = True

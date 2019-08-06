@@ -38,6 +38,24 @@ def search_xml(xml_file):
                         ps.append(chunk)
     return(ps, paths)
 
+def component_search(xml_file):
+    root = ET.parse(xml_file).getroot()
+    idents = ['__ps__','__ctt__', '__ct1ds__', '__ct2ds__']
+    ps = []
+    paths = []
+    components = []
+    for elem in root.iter('ScalarVariable'):
+        for ident in idents:
+            if ident in elem.attrib['name']:
+                paths.append(elem.attrib['name'])
+                chunks = elem.attrib['name'].split('.')
+                for chunk in chunks:
+                    if ident in chunk and not chunk in ps:
+                        ps.append(chunk)
+                        component = chunk.split('__')
+                        if not component[-1] in components:
+                            components.append(component[-1])
+    return(ps, paths, components)
 
 def search_xml_ctt(xml_file):
     root = ET.parse(xml_file).getroot()
@@ -127,11 +145,7 @@ def get_unzip_FMU(mo_path, model_name):
     dymola.openModel(mo_path)
     dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
     with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
-<<<<<<< HEAD
         zip_ref.extractall(path=os.path.join(os.path.dirname(mo_path)), members=['model.png', 'modelDescription.xml'])
-=======
-        zip_ref.extractall()
->>>>>>> 3a96fd69c79da56f4c4160797dcc1ef3a3eac98c
     dymola.close()
     return(True)
 

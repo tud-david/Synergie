@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('layout/', views.layout, name='app1-layout'), # das ist das base template für die app
+    path('documentation/', views.documentation, name='app1-doc'), # Dokumentation der app
     path('', views.info, name='app1-info'),
     path('start/', views.start, name='app1-start'),
     path('step1/', views.step1, name='app1-step1'),

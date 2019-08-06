@@ -11,8 +11,15 @@ from .utilities import get_unzip_FMU, search_xml, PackageBrowser, param_setzen, 
 from dymola.dymola_interface import DymolaInterface
 
 
+
+
 def layout(request):
     return render(request, 'app1/layout.html')
+
+
+def documentation(request):
+    return render(request, 'app1/documentation.html')
+
 
 
 @login_required

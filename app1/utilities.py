@@ -7,16 +7,6 @@ import zipfile
 import numpy as np
 import pandas as pd
 
-
-# sys.path.insert(0, os.path.join('C:',
-#                                 'Program Files (x86)', 
-#                                 'Dymola 2018',
-#                                 'Modelica',
-#                                 'Library',
-#                                 'python_interface',
-#                                 'dymola.egg'))
-
-
 import dymola
 from dymola.dymola_interface import DymolaInterface
 from dymola.dymola_exception import DymolaException

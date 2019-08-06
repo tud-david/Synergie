@@ -162,6 +162,13 @@ def step3(request):
     return render(request, 'app1/step3.html', context)
 
 
+
+def step4(request):
+    return render(request, 'app1/step4.html')
+
+
+
+
 @login_required
 def results(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])

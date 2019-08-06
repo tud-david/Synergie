@@ -1,37 +1,8 @@
-Log-file of program ./dymosim
-(generated: Thu Jun  6 17:43:04 2019)
-
-dymosim started
-... "dsin.txt" loading (dymosim input file)
-Warning: The following was detected at time: 0
-  *** Warning: You are using a flow or pressure controlled mover with the
-             default pressure curve.
-             This leads to approximate calculations of the electrical power
-             consumption. Add the correct pressure curve in the record per
-             to obtain an accurate computation.
-             Setting nominalValuesDefineDefaultPressureCurve=true will suppress this warning
-  Failed condition: WRG.fan.nominalValuesDefineDefaultPressureCurve
-
-... "Waerme.mat" creating (simulation result file)
-
-Integration started at T = 0 using integration method DASSL
-(DAE multi-step solver (dassl/dasslrt of Petzold modified by Dassault Systemes))
-Integration terminated successfully at T = 31536000
-   CPU-time for integration      : 43.1 seconds
-   CPU-time for one GRID interval: 86.2 milliseconds
-   CPU-time for initialization   : 0.002 seconds
-   Number of result points       : 18479
-   Number of GRID   points       : 501
-   Number of (successful) steps  : 124974
-   Number of F-evaluations       : 1489056
-   Number of H-evaluations       : 135873
-   Number of Jacobian-evaluations: 79704
-   Number of (model) time events : 8760
-   Number of (U) time events     : 0
-   Number of state    events     : 239
-   Number of step     events     : 0
-   Minimum integration stepsize  : 1.26e-09
-   Maximum integration stepsize  : 1.77e+03
-   Maximum integration order     : 5
-Calling terminal section
-... "dsfinal.txt" creating (final states)
+ 
+Compiling and linking the model (Visual C++). 
+ 
+**********************************************************************
+** Visual Studio 2019 Developer Command Prompt v16.2.0
+** Copyright (c) 2019 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x86'

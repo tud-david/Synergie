@@ -1,3 +1,7 @@
 {
-  "python.pythonPath": "C:\\Program Files\\Python37\\python.exe"
+<<<<<<< HEAD
+  "python.pythonPath": "C:\\Program Files (x86)\\Python37-32\\python.exe"
+=======
+  "python.pythonPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Python37_64\\python.exe"
+>>>>>>> 57e67e225be7102715ce7e36e184275d5d20ad22
 }

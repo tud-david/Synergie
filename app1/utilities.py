@@ -8,13 +8,13 @@ import numpy as np
 import pandas as pd
 
 
-sys.path.insert(0, os.path.join('C:',
-                                'Program Files (x86)', 
-                                'Dymola 2018',
-                                'Modelica',
-                                'Library',
-                                'python_interface',
-                                'dymola.egg'))
+# sys.path.insert(0, os.path.join('C:',
+#                                 'Program Files (x86)', 
+#                                 'Dymola 2018',
+#                                 'Modelica',
+#                                 'Library',
+#                                 'python_interface',
+#                                 'dymola.egg'))
 
 
 import dymola
@@ -73,6 +73,7 @@ def dict_rec_ctt_fun(dictionary, records_paths, ctt_paths):
 
     ## differentiate between ctt'S and records
     for key in dictionary:
+        
         if '__ps__' in key:
 
             ## load the excel file as dataframe
@@ -136,7 +137,11 @@ def get_unzip_FMU(mo_path, model_name):
     dymola.openModel(mo_path)
     dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
     with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
+<<<<<<< HEAD
         zip_ref.extractall(path=os.path.join(os.path.dirname(mo_path)), members=['model.png', 'modelDescription.xml'])
+=======
+        zip_ref.extractall()
+>>>>>>> 3a96fd69c79da56f4c4160797dcc1ef3a3eac98c
     dymola.close()
     return(True)
 

@@ -77,7 +77,6 @@ def step1(request):
             return redirect('app1-step1')
     else:
         form = ModelSelectForm(models)
-
     context = {
         'form': form,
         'check' : request.session['model_unpacked'],
@@ -111,8 +110,6 @@ def step2(request):
             request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
             request.session['params_uploaded'] = True
             return redirect('app1-step3')
-        else:
-            messages.warning(request, 'Bitte verwenden Sie das richtige Dateiformat (.xslx)')
     else:
         form = ParameterForm(records_idents)
         form_ctt = CombiTableForm(ctt_idents)
@@ -141,15 +138,13 @@ def step3(request):
     if request.method == 'POST':
         form = FlexForm(request.POST)
         if form.is_valid():
+            messages.warning(request, 'Alle Eingaben wurden gesetzt')
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
             request.session['flex_chosen'] = True
             return redirect('app1-results')
-        else:
-            messages.warning(request, 'Bitte wählen sie eine Flex_Maßnahme aus')
     else:
-        messages.warning(request, 'Bitte wählen sie eine Flex_Maßnahme aus')
-
-    form = FlexForm()
+        form = FlexForm()
+        
     context = {
         'form': form,
         'step': 3,

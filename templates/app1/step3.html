@@ -45,16 +45,28 @@
             <div class="d-inline-block">{{ form.konf_HK }}</div>
             <label class="d-inline-block ml-1"> Ist ein Heizkessel vorhanden? </label>
           </div>
-
-          <div class="form-group flex1  flex2 all" id="{{ form.anz_wrg.name }}">
+<!-- 
+          <div class="form-group flex1 flex2 all" id="{{ form.anz_wrg.name }}" style="display: none">
             <label class="d-inline-block"> Anzahl WRG: </label>
             <div class="">{{ form.Anzahl_WRG }}</div>
           </div>
 
-          <div class="form-group flex1 flex2 all" id="{{ form.anz_hk.name }}">
+          <div class="form-group flex1 flex2 all" id="{{ form.anz_hk.name }}" style="display: none">
+            <label class="d-inline-block"> Anzahl HK: </label>
+            <div class="">{{ form.Anzahl_HK }}</div>
+          </div> -->
+
+
+          <div class="form-group" id="{{ form.anz_wrg.name }}" style="display: none">
+            <label class="d-inline-block"> Anzahl WRG: </label>
+            <div class="">{{ form.Anzahl_WRG }}</div>
+          </div>
+
+          <div class="form-group" id="{{ form.anz_hk.name }}" style="display: none">
             <label class="d-inline-block"> Anzahl HK: </label>
             <div class="">{{ form.Anzahl_HK }}</div>
           </div>
+
         </div>
       </div>
 

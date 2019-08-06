@@ -15,7 +15,10 @@ $(document).ready(function() {
             $(".flex2").show();
           break;
     };
-  });
+  });  
 });
 
 
+$("#id_konf_WRG").click(function() {
+  $("#id_Anzahl_WRG").show();
+});

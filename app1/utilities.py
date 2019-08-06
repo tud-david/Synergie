@@ -23,7 +23,6 @@ def PackageBrowser(mo_path):
     return(choices)
 
 
-
 def search_xml(xml_file):
     root = ET.parse(xml_file).getroot()
     idents = ['__ps__',]
@@ -69,6 +68,7 @@ def dict_rec_ctt_fun(dictionary, records_paths, ctt_paths):
 
             ## load the excel file as dataframe
             xl = pd.ExcelFile(dictionary.get(key))
+            
             df = xl.parse(header=0, sheet_name=0)
 
             ## check in the dataframe which identifier is part of the path given by the input dictionary (contains idents as keys and files as value)
@@ -112,7 +112,6 @@ def dict_rec_ctt_fun(dictionary, records_paths, ctt_paths):
     return(dictionary_rec_ctt)
 
 
-
 def param_setzen(dictionary_rec_ctt, model_path):
     dymola = DymolaInterface()
     dymola.openModel(model_path)
@@ -128,7 +127,11 @@ def get_unzip_FMU(mo_path, model_name):
     dymola.openModel(mo_path)
     dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
     with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
+<<<<<<< HEAD
+        zip_ref.extractall(path=os.path.join(os.path.dirname(mo_path)), members=['model.png', 'modelDescription.xml'])
+=======
         zip_ref.extractall()
+>>>>>>> 3a96fd69c79da56f4c4160797dcc1ef3a3eac98c
     dymola.close()
     return(True)
 

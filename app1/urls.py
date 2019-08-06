@@ -9,6 +9,7 @@ urlpatterns = [
     path('step1/', views.step1, name='app1-step1'),
     path('step2/', views.step2, name='app1-step2'),
     path('step3/', views.step3, name='app1-step3'),
+    path('step4/', views.step4, name='app1-step4'),
     path('results/', views.results, name='app1-results'),
 ]
 

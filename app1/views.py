@@ -107,7 +107,7 @@ def step2(request):
         # form_ctt = CombiTableForm(ctt_idents, request.POST, request.FILES)
         form = ComponentForm(components, request.POST, request.FILES)
 
-        if form.is_valid() and form_ctt.is_valid():
+        if form.is_valid():
             # messages.success(request, 'Die Paramter wurden hochgeladen ...')
             # dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
             # param_setzen(df_final, model_path)

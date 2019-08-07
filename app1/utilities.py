@@ -39,6 +39,15 @@ def search_xml(xml_file):
                         ps.append(chunk)
     return(ps, paths)
 
+def comp_search(xml_file):
+    root = ET.parse(xml_file).getroot()
+    comps = ['Stromlastverlauf', 'Heizlastverlauf', 'hk', 'pufferspeicher', 'bhkw', 'Preise_Winter', 'Preise_Sommer', 'Preise_Uebergangszeit', 'an', 'ek', 'Feuchte', 'Temperatur', 'oe', 'initialisierung']
+    components = []
+    for elem in root.iter('ScalarVariable'):
+        for comp in comps:
+            if comp in elem.attrib['name'] and not comp in components:
+                components.append(comp)            
+    return(components)
 
 def component_search(xml_file):
     root = ET.parse(xml_file).getroot()

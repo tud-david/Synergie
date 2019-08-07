@@ -3,7 +3,7 @@ from utilities import component_search
 xml_file = 'modelDescription.xml'
 
 ps, paths, components = component_search(xml_file)
-print(paths)
+print(components)
 
 def dict_rec_ctt_fun(dictionary, records_paths, ctt_paths):
     ## dictionary to store the records and the ctt's with their paths as keys and their value as value

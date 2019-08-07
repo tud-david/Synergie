@@ -50,8 +50,16 @@ class CombiTableForm(forms.Form):
             self.fields[field_name] = forms.FileField(required=False, validators=[FileExtensionValidator(allowed_extensions=ps_extensions)])
 
 
-class FlexForm(forms.Form):
+class ComponentForm(forms.Form):
+    def __init__(self, components, *args, **kwargs):
+        super(ComponentForm, self).__init__(*args, **kwargs)
+        ps_extensions = ['xlsx',]
+        for component in components:
+            field_name = component
+            self.fields[field_name] = forms.FileField(required=False, validators=[FileExtensionValidator(allowed_extensions=ps_extensions)])
 
+
+class FlexForm(forms.Form):
     flex_var = [('0','Option wählen ...'),
                 ('1','Bivalenz'),
                 ('2','Flexibilisierung der Eigenerzeugung')]

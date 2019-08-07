@@ -7,19 +7,12 @@
 {% block card-titel %}Start{% endblock %}
 
 {% block card-inhalt %}
-      <h6>Modellabbildung</h6>
-      <hr>
-
-      <img class="model_png" src="{{ img_path }}" alt="">
 
       <div class="form-wrapper">
-        <h6>Parameter Sets</h6>
+        <h6>Components</h6>
         <hr>
-
         {{ form|crispy }}
-        <h6>Combi Tables</h6>
-        <hr>
-        {{ form_ctt|crispy }}
+
       </div>
 
 {% endblock %}
@@ -31,6 +24,7 @@ Ein Titel für Step 2
 {% endblock %}
 
 {% block infobox-inhalt %} 
+<img class="model_png" src="{{ img_path }}" alt="">
 Und noch mehr Inhalt für diese Box
 {% endblock %}
 

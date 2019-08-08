@@ -7,8 +7,8 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="ETA Webapps">
+  <meta name="author" content="David">
 
   <title>SynErgie Webapplikationen</title>
 
@@ -17,13 +17,22 @@
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+<<<<<<< HEAD
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,900&display=swap" rel="stylesheet">
+=======
+  <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">  
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,900&display=swap" rel="stylesheet"> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Gudea:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet"> 
+>>>>>>> david
 
   <!-- Custom styles for this template-->
   <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
   <link href="{% static 'css/base.css' %}" rel="stylesheet">
   {% block css %}{% endblock %}
+
+
 
 </head>
 
@@ -33,11 +42,14 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
+    <nav>
+
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-text">SynErgie<span class="muted">WebApps</span></div>
+      <a class="sidebar-brand d-flex " href="#">
+        <!-- <div class="sidebar-brand-text">SynErgie<span class="muted">WebApps</span></div> -->
+        <img class="eta-logo" src="{% static 'img/eta-webapps.png' %}" alt=""> 
       </a>
 
       <!-- Divider -->
@@ -100,15 +112,9 @@
       </li>
 
 
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
 
     </ul>
+    </nav>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -118,7 +124,7 @@
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top border-bottom">
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -238,8 +244,7 @@
           {% endif %}
           <!-- Page Heading -->
 
-          {% block content %}
-          {% endblock %}
+          {% block content %}{% endblock %}
 
         </div>
         <!-- /.container-fluid -->
@@ -247,15 +252,20 @@
       <!-- End of Main Content -->
 
 
-
+<!-- 
       <img class="uni-logo" media="(min-width: 800px)" src="{% static 'img/tud-logo.png' %}" style="bottom: 120px; padding-right: 60px;" alt="">
       <img class="uni-logo" src="{% static 'img/ptw-logo.png' %}" style="bottom: 220px; padding-right: 103px;" alt="">
+       -->
+      
       <!-- Footer -->
-      <footer class="sticky-footer bg-white mt-4">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+      <footer class="sticky-footer bg-white mt-4 border-top shadow py-3">
+        <div class="container-fluid my-auto">
+          <div class="float-right mx-4">
+            <img class="footer-logo" src="{% static 'img/kop_bm.png'%}" alt="">
           </div>
+          <!-- <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div> -->
         </div>
       </footer>
       <!-- End of Footer -->
@@ -266,10 +276,8 @@
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+
+
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

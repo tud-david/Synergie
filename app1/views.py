@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 import xlrd
 import pandas as pd
 import os, sys
-from .forms import ModelFileForm, ParameterForm, ModelSelectForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
+from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
-from .utilities import get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
+from .utilities import comp_search, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
 from dymola.dymola_interface import DymolaInterface
 
 
@@ -104,27 +104,31 @@ def step2(request):
     model_path = curr_sim.file.path
     img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
     xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
-    records_idents, records_paths = search_xml(xml_path)
-    ctt_idents, ctt_paths = search_xml_ctt(xml_path)
+    
+    # records_idents, records_paths = search_xml(xml_path)
+    # ctt_idents, ctt_paths = search_xml_ctt(xml_path)
+    components = comp_search(xml_path)
 
     if request.method == 'POST':
-        form = ParameterForm(records_idents, request.POST, request.FILES)
-        form_ctt = CombiTableForm(ctt_idents, request.POST, request.FILES)
-        if form.is_valid() and form_ctt.is_valid():
-            messages.success(request, 'Die Paramter wurden hochgeladen ...')
-            dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
-            print(dictionary_rec_ctt.keys())
+        # form = ParameterForm(records_idents, request.POST, request.FILES)
+        # form_ctt = CombiTableForm(ctt_idents, request.POST, request.FILES)
+        form = ComponentForm(components, request.POST, request.FILES)
+
+        if form.is_valid():
+            # messages.success(request, 'Die Paramter wurden hochgeladen ...')
+            # dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
             # param_setzen(df_final, model_path)
-            request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
+            # request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
             request.session['params_uploaded'] = True
             return redirect('app1-step3')
     else:
-        form = ParameterForm(records_idents)
-        form_ctt = CombiTableForm(ctt_idents)
+        form = ComponentForm(components)
+        # form = ParameterForm(records_idents)
+        # form_ctt = CombiTableForm(ctt_idents)
 
     context={
         'form': form,
-        'form_ctt': form_ctt,
+        # 'form_ctt': form_ctt,
         'title': 'Step2',
         'img_path': img_path,
         'sim': curr_sim,

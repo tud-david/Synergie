@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'crispy_forms',
     'background_task',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,6 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'app1.apps.App1Config',
+    'app2.apps.App2Config',
+    'app3.apps.App3Config',
+    'matrix.apps.MatrixConfig',
+    'crispy_forms',
+    'chartjs',
 ]
 
 MIDDLEWARE = [

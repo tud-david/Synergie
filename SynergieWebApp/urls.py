@@ -37,6 +37,9 @@ urlpatterns = [
     
     #app-views
     path('app1/', include('app1.urls')),
+    path('app2/', include('app2.urls')),
+    path('app3/', include('app3.urls')),
+    path('matrix/', include('matrix.urls')),
 ] 
 
 if settings.DEBUG:

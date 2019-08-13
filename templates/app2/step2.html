@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="container">
+    <div class="app1">
+      <h4>Dymola-Connect </h4>
+      <small class="text-muted">Webapplikation für die Simulation von Dymola-Modellen</small>
+      <hr>
+      <div class="row mt-3">
+        <div class="col-lg-4">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Modell hochladen</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Parametersets hochladen</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Optimierungsskript auswählen </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Ergebnisse</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-8">
+          <div class="app1-content">
+            <h5>Optimierung</h5>
+              <div class="divider"></div>
+              <form action="" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="input-group">
+                <select class="custom-select" id="inputGroupSelect04">
+                    <option selected>Wähle das Run Skript ...</option>
+                    <option value="1">Default</option>
+                    <option value="2">Optimierung 1</option>
+                    <option value="3">Optimierung 2</option>
+                    <option value="4">Optimierung 3</option>
+                    <option value="5">Optimierung 4 </option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit">Lauf</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

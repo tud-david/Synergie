@@ -1,0 +1,1060 @@
+﻿{% extends 'base.html' %}
+
+{% block extrahead %}
+
+
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% block  content %}
+
+
+<!------------------------------------------------------------------------------------------------------------------>
+<!----------------- Custom style definitions, may be overwritten with bootstrap theme ------------------------------>
+<!------------------------------------------------------------------------------------------------------------------>
+<!-- background-image:url(/static/dropdown.svg); -->
+<style>
+    body {
+        background-color:#D9E3EB;
+        margin: auto;
+        max-width: 80%;
+    }
+
+    select {
+        width:100%;
+        border: 0px solid #bbb;
+        box-shadow: 0 0px 1px 0 rgba(0,0,0,0.2);
+        background-color:#ffffff;
+        background-position: right;
+        background-size: 10px;
+        background-repeat: no-repeat;
+        border-radius: 20px;
+        height: 40px;
+        padding-left: 30px;
+        margin: 1px;
+    }
+
+    input[type=text] {
+        border: 0px solid #bbb;
+        width: 100%;
+        background-color:#ffffff;
+        margin: 1px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        resize: none;
+        border-radius: 20px;
+        height: 40px;
+        padding-left: 30px;
+    }
+
+    input[type=text] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+
+    input[type=text]:focus {
+      background-color: #ECF1F5;
+    }
+
+    input[type=number] {
+        border: 0px solid #bbb;
+        width: 100%;
+        background-color:#ffffff;
+        margin: 1px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        resize: none;
+        border-radius: 20px;
+        height: 40px;
+        padding-left: 30px;
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+
+    input[type="checkbox"] + label::before {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        border: 0px solid #8cad2d;
+        background-color: #fff;
+        display: block;
+        content: "";
+        float: left;
+        margin-right: 5px;
+    }
+
+    input[type="checkbox"]:checked+label::before {
+        box-shadow: inset 0px 0px 0px 3px #fff;
+        background-color: #8cad2d;
+    }
+
+    select:hover {
+        box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+    }
+
+    .mainUI {
+        background-color: #D9E3EB;
+    }
+    .buttonclass {
+        background-color: #278F9D; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+    .column1 {
+      float: left;
+      width: 40%;
+    }
+    .column2 {
+      float: left;
+      width: 60%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+
+</style>
+
+<div class="app3">
+<br>
+
+<!-------------------------------------------------------->
+<!----------------- Progress bar ------------------------->
+<!-------------------------------------------------------->
+<p id="progressbar_html">&nbsp;</p>
+
+<!----------------------------------------------------------------->
+<!----------------- List of added use cases ----------------------->
+<!----------------------------------------------------------------->
+<ul id="usecase_list" style='margin-left:0px;background-color:#7FA1BA;width:100%'></ul>
+
+<!---------------------------------------------------->
+<!----------------- Page title ----------------------->
+<!---------------------------------------------------->
+<h1 class="title">Potenzialanalyse</h1>
+
+<!------------------------------------------------------------------------------------------------>
+<!----------------- Menubar (deprecated, only here for debugging purposes) ----------------------->
+<!------------------------------------------------------------------------------------------------>
+<!-- <div class="w3-bar w3-black" style="margin-top:0px;padding-top:0px;margin-left:10px">                                                       -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster1" onclick="openView('Fenster1')">Fenster1</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster2" onclick="openView('Fenster2')">Fenster2</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster3" onclick="openView('Fenster3')">Fenster3</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster4" onclick="openView('Fenster4')">Fenster4</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster5" onclick="openView('Fenster5')">Fenster5</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster6" onclick="openView('Fenster6')">Fenster6</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Resultat" onclick="openView('Resultat')">Resultat</button>                                        -->
+<!-- <button class="moog_nav_inactive" id="nav_Handlungsempfehlungen" onclick="openView('Handlungsempfehlungen')">Handlungsempfehlungen</button> -->
+<!-- <br>                                                                                                                                        -->
+<!-- </div>                                                                                                                                      -->
+
+<!-- <button class="moog_nav_inactive" id="nav_Handlungsempfehlungen" onclick="openView('Handlungsempfehlungen')">Handlungsempfehlungen</button> -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster1" onclick="openView('Fenster1')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                           -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster2" onclick="openView('Fenster2')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                           -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster3" onclick="openView('Fenster3')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                           -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster4" onclick="openView('Fenster4')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                           -->
+<!-- <button class="moog_nav_inactive" id="nav_Fenster5" onclick="openView('Fenster5')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                           -->
+<!-- <button class="moog_nav_inactive" id="nav_Resultat" onclick="openView('Resultat')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                           -->
+<!-- <button class="moog_nav_inactive" id="nav_Handlungsempfehlungen" onclick="openView('Handlungsempfehlungen')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
+<!-- </div>                                                                                                                                               -->
+<!-- <br>                                                                                                                                                 -->
+
+<!--------------------------------------------------->
+<!----------------- Main form ----------------------->
+<!--------------------------------------------------->
+<form name='form' id='form' action="">
+
+    {% csrf_token %}
+
+    <script>
+
+        // Progressbar
+        // Is being called on every window change in openView function
+        function move_progress(amount) {
+            var myElement = document.getElementById("progressbar_html");
+            myElement.style.background = "linear-gradient(to right, #57c2c1 " + amount + "%, #4a4a52 " + amount + "%)";
+        }
+
+        // Show given window, hide all others and set progress bar
+        function openView(windowName) {
+            // Update indicators
+            update_indikatoren();
+
+            if (windowName == 'Fenster1') {
+                move_progress(12.5);
+            } else if (windowName == 'Fenster2') {
+                move_progress(25);
+            } else if (windowName == 'Fenster3') {
+                move_progress(37.5);
+            } else if (windowName == 'Fenster4') {
+                move_progress(50);
+            } else if (windowName == 'Fenster5') {
+                move_progress(62.5);
+            } else if (windowName == 'Fenster6') {
+                move_progress(75);
+            } else if (windowName == 'Resultat') {
+                move_progress(87.5);
+            } else if (windowName == 'Handlungsempfehlungen') {
+                move_progress(100);
+            }
+            var i;
+            var x = document.getElementsByClassName("window");
+
+            // Hide all windows
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+
+            // Show given view
+            document.getElementById(windowName).style.display = "block";
+
+            // Color navbar (deprecated in production, navigation bar only exists for debugging)
+            $('.moog_nav_active').toggleClass('moog_nav_active moog_nav_inactive');
+            $("#nav_" + windowName).toggleClass('moog_nav_inactive moog_nav_active');
+            //update_stuff();
+            //update_usecase_list();
+            update_indikatoren();
+
+        }
+    </script>
+
+    <!---------------------------------------------------->
+    <!----------------- Fenster 1 ------------------------>
+    <!---------------------------------------------------->
+    <div id="Fenster1" class="w3-container window">
+
+        <h3>Schritt 1: Bestandsaufnahme der Produktionsinfrastruktur </h3>
+
+        <p>Zunächst müssen alle Anlagen aufgelistet werden, die ggf. für eine Flexibilisierung in Frage kommen. Typischerweise sind das Energiewandler, die eine bestimmte <b>Endenergieform</b> (= von der Fabrik extern bezogene Energieformen wie Strom und Gas) in eine vom Prozess benötigte <b>Nutzenergieform</b> (z.B. Kälte, Wärme, Druckluft) wandeln.
+           Ein Use Case besteht also typischerweise aus mindestens einem Energiewandler und mindestems einem Nutzenergieverbraucher. Häufig sind zudem Nutzenergiespeicher vorhanden (Entweder direkt, z.B. in Form eines Kältespeichers oder "inhärent" in Form von Toleranzen des Prozesses oder in in den Produktionsanlagen integrierte Speicherkapazitäten).
+           Verbraucher mit einem hohen elektrischen Energiebedarf sind hier zunächst prädestiniert. Verbraucher, die Prozesse mit einem hohen Nutzenergiebedarf versorgen, können ebenfalls über vielversprechende Potenziale verfügen. </p> 
+
+        <i>Beispiele für Use Cases:</i>
+
+        <ul>
+            <li> Dezentrale Kälteversorgung einer Maschine </li>
+            <li> Zentrale Kälteversorgung einer Linie oder eines Gebäudes </li>
+            <li> Beheizte oder gekühlte Becken und Tanks (z.B. in Reinigungsschritten oder in der Medienversorgung) </li>
+            <li> Klimatisierte Räume (z.B. Messräume, Kühllager) </li>
+            <li> Zentrale Wärmeversorgungsanlagen </li>
+
+        </ul>
+
+        <div title="Bitte vergeben Sie hier eine eindeutige Bezeichnung Ihres Use Cases." class="label"><b>Welcher Use Case der Produktionsinfrastruktur soll bewertet werden?</b></div> 
+        
+        <br>
+        <div style="width:600px;" title="Bitte vergeben Sie hier eine eindeutige Bezeichnung Ihres Use Cases." class="value">
+            {{ form.bezeichnung_use_case }}
+        </div>
+
+        <br>
+
+        <button type="button" class="buttonclass moog_nav_inactive" id="nav_Fenster12" onclick="openView('Fenster2')">Weiter</button>
+
+        <br><br><br>
+        <!----<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+
+    </div>
+
+
+    <!--------------------------------------------------->
+    <!----------------- Fenster 2 ----------------------->
+    <!--------------------------------------------------->
+    <div id="Fenster2" class="w3-container window" style="display:none">
+
+        <h3>Schritt 2: Ausschlusskriterien für einen energieflexiblen Betrieb</h3>
+
+        <div>
+            Im zweiten Schritt der App erfolgt eine Bewertung des zuvor ausgewählten Use Cases hinsichtlich seiner Eignung für den energieflexiblen Betrieb.
+            Hierfür wird zunächst anhand zweier Ausschlusskriterien (Planbarkeit des Nutzenergiebedarfs und Ansteuerbarkeit über Leitsystem) festgestellt, ob Flexibilitätspotenziale unmittelbar erschlossen werden können.
+            Dies ist nicht der Fall, sofern der Bewertungswert bei einem der beiden Ausschlusskriterien negativ ausfällt. Dann sind im betrachteten Use Case Maßnahmen zur "Befähigung" der Anlage notwendig, bevor diese energieflexibel betrieben werden kann.
+        </div>
+        <br>
+
+        <p><b>Bitte bewerten Sie die folgenden Gegebenheiten für den Use Case</b></p>
+
+        <table>
+            <tr>
+                <td>
+                    <span title="Hier können Einschätzungen hinsichtlich des Nutzenergiebedarfs des zu versorgenden Prozesses getroffen werden. Anhaltswerte können beispielsweise aus vorherigen Simulationen oder Messungen vorliegen. Sofern der Nutzenergiebedarf des zu versorgenden Prozesses gänzlich unbekannt sein sollte, sollte von einem energieflexiblen Betrieb abgesehen werden.">Planbarkeit des Nutzenergiebedarfs: </span>
+                </td>
+                <td>
+                    <div class="value" style="width:440px;display:inline-block;"> {{form.planbarkeit_nutzenergiebedarf}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span title="Kann der im Use Case betrachtete Energiewandler (beispielsweise über ein zentrales Leitsystem) extern angesteuert werden?">Ansteuerbarkeit über Leitsystem</span>
+                </td>
+                <td>
+                    <div class="value" style="width:440px;display:inline-block;"> {{form.ansteuerbarkeit_ueber_leitsystem}}</div>
+                </td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <button type="button" class="buttonclass moog_nav_inactive" id="nav_Fenster21" onclick="openView('Fenster1')">Zurück</button>
+        <button type="button" class="buttonclass moog_nav_inactive" data-toggle="modal" data-target="#exampleModal" id="nav_Fenster23" onclick="Fenster2_click()">Weiter</button>
+        <br><br><br>
+        <!----<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+        <!-- Popup modal -->
+        <div class="modal fade" id="fenster2_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Hinweis</h5>
+                        <button type="button" class="buttonclass close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="fenster2_modal_body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="buttonclass btn btn-secondary" data-dismiss="modal" onclick="openView('Fenster3')">Weiter</button>
+                        <button type="button" class="buttonclass btn btn-primary" data-dismiss="modal">Zurück</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------------------------------------------------->
+    <!----------------- Fenster 3 ------------------------>
+    <!---------------------------------------------------->
+    <div id="Fenster3" class="w3-container window" style="display:none">
+
+        <h3>Schritt 3: Priorisierung der Energiewandler</h3>
+
+        <div>
+            Um die Use Cases im Anschluss priorisieren zu können, werden die identifizierten Verbraucher anhand der Kenngrößen <b> Leistungsindikator 𝐿𝐼 </b> und <b> Zeitindikator 𝑍𝐼 </b> bewertet. Die Ermittlung der Kenngrößen ist davon abhängig, ob die Flexibilität durch Energiespeicherung oder durch Bivalenz (=Energieträgerwechsel) zur Verfügung gestellt werden soll.
+        </div>
+
+        <br>
+
+        <p><b>Soll die Flexibilität im Use Case durch Energiespeicherung oder durch Bivalenz zur Verfügung gestellt werden?</b></p>
+        <div class="value" style="width:220px;display:inline-block;">
+            {{form.flexibilität_im_usecase}}
+        </div>
+
+        <br>
+        <br>
+
+        <!-- Formula for Bivalenz -->
+        <div id="info_bivalenz" style="display:none;">
+            <img width="500" src="/static/bivalenz.png"></img>
+            <table width="500">
+                <tr>
+                    <td style="margin-right:200px">$$LI_{bivalenz} = P_{durchschnitt}$$</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="margin-right:200px">$$ZI_{bivalenz} = Laufzeit_{typtag}$$</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Formula for Energiespeicherung -->
+        <div id="info_flexi" style="display:none;">
+            <img width="500" src="/static/flexi.png"></img>
+            <table width="500">
+                <tr>
+                    <td>$$LI_{speichern} = P_{anschluss} - P_{durchschnitt}$$</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>$$ZI_{speichern} = 24h - Laufzeit_{typtag}$$</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+        <div title="Anschlussleistung finden Sie in der Regel auf dem Typenschild des Energiewandlers.">
+            <b> Wie hoch ist die Anschlussleistung (in kW) des betrachteten Energiewandlers?  </b>
+        </div>
+        <span id="anschlussleistung" class="value" style="background-color:#ffffff;width:360px;display:inline-block;"> {{form.anschlussleistung_energiewandler}}</span> <span>in kW </span>
+
+        <br> <br>
+        <div><b>Wie hoch ist die mittlere Leistungsaufnahme des betrachteten Energiewandlers im Betrieb?</b></div>
+        <span class="value" style="background-color:#ffffff;width:360px;display:inline-block;">{{form.durchschnittliche_leistungsaufnahme_energiewandler}}</span> <span>in kW</span>
+
+        <br> <br>
+        <div><b>Was ist die typische Laufzeit des betrachteten Energiewandlers an einem regulären Betriebstag?</b></div>
+        <span class="value" style="background-color:#ffffff;width:360px;display:inline-block;">{{form.typische_laufzeit_energiewandler}}</span> <span> in Stunden</span>
+
+        <br><br>
+
+        <table>
+            <tr>
+                <td>
+                    <span><b>Leistungsindikator:</b></span>
+                </td>
+                <td>
+                    <span id="Leistungsindikator"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span><b>Zeitindikator:</b></span>
+                </td>
+                <td>
+                    <span id="Zeitindikator"></span>
+                </td>
+            </tr>
+        </table>
+
+
+        <br><br><br>
+        <button type="button" class="buttonclass moog_nav_inactive" id="nav_Fenster32" onclick="openView('Fenster2')">Zurück</button>
+        <button class="buttonclass moog_nav_inactive" id="nav_Fenster34" onclick="openView('Fenster4')" type="button" >Weiter</button>
+        <br><br><br>
+        <!----<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+        <br><br><br>
+        <br><br><br><br>
+
+    </div>
+
+
+    <!--------------------------------------------------->
+    <!----------------- Fenster 4 ----------------------->
+    <!--------------------------------------------------->
+    <div id="Fenster4" class="w3-container window" style="display:none">
+
+        <h3>Bestandsaufnahme</h3>
+
+        <p>Möchten Sie einen weiteren Use Case bewerten?</p>
+
+        <br>
+
+        <div><b>Die Schritte 1-3 werden so oft wiederholt, bis alle in Frage kommenden Use Cases eingetragen sind. </b></div>
+  
+        <br><br><br>
+
+        <button class="buttonclass moog_nav_inactive usecase_speichern" style="width:300px;" id="save_button" onclick="openView('Fenster1')" type="button">Weiteren Use Case hinzufügen</button>
+        <button class="buttonclass moog_nav_inactive" id="nav_Fenster43" onclick="openView('Fenster3')" type="button" >Zurück</button>
+        <button type="button" class="buttonclass moog_nav_inactive" id="done_button" onclick="openView('Fenster5')">Weiter</button>
+        <br><br><br>
+        <!--<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+    </div>
+
+    <!--------------------------------------------------->
+    <!----------------- Fenster 5 ----------------------->
+    <!--------------------------------------------------->
+    <div id="Fenster5" class="w3-container window" style="display:none">
+
+        <h3>Schritt 4: Vergleich der Use Cases zur Priorisierung </h3>
+
+        <div>
+            In disem Schritt werden die Leistungs- und Zeitindikatoren der identifizierten Use Cases gegeneinander aufgetragen. Je weiter sich die Anlage in der rechten oberen Ecke der Darstellung befindet, desto vielversprechender ist sie hinsichtlich einer Flexibilisierung. An dieser Stelle kann der Anwender frei entscheiden, welche Anlagen bei der Potenzialanalyse weiterhin berücksichtigt werden sollen.
+        </div>
+
+        <table class="table" id="result_table_1"></table>
+
+        <div style="width:600px;height:600px;">
+            <canvas id="scatter_plot" width="600" height="600" style="width:600px;height:600px;"></canvas>
+        </div>
+
+        <br><br>
+        <div style="margin:auto;width:100%">
+            <button class="buttonclass moog_nav_inactive" id="nav_Fenster54" onclick="openView('Fenster4')" type="button" >Zurück</button>
+            <button type="button" class="buttonclass moog_nav_inactive" onclick="openView('Fenster6')">Weiter</button>
+        </div>
+        <br><br><br>
+        <!--<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+        <br><br><br>
+        <br><br><br>
+
+    </div>
+
+    <!------------------------------------------------>
+    <!----------------- Fenster6 --------------------->
+    <!------------------------------------------------>
+    <div id="Fenster6" class="w3-container window">
+
+        <h3>Schritt 5: Bewertung der Energiewandler</h3>
+        <div>
+            Im diesem Schritt erfolgt eine Bewertung der zuvor priorisierten Use Cases hinsichtlich ihrer Eignung für den energieflexiblen Betrieb. Die zu verwendenden Bewertungskriterien wurden in Anlehnung an (Popp und Zaeh, 2014) und (Schraml, 2018) definiert und sind in der gezeigten Tabelle inklusive ihrer zugehörigen Ausprägungen und Bewertungswerte dargestellt. Die Bewertungsskala umfasst dabei vier Abstufungen pro Dimension, die in der Grafik dargestellt sind.  Grün markierte Felder implizieren, dass von einer guten Eignung für den energieflexiblen Betrieb ausgegangen werden kann. Analog dazu impliziert eine rote Markierung eine schlechte Eignung für den energieflexiblen Betrieb. Wird das Feld gelb markiert, so muss in einer nachgelagerten fallspezifischen Prüfung die Eignung für den energieflexiblen Betrieb festgestellt werden. Im Rahmen der App-Anwendung kann keine allgemeingültige Aussage getroffen werden. In diesem Schritt der App ist für jeden Verbraucher zu jedem Kriterium ein Bewertungswert zu ermitteln. Die Ergebnisdarstellung erfolgt im nächsten Fenster.
+        </div>
+
+        <div class='row'>
+            <div class='column1'>
+                <table class='table' style="float:left" id="result_table_2"></table>
+            </div>
+            <div class='column2'>
+                <img id='gridimg' src="/static/3dgrid_transparent.png" style='width:600px;height:800px;float:right'></img>
+            </div>
+        </div>
+
+        <br><br><br>
+        <br><br><br>
+
+        <button type="button" class="buttonclass moog_nav_inactive" onclick="openView('Fenster5')">Zurück</button>
+        <button type="button" class="buttonclass moog_nav_inactive" id="result_button">Weiter</button>
+        <br><br><br>
+        <!--<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+        <br><br><br>
+        <br><br><br>
+
+    </div>
+
+    <!------------------------------------------------>
+    <!----------------- Resultat --------------------->
+    <!------------------------------------------------>
+    <div id="Resultat" class="w3-container window" style="display:none">
+
+        <h3>Schritt 6: Ergebnisdarstellung und Handlungsempfehlungen</h3>
+
+        <table class="table shortened-select" id="overview_table"></table>
+
+        <button class="buttonclass moog_nav_inactive" id="nav_FensterR5" onclick="openView('Fenster6')" type="button">Zurück</button>
+        <br><br><br>
+        <!----<font color ="red"><b>ACHTUNG - Seite nicht neu Laden, sonst gehen alle eingegebenen Use Cases verloren. </b></font>-->
+        <br><br><br>
+        
+        <!-- Popup modal -->
+        <div class="modal fade" id="handlungs_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Hinweis</h5>
+                        <button type="button" class="buttonclass close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="handlungs_modal_body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="buttonclass btn btn-primary" data-dismiss="modal">Schließen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!----------------------------------------------------------->
+    <!----------------- Handlungsempfehlungen ------------------->
+    <!----------------------------------------------------------->
+    <div style="display:none">
+    <div id="Handlungsempfehlungen_steuerungsarten">
+
+        <h3>Handlungsempfehlungen</h3>
+
+        <div>
+            <b>Realisierung einer steuerungsseitigen Anbindung</b><br>
+
+            Als mögliche Anbindungsvarianten zur Nutzung von Flexibilitätspotenzialen kann zwischen drei Alternativen unterschieden werden:
+
+            <ul>
+                <li>Industrielle Lösungen, wie industrietaugliche IoT-Gateways (Abbildung oben)</li>
+                <li>Low-Cost-Lösungen, wie selbstprogrammierte Micro Controller (Abbildung unten unten)</li>
+                <li>Alternative Lösungen, wie beispielsweise das Umprogrammieren von Steuerungen</li>
+            </ul>
+
+        </div>
+
+        <img width="500" style="float:right;" src="/static/handlung1.png"></img>
+
+        <p>Die Anbindungsmöglichkeiten lassen sich hinsichtlich ihrer Industrietauglichkeit, der Herstellerunabhängigkeit und dem Realisierungsaufwand unterscheiden:</p>
+
+        <table class="table">
+            <tr>
+                <td></td>
+                <td>Industrietauglichkeit</td>
+                <td>Herstellerunabhängigkeit</td>
+                <td>Aufwand</td>
+            </tr>
+
+            <tr>
+                <td>Industrielle Lösung</td>
+                <td>+</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>Low-Cost-Lösung</td>
+                <td>o</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <td>Alternative Lösungen</td>
+                <td>-</td>
+                <td>+</td>
+                <td>o</td>
+            </tr>
+        </table>
+        <br>
+
+        <p>Der Realisierungsaufwand kann anhand der nachzurüstenden Mess-, Steuer- oder Regelungstechnik abgeschätzt werden. Hier muss berücksichtigt werden, wie viele speicherprogrammierbaren Steuerung sowie Sensoren und Aktoren benötigt werden. Die Verkabelung, die Installation, die Programmierung und schließlich die Inbetriebnahme sind weitere wichtige, zu berücksichtigende Aspekte.</p>
+
+    </div>
+
+    <div id="Handlungsempfehlungen_prozessrelevanz">
+        <p> Schaffung von Systemredundanzen und/oder Bivalenz Durch die Schaffung von Systemredundanzen und/oder Bivalenz wird das Risiko für Prozessunterbrechungen bzw. -gefährdungen reduziert.  </p>
+
+        <b>Systemredundanz:</b>
+        <ul>
+            <li>getrennte Versorgungsnetze realisieren (z. B. separate Druckluftversorgungsnetze für Hauptprozess bzw. Nebenprozesse, Wärme- bzw. Kältebezug aus Eigenversorgung durch thermische Speicher)</li>
+            <li>weiteres Versorgungssystem installieren (z. B.: zusätzliche thermische Aktivierung der Hüllelemente neben der Lüftungsanlage)</li>
+        </ul>
+
+        <b>Bivalenz:</b>
+        <ul>
+            <li>
+                vollständige Entkopplung durch gas- und elektrisch betriebenen Anlagen herstellen (z. B.: Heizstab- und Gasbrennwerttechnik zur Warmwasseraufbereitung, weiteres Versorgungssystem in einem Klimaraum (Lüftungsanlage und thermisch aktivierte Wandmodule))
+            </li>
+        </ul>
+
+    </div>
+
+    <div id="Handlungsempfehlungen_speicherfaehigkeit">
+        <b>Schaffen bzw. Vergrößern der Speicherkapazitäten</b>
+
+        <br>
+
+        <p>Durch die Analyse der Vielzahl an Speicher (elektrisch und thermisch) und ihrer Relevanz im Prozesssystem ergeben sich mehrere Betrachtungen, die zu einer höheren Energieflexibilisierung führen. Dabei wird die zeitliche Entkopplung zwischen Stromaufnahme und Nutzenergiebedarf erhöht:</p>
+
+        <ul>
+            <li>Vergrößerung eines Nutzenergiespeichers (z. B. Pufferspeicher, Stromspeicher)</li>
+            <li>Speicherkapazitäten vergrößern durch Umstellung auf Latentwärmespeicher mit gleichem Volumen</li>
+            <li>Systemimmanente Speicher vergrößern, beispielsweise durch Erhöhung der Gebäudemasse, die Integration von PCM-Speichern in Gebäudehüllelementen oder Vergrößerung des Raumvolumens; im Gegensatz zu Nutzenergiespeichern ergeben sich bei systemimmanten Speichern geringere Abhängigkeiten</li>
+        </ul>
+    </div>
+    </div>
+
+
+    <!-- <button class="moog_nav_inactive" id="nav_FensterHR" onclick="openView('Resultat')" type="button">Zurück</button> -->
+
+</form>
+
+<img style="position: fixed; width:200px; bottom:20px; left:20px;" src="/static/Logo_KoProj_SynErgie_4c_RZ.png"/>
+<img style="position: fixed; width:200px; bottom:20px; right:20px;" src="/static/BMBF_gefoerdert_2017_de.png"/>
+<!--<img style="position: fixed; width:200px; bottom:20px; right:20px;" src="/static/Logo.png"/>-->
+
+</div>
+
+<!------------------------------------------------>
+<!----------------- Scripts ---------------------->
+<!------------------------------------------------>
+<script>
+
+
+
+    // Get canvas for scatter plot in window 5 ( Bewertung der Energiewandler )
+    var scatterChart;
+    var scatter_ctx;
+    scatter_ctx = document.getElementById('scatter_plot').getContext('2d');
+
+    // Draw demo points into plot
+    scatterChart = new Chart(scatter_ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Scatter Dataset',
+                data: []
+            }]
+        },
+        options:{
+            scales: {
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Leistungsindikator in kW'
+                  },
+                  ticks:{
+                      beginAtZero: true
+                  }
+                }],
+                xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Zeitindikator in h'
+                  },
+                  ticks:{
+                      beginAtZero: true
+                  }
+                }]
+              }     
+            }
+        }
+    );
+
+    var use_cases = {}; // All given use cases
+    var points = []; // point cloud dataset
+
+
+    // Toggle plot and formulas for window 3 ("Priorisierung der Energiewandler")
+    function show_info(which) {
+        if (which == "Bivalenz") {
+            $('#info_bivalenz').hide();
+            $('#info_flexi').show();
+        } else if (which == "Energiespeicherung") { 
+            $('#info_flexi').hide();
+            $('#info_bivalenz').show();
+        }
+    }
+
+    // Calculate indicators on every change in text boxes of window 3 ("Priorisierung der Energiewandler")
+    $("#{{form.flexibilität_im_usecase.auto_id}}").change(update_indikatoren);
+    $("#{{form.anschlussleistung_energiewandler.auto_id}}").change(update_indikatoren);
+    $("#{{form.durchschnittliche_leistungsaufnahme_energiewandler.auto_id}}").change(update_indikatoren);
+    $("#{{form.typische_laufzeit_energiewandler.auto_id}}").change(update_indikatoren);
+
+    $("#result_button").click(function () {
+
+        // Update ratings
+        for (var key in use_cases) {
+            var rating = 0;
+            rating = Steuerungsarten[$("#steuerungsarten_" + key).val()] + Prozessrelevanz[$("#prozessrelevanz_" + key).val()] + ZeitlicheEntkopplung[$("#zeitlicheentkopplung_" + key).val()];
+            use_cases[key]['steuerungsart'] = Steuerungsarten[$("#steuerungsarten_" + key).val()];
+            use_cases[key]['prozessrelevanz'] = Prozessrelevanz[$("#prozessrelevanz_" + key).val()];
+            use_cases[key]['speicherfaehigkeit'] = ZeitlicheEntkopplung[$("#zeitlicheentkopplung_" + key).val()];
+            use_cases[key]['rating'] = rating;
+            use_cases[key]['gesamtwertung'] = Math.floor(rating/3);
+        }
+
+        // Fill Resultat table
+        var table = "<tr><th>Use Case</th><th>Leistungsindikator</th><th>Zeitindikator</th><th>Bewertungswert (S | R | K)</th><th>Einstufung</th><th>Handlungsempfehlungen</th></tr>";
+        for (var key in use_cases) {
+            table = table + "<tr>";
+            table = table + "<td>" + key + "</td>";                      // Use case
+            table = table + "<td>" + use_cases[key]['Leistungsindikator'] + "</td>";                      // Leistungsindikator
+            table = table + "<td>" + use_cases[key]['Zeitindikator'] + "</td>";                      // Zeitindikator
+            //table = table + "<td>" + use_cases[key]['rating'] + "</td>"; // Bewertungswert
+            table = table + "<td>" + "S" + use_cases[key]['steuerungsart']+ " | " + "R" + use_cases[key]['prozessrelevanz'] + " | " + "S" + use_cases[key]['speicherfaehigkeit'] + "</td>"; // Bewertungswert          
+            index_S=use_cases[key]['steuerungsart']; 
+            index_R=use_cases[key]['prozessrelevanz']; 
+            index_S=use_cases[key]['speicherfaehigkeit']; 
+            table = table + "<td>" + Matrix[index_S][index_R][index_S] + "</td>"; // Einstufung
+            //table = table + "<td>" + Matrix2[(use_cases[key]['steuerungsart']+2),(use_cases[key]['prozessrelevanz']+2),(use_cases[key]['speicherfaehigkeit']+2)] + "</td>";                      // Einstufung
+            //table = table + "<td bgcolor="red">" + Farbe + "</td>";                      // Farbe funktioniert nicht
+
+            var handlungsempfehlungen = "";
+            if ((use_cases[key]['steuerungsart'] > 2) || (use_cases[key]['prozessrelevanz'] > 2) || (use_cases[key]['speicherfaehigkeit'] > 2))
+            {
+                handlungsempfehlungen = 1;
+            }
+
+             if (handlungsempfehlungen) {
+                 table = table + "<td>";
+                 //table += "<button hanhandlungsempfehlungen + "</td>"; // Handlungsempfehlungen
+                 table += '<button type="button" class="buttonclass" data-toggle="modal" data-target="#handlungs_modal" onclick="handlungs_click(' + use_cases[key]['steuerungsart'] +','+ use_cases[key]['prozessrelevanz'] +','+ use_cases[key]['speicherfaehigkeit']  + ')">öffnen</button>';
+                 table += "</td>";
+             } else {
+                table = table + "<td>" + "</td>"; // Handlungsempfehlungen
+             }
+
+            table = table + "</tr>";
+        }
+        $("#overview_table").html(table);
+        update_indikatoren();
+
+        openView('Resultat');
+    });
+
+
+    // Delete use case
+    function delete_case(key){
+        console.log("deleting case...");
+        delete use_cases[key];
+        update_usecase_list();
+    }
+
+    // Convert usecase data to html table
+    function update_usecase_list(){
+        var usecase_list = "<h5><b>Use Cases</b></h5>";
+        for (var key in use_cases) {
+            usecase_list = usecase_list + "\n" + "<li>" + key;
+            usecase_list = usecase_list + "<button class='myButton' style='float:right' type='button' onclick='delete_case(" + '"' + key + '"' + ")'>x</button>";
+            usecase_list = usecase_list  + "</li>" + "\n";
+        }
+
+        // update old list
+        $('#usecase_list').html(usecase_list);
+        // document.getElementById('#usecase_list').style.display = "block";
+
+
+        // Table on window 5 ("Bewertung der Energiewandler")
+        // var table1 = "<tr><th>Use Case</th><th>Leistungsindikator</th><th>Zeitindikator</th><th>Weiter berücksichtigen?</th>";
+
+        var table1 = "<tr><th>Use Case</th><th>Leistungsindikator</th><th>Zeitindikator</th>";
+
+        var table2 = "<tr><th>Use Case</th>";
+        table2 = table2 + "<th>Steuerungsarten</th>";
+        table2 = table2 + "<th>Prozessrelevanz</th>";
+        table2 = table2 + "<th>Zeitl. Entkopplung</th>";
+        table2 = table2 + "</tr>";
+
+        for (var key in use_cases) {
+
+            table1 += "<tr>";
+            table1 += "<td>" + key + "</td>";
+            table1 += "<td>" + use_cases[key]['Leistungsindikator'] + "</td><td>" + use_cases[key]['Zeitindikator'] + "</td>";
+            table1 += "</tr>";
+
+            table2 += "<tr>"; 
+            table2 += "<td style='width:250px'>" + key + "</td>";
+            table2 += "<td style='width:50px'><select class='shortened-select' id='steuerungsarten_" + key + "'>";
+            table2 += "<option value='S1' data-descr='Frei steuerbar'></option>"; 
+            table2 += "<option value='S2' data-descr='Zeitgesteuert'></option>";
+            table2 += "<option value='S3' data-descr='Zustandsgesteuert'></option>";
+            table2 += "<option value='S4' data-descr='Prozessgesteuert'></option>";
+            table2 += "</select></td>";
+
+            table2 += "<td style='width:50px'><select class='shortened-select' id='prozessrelevanz_" + key + "'>";
+            table2 += "<option value='R1' data-descr='Störung der Nutzenergieversorgung führt nicht zum Ausfall wertschöpfender Prozesse'></option>";
+            table2 += "<option value='R2' data-descr='Störung der Nutzenergieversorgung führt in weniger als acht Stunden zum Ausfall wertschöpfender Prozesse'></option>";
+            table2 += "<option value='R3' data-descr='Störung der Nutzenergieversorgung führt in weniger als einer Stunde zum Ausfall wertschöpfender Prozesse'></option>";
+            table2 += "<option value='R4' data-descr='Störung der Nutzenergieversorgung führt nahezu unmittelbar zum Ausfall wertschöpfender Prozesse'></option>";
+            table2 += "</select></td>";
+
+            table2 += "<td style='width:50px'><select class='shortened-select' id='zeitlicheentkopplung_" + key + "'>";
+            table2 += "<option value='K1' data-descr='Nutzenergie-Speicher (z.B. Wärmespeicher)'></option>";
+            table2 += "<option value='K2' data-descr='Systemimmanente Speicherkapazitäten (Netze, Trägheiten)'></option>";
+            table2 += "<option value='K3' data-descr='Zielzustandstoleranzen des Systems (Nutzenergiebedarfstoleranzen)'></option>";
+            table2 += "<option value='K4' data-descr='Unmittelbare Nutzenergiebedarfsdeckung'></option>";
+            table2 += "</select></td>";
+
+            table2 += "</tr>";
+        }
+
+        $('#result_table_1').html(table1);
+        $('#result_table_2').html(table2);
+        try {
+            [].forEach.call(document.querySelectorAll('.shortened-select'), function(s) {
+              s.addEventListener('focus', focus);
+              s.addEventListener('blur', blur);
+              blur.call(s);
+            });
+        }
+        catch(error) {
+          console.error(error);
+        }
+
+    }
+
+    function focus() {
+      [].forEach.call(this.options, function(o) {
+        o.textContent = o.getAttribute('value') + ' (' + o.getAttribute('data-descr') + ')';
+      });
+    }
+    function blur() {
+      [].forEach.call(this.options, function(o) {
+        console.log(o);
+        o.textContent = o.getAttribute('value');
+      });
+    }
+
+
+    // Punktedefinition für ausgewählte Felder
+    var Steuerungsarten = {};
+    Steuerungsarten['S1'] = '1';
+    Steuerungsarten['S2'] = '2';
+    Steuerungsarten['S3'] = '3';
+    Steuerungsarten['S4'] = '4';
+
+    var Prozessrelevanz = {};
+    Prozessrelevanz['R1'] = '1';
+    Prozessrelevanz['R2'] = '2';
+    Prozessrelevanz['R3'] = '3';
+    Prozessrelevanz['R4'] = '4';
+
+    var ZeitlicheEntkopplung = {};
+    ZeitlicheEntkopplung['K1'] = '1';
+    ZeitlicheEntkopplung['K2'] = '2';
+    ZeitlicheEntkopplung['K3'] = '3';
+    ZeitlicheEntkopplung['K4'] = '4';
+
+    var Matrix = [];
+    
+    Matrix_0 = [["0","0","0","0","0"],["0","0","0","0","0"],["0","0","0","0","0"],["0","0","0","0","0"],["0","0","0","0","0"]];
+    Matrix_S1 = [["0","0","0","0","0"],["0","grün","grün","grün","gelb"],["0","grün","grün","grün","gelb"],["0","grün","grün","grün","gelb"],["0","grün","grün","gelb","rot"]];
+    Matrix_S2 = [["0","0","0","0","0"],["0","grün","grün","grün","gelb"],["0","grün","grün","grün","gelb"],["0","grün","grün","grün","rot"],["0","grün","gelb","gelb","rot"]];
+    Matrix_S3 = [["0","0","0","0","0"],["0","grün","grün","grün","gelb"],["0","grün","grün","grün","rot"],["0","grün","gelb","gelb","rot"],["0","grün","gelb","gelb","rot"]];
+    Matrix_S4 = [["0","0","0","0","0"],["0","grün","grün","grün","rot"],["0","grün","gelb","gelb","rot"],["0","grün","gelb","gelb","rot"],["0","gelb","rot","rot","rot"]];   
+    Matrix = [Matrix_0, Matrix_S1, Matrix_S2, Matrix_S3, Matrix_S4];
+    
+
+    function handlungs_click(steuerungsart, prozessrelevanz, speicherfaehigkeit) {
+        $('#handlungs_modal_body').html("");
+
+        if (steuerungsart > 2) {
+            $('#Handlungsempfehlungen_steuerungsarten').clone().appendTo('#handlungs_modal_body');
+        }
+        if (prozessrelevanz > 2) {
+            $('#Handlungsempfehlungen_prozessrelevanz').clone().appendTo('#handlungs_modal_body');
+        }
+        if (speicherfaehigkeit > 2) {
+            $('#Handlungsempfehlungen_speicherfaehigkeit').clone().appendTo('#handlungs_modal_body');
+        }
+
+        $('#handlungs_modal').modal('toggle');
+    }
+
+    function Fenster2_click() { 
+        planbarkeit     = $('#{{form.planbarkeit_nutzenergiebedarf.auto_id}}').val();
+        ansteuerbarkeit = $('#{{form.ansteuerbarkeit_ueber_leitsystem.auto_id}}').val();
+
+        if (planbarkeit == "Keine Informationen über den zukünftigen Verlauf") { 
+            $('#fenster2_modal_body').text('Eine Bewertung des Energieflexibilitätspotenzials ohne die Kenntnis des Nutzenergiebedarfs ist mit hohen Unsicherheiten verbunden. Es wird empfohlen Messungen oder Simulationen zur Ermittlung des Nutzenergiebedarfes durchzuführen.');
+            $('#fenster2_modal').modal('toggle');
+        } else if (ansteuerbarkeit == "Nein") {
+            $('#fenster2_modal_body').text('Um bestehende Energieflexibilitätspotenziale ausschöpfen zu können, muss eine externe Ansteuerbarkeit der Anlage gegeben sein.');
+            $('#fenster2_modal').modal('toggle');
+        } else { 
+            openView('Fenster3');
+        }
+
+    }
+
+    // Calculate all needed values and update form fields
+    function update_stuff() {
+        update_indikatoren();
+
+        // Serialize current form content into hashmap
+        var data = {};
+        $("#form input, #form select, #form textarea").each(function(i, obj) {
+            data[obj.name] = $(obj).val();
+        })
+
+        // Calculate and show Leistungsindikator + Zeitindikator
+        if (data['flexibilität_im_usecase'] == 'Energiespeicherung') {
+            //var LI_speichern = data['typische_laufzeit_energiewandler'];
+            //var LI_speichern = data['anschlussleistung_energiewandler'] - ((data['typische_laufzeit_energiewandler']*data['durchschnittliche_leistungsaufnahme_energiewandler'])/24);
+            var P = (data['durchschnittliche_leistungsaufnahme_energiewandler'] * data['typische_laufzeit_energiewandler'])/24;
+            var LI_speichern = Math.round((data['anschlussleistung_energiewandler'] - P)*100)/100;
+            var ZI_speichern = 24 - data['typische_laufzeit_energiewandler'];
+            data['Leistungsindikator'] = LI_speichern;
+            data['Zeitindikator'] = ZI_speichern;
+            $("#Leistungsindikator").html(LI_speichern);
+            $("#Zeitindikator").html(ZI_speichern);
+        } else {
+            var LI_bivalenz = data['durchschnittliche_leistungsaufnahme_energiewandler'];
+            var ZI_bivalenz = data['typische_laufzeit_energiewandler'];
+            data['Leistungsindikator'] = LI_bivalenz;
+            data['Zeitindikator'] = ZI_bivalenz;
+            $("#Leistungsindikator").html(LI_bivalenz);
+            $("#Zeitindikator").html(ZI_bivalenz);
+        }
+
+        // create new list html
+        use_cases[data['bezeichnung_use_case']] =  data;
+        update_indikatoren();
+        update_usecase_list();
+        update_indikatoren();
+        update_usecase_list();
+        update_indikatoren();
+
+    }
+
+
+
+    function update_indikatoren() {
+        // Serialize current form content into hashmap
+        var data = {};
+        $("#form input, #form select, #form textarea").each(function(i, obj) {
+            data[obj.name] = $(obj).val();
+        });
+
+        // Calculate and show Leistungsindikator + Zeitindikator
+        if (data['flexibilität_im_usecase'] == 'Energiespeicherung') {
+            show_info('Bivalenz');
+            var P = (data['durchschnittliche_leistungsaufnahme_energiewandler'] * data['typische_laufzeit_energiewandler'])/24;
+            var LI_speichern = Math.round((data['anschlussleistung_energiewandler'] - P)*100)/100;
+            //var LI_speichern = data['anschlussleistung_energiewandler'] - data['durchschnittliche_leistungsaufnahme_energiewandler'];
+            var ZI_speichern = 24 - data['typische_laufzeit_energiewandler'];
+            data['Leistungsindikator'] = LI_speichern;
+            data['Zeitindikator'] = ZI_speichern;
+            $("#Leistungsindikator").html(LI_speichern);
+            $("#Zeitindikator").html(ZI_speichern);
+        } else {
+            show_info('Energiespeicherung');
+            var LI_bivalenz = data['durchschnittliche_leistungsaufnahme_energiewandler'];
+            var ZI_bivalenz = data['typische_laufzeit_energiewandler'];
+            data['Leistungsindikator'] = LI_bivalenz;
+            data['Zeitindikator'] = ZI_bivalenz;
+            $("#Leistungsindikator").html(LI_bivalenz);
+            $("#Zeitindikator").html(ZI_bivalenz);
+        }
+
+        var dynamicColors = function() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
+
+        // Update scatterplot
+        scatterChart.data.datasets = [];
+        for (var key in use_cases) {
+            scatterChart.data.datasets.push({
+                label: key,
+                data: [{x: use_cases[key]['Zeitindikator'], y: use_cases[key]['Leistungsindikator']}],
+                backgroundColor: dynamicColors(),               
+            });
+        }     
+
+        scatterChart.update();
+    }
+
+
+
+
+
+    // done button
+    $("#done_button").click(function () {
+        update_indikatoren();
+        update_stuff();
+        // Jump to window 5
+        openView('Fenster5');
+
+    });
+
+    // save_usecase button
+    $("#save_button").click(function () {
+        update_indikatoren();
+        update_stuff();
+        // Jump to window 1
+        openView('Fenster1');
+    });
+
+    // Sync Usecase name with dropdown
+    $('#{{form.use_cases.auto_id}}').change(function () {
+        $('#{{form.bezeichnung_use_case.auto_id}}').val($(this).val());
+
+    });
+
+    // Initial calculation of indicators
+    update_indikatoren();
+
+    // live log textedit changes
+    //$('#{{form.bezeichnung_use_case.auto_id}}').bind('input', function() {
+    //    console.log($('#{{form.bezeichnung_use_case.auto_id}}').val());
+    //});
+
+    openView('Fenster1');
+
+
+</script>
+
+<!-- Plots -->
+
+{% endblock %}

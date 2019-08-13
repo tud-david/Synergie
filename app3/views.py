@@ -6,6 +6,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import Scenario, Moog
 from decimal import *
+
+
+
 def serialize_scenario(s):
     for k, v in s.items():
         if isinstance(v, str) or isinstance(v, bool):
@@ -24,6 +27,8 @@ def flatten_scenario(scenario):
         value = getattr(scenario, m, None)
         raise Exception(f"Member: {m} Value: {value}")
         yield m, value.data if value else None
+
+
 
 # Landing page: app2
 @login_required
@@ -173,18 +178,3 @@ def moog(request):
 
     return render(request, 'app3/moog.html', {'form': form})
 
-@login_required
-def step1(request):
-    return render(request, 'app3/step2.html')
-
-@login_required
-def step2(request):
-    return render(request, 'app3/step2.html')
-
-@login_required
-def step3(request):
-    return render(request, 'app3/step3.html')
-
-@login_required
-def results(request):
-    return render(request, 'app3/results.html')

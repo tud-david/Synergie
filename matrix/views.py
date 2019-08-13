@@ -7,6 +7,8 @@ from django.shortcuts import render
 from .forms import Scenario, Moog
 from .Optimierung import *
 from decimal import *
+
+
 def serialize_scenario(s):
     for k, v in s.items():
         if isinstance(v, str) or isinstance(v, bool):
@@ -173,18 +175,3 @@ def moog(request):
 
     return render(request, 'app2/moog.html', {'form': form})
 
-@login_required
-def step1(request):
-    return render(request, 'app2/step2.html')
-
-@login_required
-def step2(request):
-    return render(request, 'app2/step2.html')
-
-@login_required
-def step3(request):
-    return render(request, 'app2/step3.html')
-
-@login_required
-def results(request):
-    return render(request, 'app2/results.html')

@@ -17,6 +17,8 @@ body{
     background-size: cover;
 }
 
+
+
 .user-icon{
     background: rgba(46, 92, 96, 0.32);
     border-radius: 50%;
@@ -62,4 +64,30 @@ body{
 
 .path-list .separator{
     display: inline;
+}
+
+
+#news .card{
+    width: 100%;
+}
+
+
+.sidebar{
+    /* background-image: url(/static/img/overlay.png),linear-gradient(45deg,#dd3d31 0%,#d22f23 20%); */
+    background-image: url(/static/img/overlay.png), linear-gradient(45deg,rgb(6, 71, 109) 20%,#00476F 80%);
+    background-size: cover;
+}
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #dd9a34;
+    border-color:#dfa54e;
+}
+
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #da8300;
+    border-color:#dfa54e;
 }

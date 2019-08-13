@@ -1,102 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block extrahead %}
+{% block javascript %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
-{% endblock %}
+<script src="{% static 'js/app2.js' %}"></script>
+{% endblock javascript %}
+
+{% block css %}
+    <link href="{% static 'css/app2.css' %}" rel="stylesheet">
+{% endblock css %}
+
 
 {% load crispy_forms_tags %}
+
 {% block content %}
 
 <!-- Custom style definitions ( may be overwritten with bootstraptheme ) -->
-<style>
-.headertitle {
-    font-weight: bolder;
-    font-size: 50px;
-    margin-left: 0px;
-    padding-left: 0px;
-}
-    .subtitle {
-        font-weight: bolder;
-    }
-    .gridwrap {
-        display: grid;
-        grid-template-columns:40% 60%;
-    }
-    .gridwrap2 {
-        display: grid;
-        grid-template-columns:40% 60%;
-    }
-    /* styling */
-    select {
-        width:100%;
-        border: 0px solid #bbb;
-        box-shadow: 0 0px 1px 0 rgba(0,0,0,0.2);
-        background-color:#ffffff;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image:url(/static/dropdown.svg);
-        background-position: right;
-        background-size: 10px;
-        background-repeat: no-repeat;
-        border-radius: 20px;
-        height: 40px;
-        padding-left: 30px;
-        margin: 1px;
-    }
-    input[type=number] {
-        border: 0px solid #bbb;
-        width: 100%;
-        background-color:#ffffff;
-        margin: 1px;
-        box-sizing: border-box;
-        border-radius: 4px;
-        resize: none;
-        border-radius: 20px;
-        height: 40px;
-        padding-left: 30px;
-}
-    }
-    input[type=number] {
-        -moz-appearance:textfield; /* Firefox */
-    }
-    input[type="checkbox"] + label::before {
-        width: 15px;
-        height: 15px;
-        border-radius: 15px;
-        border: 0px solid #8cad2d;
-        background-color: #fff;
-        display: block;
-        content: "";
-        float: left;
-        margin-right: 5px;
-    }
-    input[type="checkbox"]:checked+label::before {
-        box-shadow: inset 0px 0px 0px 3px #fff;
-        background-color: #8cad2d;
-    }
-    select:hover {
-        box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-    }
-    .mainUI {
-        background-color: #D9E3EB;
-    }
-    .buttonclass {
-      background-color: #278F9D; /* Green */
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      position: fixed;
-      bottom: 10px;
-    }
-    body {
-        background-color: #D9E3EB;
-    }
-</style>
 
 <div class="app2">
 <br>
@@ -107,9 +27,9 @@
 <p id="progressbar_html">&nbsp;</p>
 
 
-<div class="container">
-    <h1 class="title">Betriebsoptimierungstool</h1>
-</div>
+
+<h1 class="title">Betriebsoptimierungstool</h1>
+
 
 
 
@@ -118,7 +38,7 @@
     otherwise one gets csrf token error.
 -->
 
-<form class='container mainUI' action="" method="post">
+<form class='mainUI' action="" method="post">
     {% csrf_token %}
     <!----<h4 class="subtitle">Konfiguration des Szenarios</h4>-->
 
@@ -140,8 +60,8 @@
 
             <tr>
                 <td>
-                    <div class="label">--> Wenn reale Daten erwünscht: Welche Kalenderwoche soll optimiert werden?</div>
-                    <div class="label">--> (Berechnung für das ganze Jahr dauert bis zu 13 Minuten) </div>
+        <div class="label">--> Wenn reale Daten erwünscht: Welche Kalenderwoche soll optimiert werden?</div>
+        <div class="label">--> (Berechnung für das ganze Jahr dauert bis zu 13 Minuten) </div>
                 </td>
                 <td>
                     <div class="value">{{form.kalenderwoche}}</div>
@@ -725,12 +645,12 @@
     <button type="button" style="left: 20%;" class="buttonclass moog_nav_inactive" onclick="openView('Parametrisierung')">Zurück</button>
 </div>
 
-
-
 <!----<img style="position: fixed; width:200px; bottom:20px; left:20px;" src="/static/Logo_KoProj_SynErgie_4c_RZ.png"/>
 <img style="position: fixed; width:200px; bottom:20px; right:20px;" src="/static/BMBF_gefoerdert_2017_de.png"/>-->
 
 </div>
+
+
 
 <script>
     // Update progress bar
@@ -1025,5 +945,6 @@
         openView('Szenario');
     }
 </script>
+
 
 {% endblock content %}

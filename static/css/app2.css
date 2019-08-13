@@ -1,0 +1,71 @@
+.headertitle {
+  font-weight: bolder;
+  font-size: 50px;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+  .subtitle {
+      font-weight: bolder;
+  }
+  .gridwrap {
+      display: grid;
+      grid-template-columns:40% 60%;
+  }
+  .gridwrap2 {
+      display: grid;
+      grid-template-columns:40% 60%;
+  }
+  /* styling */
+  select {
+      width:100%;
+      border: 0px solid #bbb;
+      box-shadow: 0 0px 1px 0 rgba(0,0,0,0.2);
+      background-color:#ffffff;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image:url(/static/dropdown.svg);
+      background-position: right;
+      background-size: 10px;
+      background-repeat: no-repeat;
+      border-radius: 20px;
+      height: 40px;
+      padding-left: 30px;
+      margin: 1px;
+  }
+  input[type=number] {
+      border: 0px solid #bbb;
+      width: 100%;
+      background-color:#ffffff;
+      margin: 1px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      resize: none;
+      border-radius: 20px;
+      height: 40px;
+      padding-left: 30px;
+}
+  }
+  input[type=number] {
+      -moz-appearance:textfield; /* Firefox */
+  }
+  input[type="checkbox"] + label::before {
+      width: 15px;
+      height: 15px;
+      border-radius: 15px;
+      border: 0px solid #8cad2d;
+      background-color: #fff;
+      display: block;
+      content: "";
+      float: left;
+      margin-right: 5px;
+  }
+  input[type="checkbox"]:checked+label::before {
+      box-shadow: inset 0px 0px 0px 3px #fff;
+      background-color: #8cad2d;
+  }
+  select:hover {
+      box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+  }
+  .mainUI {
+      background-color: #D9E3EB;
+  }

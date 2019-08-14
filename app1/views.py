@@ -150,7 +150,8 @@ def step3(request):
     if request.method == 'POST':
         form = FlexForm(request.POST)
         if form.is_valid():
-            messages.warning(request, 'Alle Eingaben wurden gesetzt')
+            #messages.warning(request, 'Alle Eingaben wurden gesetzt')
+            print(form.cleaned_data)
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
             request.session['flex_chosen'] = True
             return redirect('app1-results')
@@ -160,7 +161,7 @@ def step3(request):
     context = {
         'form': form,
         'step': 3,
-        'dict' : request.session['dictionary_rec_ctt'],
+        #'dict' : request.session['dictionary_rec_ctt'],
         'file_chosen': request.session['file_chosen'],
         'model_unpacked': request.session['model_unpacked'],
         'params_uploaded': request.session['params_uploaded'],
@@ -181,8 +182,8 @@ def results(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
     model_name = request.session['model_name']
-    dictionary_rec_ctt = request.session['dictionary_rec_ctt']
-    simulate_complete(dictionary_rec_ctt, model_path, model_name)
+    #dictionary_rec_ctt = request.session['dictionary_rec_ctt']
+    #simulate_complete(dictionary_rec_ctt, model_path, model_name)
     context = {
         'step': 4,
         'file_chosen': request.session['file_chosen'],

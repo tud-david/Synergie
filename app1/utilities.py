@@ -157,8 +157,8 @@ def get_unzip_FMU(mo_path, model_name):
     dymola.openModel(mo_path)
     dymola.translateModelFMU(model_name, storeResult=True, modelName=FMU_file, fmiVersion ='2', fmiType ='all', includeSource = False, includeImage = 2)
     with zipfile.ZipFile(os.path.join(os.path.dirname(mo_path), (str(FMU_file) + ".fmu")), "r") as zip_ref:
-        # zip_ref.extractall(path=os.path.join(os.path.dirname(mo_path)), members=['model.png', 'modelDescription.xml'])
-        zip_ref.extractall()
+        zip_ref.extractall(path=os.path.join(os.path.dirname(mo_path)), members=['model.png', 'modelDescription.xml'])
+        #zip_ref.extractall()
     dymola.close()
     return(True)
 
@@ -174,9 +174,6 @@ def simulate_complete(dictionary_rec_ctt, model_path, model_name):
     boolean = dymola.simulateModel(model_name)
     print(boolean)
     dymola.close()
-
-
-
 
 
 

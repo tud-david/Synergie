@@ -70,7 +70,7 @@ paths = ['Verbraucher.__ctt__Stromlastverlauf.table', 'Verbraucher.__ctt__Heizla
 ## dict_files is request.FILES
 ## folder and path join have to be removed
 
-def runs_place_sim(model_path, model_name, ctt_paths, records_paths, dict_files):
+def runs_place_sim(ctt_paths, records_paths, dict_files):
     dict_sheet_all = {}
     paths = ctt_paths + records_paths
     for key in dict_files:
@@ -148,16 +148,23 @@ def runs_place_sim(model_path, model_name, ctt_paths, records_paths, dict_files)
     combinations = itertools.product(*dict_comp.values())
     runs = dict(enumerate(combinations))
 
+    return(runs, dict_sheet_all)
+
+def Simulate(runs, dict_sheet_all, model_path, model_name):
     dymola = DymolaInterface()
     dymola.openModel(model_path)
+    dir_path = os.path.dirname(os.path.realpath(model_path))
+    save_root = os.path.join(dir_path, 'results')
+    os.mkdir(save_root)
 
-    for value in runs.values():
+    for key in runs:
+        value = runs.get(key)
         for sheet in value:
             for path in dict_sheet_all.get(sheet).keys():
                 dymola.ExecuteCommand(str(path) + " = " + str(dict_sheet_all[sheet].get(path)))
         log = dymola.getLastErrorLog()
         print(log)
-        boolean = dymola.simulateModel(model_name)
+        boolean = dymola.simulateModel(model_name, resultFile=os.path.join(save_root, 'results' + str(key)))
         print(boolean)
     
     dymola.close()

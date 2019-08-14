@@ -9,6 +9,7 @@ from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm,
 from .models import Simulation
 from .utilities import comp_search, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
 from dymola.dymola_interface import DymolaInterface
+from .Test_sheet_iter import runs_place_sim, Simulate
 
 
 
@@ -105,8 +106,8 @@ def step2(request):
     img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
     xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
     
-    # records_idents, records_paths = search_xml(xml_path)
-    # ctt_idents, ctt_paths = search_xml_ctt(xml_path)
+    records_idents, records_paths = search_xml(xml_path)
+    ctt_idents, ctt_paths = search_xml_ctt(xml_path)
     components = comp_search(xml_path)
 
     if request.method == 'POST':
@@ -119,7 +120,10 @@ def step2(request):
             # dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
             # param_setzen(df_final, model_path)
             # request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
+            runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
             request.session['params_uploaded'] = True
+            request.session['dict_sheet_all'] = dict_sheet_all
+            request.session['runs'] = runs
             return redirect('app1-step3')
     else:
         form = ComponentForm(components)
@@ -146,6 +150,8 @@ def step3(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
     model_name = request.session['model_name']
+    runs = request.session['runs']
+    dict_sheet_all = request.session['dict_sheet_all']
 
     if request.method == 'POST':
         form = FlexForm(request.POST)
@@ -153,6 +159,7 @@ def step3(request):
             #messages.warning(request, 'Alle Eingaben wurden gesetzt')
             print(form.cleaned_data)
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
+            Simulate(runs, dict_sheet_all, model_path, model_name)
             request.session['flex_chosen'] = True
             return redirect('app1-results')
     else:

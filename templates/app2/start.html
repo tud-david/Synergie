@@ -40,12 +40,10 @@
 
 <form class='mainUI' action="" method="post">
     {% csrf_token %}
-    <!----<h4 class="subtitle">Konfiguration des Szenarios</h4>-->
+    <!--<h4 class="subtitle">Konfiguration des Szenarios</h4>-->
 
 
-    <!------------------------------------------------------------------->
-    <!----------------- Konfiguration des Szenarios --------------------->
-    <!------------------------------------------------------------------->
+    
     <div id="Szenario" class="window">
         <div><h2>Schritt 1: Konfiguration des Szenarios</h2></div><br>
         <table width="80%">
@@ -60,9 +58,10 @@
 
             <tr>
                 <td>
-        <div class="label">--> Wenn reale Daten erwünscht: Welche Kalenderwoche soll optimiert werden?</div>
-        <div class="label">--> (Berechnung für das ganze Jahr dauert bis zu 13 Minuten) </div>
-                </td>
+        <div class="label"> Wenn reale Daten erwünscht: Welche Kalenderwoche soll optimiert werden?</div>
+        <div class="label"> (Berechnung für das ganze Jahr dauert bis zu 13 Minuten) </div>
+        
+            </td>
                 <td>
                     <div class="value">{{form.kalenderwoche}}</div>
                 </td>

@@ -120,6 +120,7 @@ def step2(request):
             # dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
             # param_setzen(df_final, model_path)
             # request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
+            print(request.FILES)
             runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
             request.session['params_uploaded'] = True
             request.session['dict_sheet_all'] = dict_sheet_all

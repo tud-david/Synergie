@@ -14,6 +14,9 @@ import numpy as np
 import xlrd
 import itertools
 from datetime import datetime
+import dymola
+from dymola.dymola_interface import DymolaInterface
+from dymola.dymola_exception import DymolaException
 
 ## get the run time
 startTime = datetime.now()
@@ -75,7 +78,10 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
     paths = ctt_paths + records_paths
     for key in dict_files:
         File = dict_files[key]
-        sheetnames = xlrd.open_workbook(File, on_demand=True).sheet_names()
+        xl = pd.ExcelFile(File)
+
+        # sheetnames = xlrd.open_workbook(File, on_demand=True).sheet_names()
+        sheetnames = xl.sheet_names
         dict_sheet = {}
         for element in sheetnames:
             # for key in dict_files:
@@ -153,6 +159,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
 def Simulate(runs, dict_sheet_all, model_path, model_name):
     dymola = DymolaInterface()
     dymola.openModel(model_path)
+    dymola.translateModel(model_name)
     dir_path = os.path.dirname(os.path.realpath(model_path))
     save_root = os.path.join(dir_path, 'results')
     os.mkdir(save_root)
@@ -161,9 +168,10 @@ def Simulate(runs, dict_sheet_all, model_path, model_name):
         value = runs.get(key)
         for sheet in value:
             for path in dict_sheet_all.get(sheet).keys():
+                print(str(path) + " = " + str(dict_sheet_all[sheet].get(path)))
                 dymola.ExecuteCommand(str(path) + " = " + str(dict_sheet_all[sheet].get(path)))
-        log = dymola.getLastErrorLog()
-        print(log)
+                log = dymola.getLastErrorLog()
+                print(log)
         boolean = dymola.simulateModel(model_name, resultFile=os.path.join(save_root, 'results' + str(key)))
         print(boolean)
     

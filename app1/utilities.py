@@ -177,9 +177,6 @@ def simulate_complete(dictionary_rec_ctt, model_path, model_name):
 
 
 
-
-
-
 def simulate_flex(model_name, model_path, sim_duration, param_dict):
     dymola = DymolaInterface()
     # Model muss noch geöffnet sein

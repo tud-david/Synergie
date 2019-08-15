@@ -17,6 +17,7 @@ from datetime import datetime
 import dymola
 from dymola.dymola_interface import DymolaInterface
 from dymola.dymola_exception import DymolaException
+import unicodedata
 
 ## get the run time
 startTime = datetime.now()
@@ -120,6 +121,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
                     output.append(','.join(str(e) for e in row))
 
                 str1 = '[' + ';'.join(str(e) for e in output) + ']'
+                str1 = unicodedata.normalize("NFKD", str1)
 
                 # finally append the ctt string to the param set dictionary so they can only be combined
                 ps_ctt_dict[ctt_key] = str1
@@ -139,6 +141,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
                     output.append(','.join(str(e) for e in row))
 
                 str1 = '[' + ';'.join(str(e) for e in output) + ']'
+                str1 = unicodedata.normalize("NFKD", str1)
                 ps_ctt_dict[ctt_key] = str1
 
             ## for param sets
@@ -158,21 +161,25 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
 
 def Simulate(runs, dict_sheet_all, model_path, model_name):
     dymola = DymolaInterface()
-    dymola.openModel(model_path)
-    dymola.translateModel(model_name)
+    boolean_open = dymola.openModel(model_path)
+    print(boolean_open, 'open')
+    boolean_trans = dymola.translateModel(model_name)
+    print(boolean_trans, 'translate')
     dir_path = os.path.dirname(os.path.realpath(model_path))
     save_root = os.path.join(dir_path, 'results')
     os.mkdir(save_root)
-
+    print(dict_sheet_all)
     for key in runs:
+        set_string = ''
         value = runs.get(key)
         for sheet in value:
             for path in dict_sheet_all.get(sheet).keys():
-                print(str(path) + " = " + str(dict_sheet_all[sheet].get(path)))
-                dymola.ExecuteCommand(str(path) + " = " + str(dict_sheet_all[sheet].get(path)))
-                log = dymola.getLastErrorLog()
-                print(log)
-        boolean = dymola.simulateModel(model_name, resultFile=os.path.join(save_root, 'results' + str(key)))
-        print(boolean)
+                set_string = set_string + str(path) + " = " + str(dict_sheet_all[sheet].get(path)) + ', '             
+        set_string = set_string[:-2]
+        set_string = '(' + set_string + ')'
+        print(set_string)
+        boolean = dymola.simulateModel(model_name + set_string, resultFile=os.path.join(save_root, 'results' + str(key)))
+        print(dymola.getLastError())
+        print(boolean, 'simulate')
     
     dymola.close()

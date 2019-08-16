@@ -226,6 +226,7 @@ def test(request):
     ### 3. step: user chooses simulation to look at in detail --> POST request --> line-plots are displayed
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     res_folder = os.path.join(os.path.dirname(curr_sim.file.path),'results')
+    print(res_folder)
     # time-constant variables
     var_const=["Ergebnisse.E_bs_gesamt","Ergebnisse.E_el_gesamt","Ergebnisse.K_gesamt","Ergebnisse.K_bed_an","Ergebnisse.K_kap_an"]
     var_const_expl=["Brennstoffbedarf","Elektrischer Energiebedarf","Gesamtkosten","Energiekosten","Investment"]
@@ -240,52 +241,53 @@ def test(request):
     
     # Simulation results
     sim_array=os.listdir(res_folder)
+    print(sim_array)
+
+    # visulization page is loaded
+    sim_to_dropdown=['']
+    request.session['simulation']=''
+    request.session['comp_crit']=''
+    request.session['sim_detail']=''
+    
+    # data frame for time-const. vars --> 1. row "simulation" (e.g. waerme_1.mat), following rows containing the name of the variables
+    df_const=pd.DataFrame(columns = ['simulation'] + var_const)
+    print(df_const)
+    # data fram for non-time-const. vars --> see upper df
+    df_var=pd.DataFrame(columns = ['simulation','time'] + var_var) 
+
+    # data frame for Investment
+    df_invest=pd.DataFrame(columns = ['simulation'] + invest_var)
 
 
-    if request.method=="GET":
-        # visulization page is loaded
-        sim_to_dropdown=['']
-        request.session['simulation']=''
-        request.session['comp_crit']=''
-        request.session['sim_detail']=''
+
+    # data is extracted from .mat file and stored in dataframes
+    for i in range(len(sim_array)):
+        print(os.path.join(res_folder, sim_array[i]))
+        sim=SimRes(os.path.join(res_folder, sim_array[i]))
+        df_const.at[i,'simulation']=sim_array[i]
+        df_var.at[i,'simulation']=sim_array[i]
+        df_invest.at[i,'simulation']=sim_array[i]
         
-        # data frame for time-const. vars --> 1. row "simulation" (e.g. waerme_1.mat), following rows containing the name of the variables
-        df_const=pd.DataFrame(columns=['simulation']+var_const)
+        for x in range(len(var_const)):
+            df_const.at[i,var_const[x]]=sim[var_const[x]].values()[len(sim[var_const[x]].values())-1]
+        for x in range(len(var_var)):
+            df_var.at[i,var_var[x]]=sim[var_var[x]].values()   
+            df_var.at[i,'time']=sim[var_var[x]][0][0] 
+        for x in range(len(invest_var)):
+            df_invest.at[i,invest_var[x]]=sim[invest_var[x]].values()[len(sim[invest_var[x]].values())-1]   
+    print(df_invest)
+    # dataframes are stored as session-variables --> not shure if necessary
+    print(df_const)
+    df_const_j = df_const.to_json()
+    df_var_j =df_var.to_json()
+    request.session['df_const'] = df_const_j
+    request.session['df_var'] = df_var_j
 
-        # data fram for non-time-const. vars --> see upper df
-        df_var=pd.DataFrame(columns=['simulation','time']+var_var) 
-
-        # data frame for Investment
-        df_invest=pd.DataFrame(columns=['simulation']+invest_var)
-
-
-
-        # data is extracted from .mat file and stored in dataframes
-        for i in range(len(sim_array)):
-            sim=SimRes(os.path.join(res_folder, sim_array[i]))
-            df_const.at[i,'simulation']=sim_array[i]
-            df_var.at[i,'simulation']=sim_array[i]
-            df_invest.at[i,'simulation']=sim_array[i]
-            
-            for x in range(len(var_const)):
-                df_const.at[i,var_const[x]]=sim[var_const[x]].values()[len(sim[var_const[x]].values())-1]
-            for x in range(len(var_var)):
-                df_var.at[i,var_var[x]]=sim[var_var[x]].values()   
-                df_var.at[i,'time']=sim[var_var[x]][0][0] 
-            for x in range(len(invest_var)):
-                df_invest.at[i,invest_var[x]]=sim[invest_var[x]].values()[len(sim[invest_var[x]].values())-1]   
-        print(df_invest)
-        # dataframes are stored as session-variables --> not shure if necessary
-        df_const=df_const.to_json()
-        df_var=df_var.to_json()
-        request.session['df_const']=df_const
-        request.session['df_var']=df_var
-
-    if request.method=="POST":
-        df_const=request.session['df_const']
-        df_var=request.session['df_var']
-        df_const=pd.read_json(df_const)
-        df_var=pd.read_json(df_var)
+    if request.method == "POST":
+        df_const = request.session['df_const']
+        df_var = request.session['df_var']
+        df_const = pd.read_json(df_const)
+        df_var = pd.read_json(df_var)
 
         # comp_crit is the comparison criterion (e.g. Investment-Cost) which the user has chosen
         comp_crit=request.POST["crit"]
@@ -396,7 +398,7 @@ def test(request):
     c = column(a,b)
 
     script, div = components(c)   
-    return render(request, 'app1/test.html', {'script': script, 'div':div, 'variables': var_const, 'simulations': sim_to_dropdown})
+    return render(request, 'app1/test_visu_speicher.html', {'script': script, 'div':div, 'variables': var_const, 'simulations': sim_to_dropdown})
 
 
 

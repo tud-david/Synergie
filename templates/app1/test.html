@@ -13,7 +13,8 @@
 
 {% block card-inhalt %}
 
-    <form method ="post" name="one">{% csrf_token %}
+    <form method ="post" name="one">
+        {% csrf_token %}
         <h1>1. Select comparison-criterion</h1>
         <select name="crit">
             {% for variable in variables %}

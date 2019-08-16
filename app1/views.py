@@ -224,7 +224,8 @@ def test(request):
     ### 1. step: loading visulization page --> GET request --> variables are extracted from .mat files and stored in pandas dataframe
     ### 2. step: user chooses comparison-criterion and submits --> POST request --> dataframes are sorted by comparison-criterion + barplots are displayed
     ### 3. step: user chooses simulation to look at in detail --> POST request --> line-plots are displayed
-
+    curr_sim = Simulation.objects.get(id=request.session['sim_id'])
+    res_folder = os.path.join(os.path.dirname(curr_sim.file.path),'results')
     # time-constant variables
     var_const=["Ergebnisse.E_bs_gesamt","Ergebnisse.E_el_gesamt","Ergebnisse.K_gesamt","Ergebnisse.K_bed_an","Ergebnisse.K_kap_an"]
     var_const_expl=["Brennstoffbedarf","Elektrischer Energiebedarf","Gesamtkosten","Energiekosten","Investment"]
@@ -238,7 +239,7 @@ def test(request):
     invest_var_expl=["Annuitaeten BHKW","Annuitaeten Elektrodenkessel","Annuitaeten Heizkessel"]
     
     # Simulation results
-    sim_array=["Waerme_1.mat","Waerme_2.mat","Waerme_3.mat","Waerme_4.mat","Waerme_5.mat"]
+    sim_array=os.listdir(res_folder)
 
 
     if request.method=="GET":
@@ -257,9 +258,11 @@ def test(request):
         # data frame for Investment
         df_invest=pd.DataFrame(columns=['simulation']+invest_var)
 
+
+
         # data is extracted from .mat file and stored in dataframes
         for i in range(len(sim_array)):
-            sim=SimRes('C:\\Users\\Lukas\\Desktop\\ETA\\'+sim_array[i])
+            sim=SimRes(os.path.join(res_folder, sim_array[i]))
             df_const.at[i,'simulation']=sim_array[i]
             df_var.at[i,'simulation']=sim_array[i]
             df_invest.at[i,'simulation']=sim_array[i]
@@ -393,7 +396,7 @@ def test(request):
     c = column(a,b)
 
     script, div = components(c)   
-    return render(request, 'test.html',{'script': script, 'div':div, 'variables': var_const, 'simulations': sim_to_dropdown})
+    return render(request, 'app1/test.html', {'script': script, 'div':div, 'variables': var_const, 'simulations': sim_to_dropdown})
 
 
 

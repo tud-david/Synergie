@@ -12,6 +12,8 @@ urlpatterns = [
     path('step3/', views.step3, name='app1-step3'),
     path('step4/', views.step4, name='app1-step4'),
     path('results/', views.results, name='app1-results'),
+    path('test/', views.test, name='app1-visu-test'),
+    
 ]
 
 

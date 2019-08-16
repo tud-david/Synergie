@@ -88,13 +88,12 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
             # for key in dict_files:
             df = pd.read_excel(File, sheet_name=element)
             df = df.replace(np.nan, 0)
-
+     
             for i in range(0, df.shape[0]):
                 for j in range(0, df.shape[1]):
                     for element_path in paths:
                         chunk_paths = element_path.split('.')
-                        if str(df.iloc[i, j]).lower() == chunk_paths[-1].lower() or str(df.iloc[i, j]).lower() == \
-                                chunk_paths[-2].lower():
+                        if str(df.iloc[i, j]).lower() == chunk_paths[-1].lower() or str(df.iloc[i, j]).lower() == chunk_paths[-2].lower():
                             df.iloc[i, j] = element_path
 
             ## if that condition is fullfilled the sheet contains a param set and a combi time table
@@ -103,6 +102,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
             ## create empty dictionary
             ps_ctt_dict = {}
 
+            ## records and ctts
             if df.shape[1] > 3 and 'Bezei' in str(df.iloc[0, 0]):
                 ctt_key = str(df.iloc[0, 2])
 
@@ -160,6 +160,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
     return(runs, dict_sheet_all)
 
 def Simulate(runs, dict_sheet_all, model_path, model_name):
+    idents = ['__ps__','__ctt__', '__ct1ds__', '__ct2ds__']
     dymola = DymolaInterface()
     boolean_open = dymola.openModel(model_path)
     print(boolean_open, 'open')
@@ -169,17 +170,25 @@ def Simulate(runs, dict_sheet_all, model_path, model_name):
     save_root = os.path.join(dir_path, 'results')
     os.mkdir(save_root)
     print(dict_sheet_all)
+    error_list = []
     for key in runs:
         set_string = ''
         value = runs.get(key)
+        run_sheetnames = ''
         for sheet in value:
+            run_sheetnames = run_sheetnames + str(sheet) + '__'
             for path in dict_sheet_all.get(sheet).keys():
-                set_string = set_string + str(path) + " = " + str(dict_sheet_all[sheet].get(path)) + ', '             
+                if idents[0] in path or idents[1] in path or idents[2] in path or idents[3] in path:
+                    set_string = set_string + str(path) + " = " + str(dict_sheet_all[sheet].get(path)) + ', '    
+                else:
+                    error_list.append(path)
         set_string = set_string[:-2]
         set_string = '(' + set_string + ')'
-        print(set_string)
-        boolean = dymola.simulateModel(model_name + set_string, resultFile=os.path.join(save_root, 'results' + str(key)))
-        print(dymola.getLastError())
+        run_sheetnames = run_sheetnames[:-2]
+        boolean = dymola.simulateModel(model_name + set_string, resultFile=os.path.join(save_root, 'results_' + run_sheetnames))
         print(boolean, 'simulate')
+        if len(error_list) > 0:
+            print('These values could not have been set:')
+            print(error_list)
     
     dymola.close()

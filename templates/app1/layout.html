@@ -4,8 +4,11 @@
 
 
 {% block css %}
+  <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-1.3.2.min.css"/>
+  <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.2.min.css"/>
+  <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-tables-1.3.2.min.css"/>
   <link href="{% static 'css/app1.css' %}" rel="stylesheet">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
   <form  method="post" enctype="multipart/form-data">
@@ -77,5 +80,9 @@
 
 
 {% block javascript %}
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-1.3.2.min.js"></script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.2.min.js"></script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-tables-1.3.2.min.js"></script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-api-1.3.2.min.js"></script>
 <script src="{% static 'js/app1.js' %}"></script>
 {% endblock javascript %}

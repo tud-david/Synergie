@@ -73,3 +73,6 @@ class FlexForm(forms.Form):
     # ek = forms.BooleanField(required=False)
     Anzahl_WRG = forms.FloatField(required=False)
     Anzahl_HK = forms.FloatField(required=False)
+
+
+

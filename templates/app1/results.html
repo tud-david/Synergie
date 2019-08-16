@@ -6,13 +6,42 @@
 
 {% block card-inhalt %}
 
+  <form method ="post" name="one">
+    {% csrf_token %}
 
-<h5 class="font-weight-bold"><img class="mr-3" src="https://img.icons8.com/ios/50/000000/cloud-waiting.png">Ihre Simulation läuft jetzt ...</h5>
+    <table class="results border" style="width:100%">
+      <tr>
+        <th>1. Select comparison-criterion</th>
+        <th>2. Select Simulation</th> 
+        <th>Submit here</th>
+      </tr>
+      <tr>
+        <td>    
+          <select name="crit">
+            {% for variable in variables %}
+            <option value="{{variable}}">{{variable}}</option>
+            {% endfor %}
+          </select>
+        </td>
 
-  
-  <br>
-  Sie bekommen eine Benachrichtung wenn die Simulation durchgelaufen ist. Die Ergebnisse können Sie sich dann unter <a href="#">meine Auswertungen</a> 
-  anschauen
+        <td>
+          <select name="crit2">
+            <option value=""></option>
+            {% for simulation in simulations %}
+            <option value="{{simulation}}">{{simulation}}</option>
+            {% endfor %}
+          </select>
+        </td> 
+        <td>
+          <button type="submit" value="Submit">Submit</button>
+        </td>
+      </tr>
+    </table>
+
+  </form>
+
+  {{ div|safe }}
+  {{ script|safe }}
 
 {% endblock %}
 

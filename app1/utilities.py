@@ -244,3 +244,75 @@ def simulate_flex(model_name, model_path, sim_duration, param_dict):
 
     dymola.close()
     # return result
+
+
+
+
+def data2df(res_folder):
+    # time-constant variables
+    var_const=["Ergebnisse.E_bs_gesamt","Ergebnisse.E_el_gesamt","Ergebnisse.K_gesamt","Ergebnisse.K_bed_an","Ergebnisse.K_kap_an"]
+    var_const_expl=["Brennstoffbedarf","Elektrischer Energiebedarf","Gesamtkosten","Energiekosten","Investment"]
+
+    # non-time-constant variables
+    var_var=["Strommarkt.signalBus.Strompreis","Heizkessel.product.y","BHKW_.signalBus_BHKW.P_BHKW","Elektrodenkessel.signalBus_BHKW.P_EK"]
+    var_var_expl=["Strompreis","Leistung Heizkessel","Leistung BHKW","Leistung Elektrodenkessel"]
+
+    # Investment 
+    invest_var=["Annuitaeten.__ps__an.bhkw","Annuitaeten.__ps__an.ek","Annuitaeten.__ps__an.hk"]
+    invest_var_expl=["Annuitaeten BHKW","Annuitaeten Elektrodenkessel","Annuitaeten Heizkessel"]
+
+    sim_array = os.listdir(res_folder)
+
+    # data frame for time-const. vars --> 1. row "simulation" (e.g. waerme_1.mat), following rows containing the name of the variables
+    df_const=pd.DataFrame(columns=['simulation']+var_const)
+
+    # data fram for non-time-const. vars --> see upper df
+    df_var=pd.DataFrame(columns=['simulation','time']+var_var) 
+
+    # data frame for Investment
+    df_invest=pd.DataFrame(columns=['simulation']+invest_var)
+
+    # data is extracted from .mat file and stored in dataframes
+    for i in range(len(sim_array)):
+        sim=SimRes(os.path.join(res_folder, sim_array[i]))
+        df_const.at[i,'simulation']=sim_array[i]
+        df_var.at[i,'simulation']=sim_array[i]
+        df_invest.at[i,'simulation']=sim_array[i]
+        
+        for x in range(len(var_const)):
+            df_const.at[i,var_const[x]]=sim[var_const[x]].values()[len(sim[var_const[x]].values())-1]
+        for x in range(len(var_var)):
+            df_var.at[i,var_var[x]]=sim[var_var[x]].values()   
+            df_var.at[i,'time']=sim[var_var[x]][0][0] 
+        for x in range(len(invest_var)):
+            df_invest.at[i,invest_var[x]]=sim[invest_var[x]].values()[len(sim[invest_var[x]].values())-1]   
+
+
+    # dataframes are stored as session-variables --> not shure if necessary
+    return df_const, df_var, var_const, var_const_expl, var_var, var_var_expl
+
+
+
+def crit_plot_1(var_const_expl, best_const):
+    # each dictionary represents one barplot --> energy and costs   --> still hard coded and ugly
+    energy_dict=best_const.iloc[:,:3]
+    cost_dict=best_const.iloc[:,[0,3,4,5]]
+    # hereee
+    # color-stuff ugly and complicated
+    energy_palette=[(143,53,71),(34,143,156)]
+    cost_palette=[(0,141,180),(0,66,118),(87,101,108)]
+
+    # barplots are created if data is available 
+    p = figure(x_range=energy_dict['simulation'], plot_width=800, plot_height=300, title="Energiebedarf",
+        toolbar_location="below", tools="hover", tooltips="$name" ": " "@$name")
+    p.left[0].formatter.use_scientific = False
+    p.vbar_stack(list(energy_dict.columns[1:]), x='simulation', width=0.9, legend=var_const_expl[:len(energy_dict.columns)-1],color=energy_palette, source=energy_dict)
+    p.yaxis.axis_label = "Energy in kWh"
+    p1 = figure(x_range=cost_dict['simulation'], plot_width=800, plot_height=300, title="Kosten",
+        toolbar_location="below", tools="hover", tooltips="$name" ": " "@$name")
+    p1.left[0].formatter.use_scientific = False
+    p1.vbar_stack(list(cost_dict.columns[1:]), x='simulation', width=0.9,legend=var_const_expl[len(energy_dict)-1:],color=cost_palette, source=cost_dict)
+    p1.yaxis.axis_label = "Cost in €"
+    return p, p1
+
+    

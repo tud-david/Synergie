@@ -7,7 +7,7 @@ import pandas as pd
 import os, sys
 from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
-from .utilities import comp_search, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
+from .utilities import comp_search, data2df, crit_plot_1, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
 from dymola.dymola_interface import DymolaInterface
 from .Test_sheet_iter import runs_place_sim, Simulate
 
@@ -36,6 +36,11 @@ def documentation(request):
 
 
 
+
+
+
+
+
 @login_required
 def info(request):
     request.session['model_name'] = None
@@ -43,12 +48,24 @@ def info(request):
     request.session['model_unpacked'] = False
     request.session['params_uploaded'] = False
     request.session['flex_chosen'] = False
+    request.session['df_const'] = None
+    request.session['df_var'] = None
 
     context={
         'records': os.path.join('\media','app1','ExcelVorlage','Records.zip'), 
         'tables': os.path.join('\media','app1','ExcelVorlage','Tables.zip'), 
     }
     return render(request, 'app1/info.html')
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required
@@ -79,6 +96,17 @@ def start(request):
         'flex_chosen': request.session['flex_chosen'],
     }
     return render(request, 'app1/start.html', context)
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required
@@ -112,13 +140,30 @@ def step1(request):
     return render(request, 'app1/step1.html', context=context)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 @login_required
 def step2(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
-    img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
-    xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
+    # img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
+    # xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
     
+    img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'model.png')
+    xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'modelDescription.xml')
+    
+
     records_idents, records_paths = search_xml(xml_path)
     ctt_idents, ctt_paths = search_xml_ctt(xml_path)
     components = comp_search(xml_path)
@@ -135,6 +180,8 @@ def step2(request):
             # request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
             print(request.FILES)
             runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
+            print('HIER KOMMTS')
+            print(runs)
             request.session['params_uploaded'] = True
             request.session['dict_sheet_all'] = dict_sheet_all
             request.session['runs'] = runs
@@ -159,6 +206,14 @@ def step2(request):
     return render(request, 'app1/step2.html', context)
 
 
+
+
+
+
+
+
+
+
 @login_required
 def step3(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
@@ -173,6 +228,7 @@ def step3(request):
             #messages.warning(request, 'Alle Eingaben wurden gesetzt')
             print(form.cleaned_data)
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
+
             Simulate(runs, dict_sheet_all, model_path, model_name)
             request.session['flex_chosen'] = True
             return redirect('app1-results')
@@ -198,124 +254,35 @@ def step4(request):
 
 
 
+
+
+
+
+
+
 @login_required
 def results(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
-    model_name = request.session['model_name']
-    #dictionary_rec_ctt = request.session['dictionary_rec_ctt']
-    #simulate_complete(dictionary_rec_ctt, model_path, model_name)
-    context = {
-        'step': 4,
-        'file_chosen': request.session['file_chosen'],
-        'model_unpacked': request.session['model_unpacked'],
-        'params_uploaded': request.session['params_uploaded'],
-        'flex_chosen': request.session['flex_chosen'],
-    }
-    return render(request, 'app1/results.html', context=context)
-
-
-
-# TEST visulization
-
-
-
-def test(request):
-    ### 1. step: loading visulization page --> GET request --> variables are extracted from .mat files and stored in pandas dataframe
-    ### 2. step: user chooses comparison-criterion and submits --> POST request --> dataframes are sorted by comparison-criterion + barplots are displayed
-    ### 3. step: user chooses simulation to look at in detail --> POST request --> line-plots are displayed
-    curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     res_folder = os.path.join(os.path.dirname(curr_sim.file.path),'results')
-    print(res_folder)
-    # time-constant variables
-    var_const=["Ergebnisse.E_bs_gesamt","Ergebnisse.E_el_gesamt","Ergebnisse.K_gesamt","Ergebnisse.K_bed_an","Ergebnisse.K_kap_an"]
-    var_const_expl=["Brennstoffbedarf","Elektrischer Energiebedarf","Gesamtkosten","Energiekosten","Investment"]
-
-    # non-time-constant variables
-    var_var=["Strommarkt.signalBus.Strompreis","Heizkessel.product.y","BHKW_.signalBus_BHKW.P_BHKW","Elektrodenkessel.signalBus_BHKW.P_EK"]
-    var_var_expl=["Strompreis","Leistung Heizkessel","Leistung BHKW","Leistung Elektrodenkessel"]
-
-    # Investment 
-    invest_var=["Annuitaeten.__ps__an.bhkw","Annuitaeten.__ps__an.ek","Annuitaeten.__ps__an.hk"]
-    invest_var_expl=["Annuitaeten BHKW","Annuitaeten Elektrodenkessel","Annuitaeten Heizkessel"]
-    
-    # Simulation results
-    sim_array=os.listdir(res_folder)
-    print(sim_array)
-
-    # visulization page is loaded
-    sim_to_dropdown=['']
-    request.session['simulation']=''
-    request.session['comp_crit']=''
-    request.session['sim_detail']=''
-    
-    # data frame for time-const. vars --> 1. row "simulation" (e.g. waerme_1.mat), following rows containing the name of the variables
-    df_const=pd.DataFrame(columns = ['simulation'] + var_const)
-    print(df_const)
-    # data fram for non-time-const. vars --> see upper df
-    df_var=pd.DataFrame(columns = ['simulation','time'] + var_var) 
-
-    # data frame for Investment
-    df_invest=pd.DataFrame(columns = ['simulation'] + invest_var)
+    df_const, df_var, var_const, var_const_expl, var_var, var_var_expl = data2df(res_folder)
+    sim_to_dropdown=''
+    comp_crit=''
+    sim_detail=''
 
 
 
-    # data is extracted from .mat file and stored in dataframes
-    for i in range(len(sim_array)):
-        print(os.path.join(res_folder, sim_array[i]))
-        sim=SimRes(os.path.join(res_folder, sim_array[i]))
-        df_const.at[i,'simulation']=sim_array[i]
-        df_var.at[i,'simulation']=sim_array[i]
-        df_invest.at[i,'simulation']=sim_array[i]
-        
-        for x in range(len(var_const)):
-            df_const.at[i,var_const[x]]=sim[var_const[x]].values()[len(sim[var_const[x]].values())-1]
-        for x in range(len(var_var)):
-            df_var.at[i,var_var[x]]=sim[var_var[x]].values()   
-            df_var.at[i,'time']=sim[var_var[x]][0][0] 
-        for x in range(len(invest_var)):
-            df_invest.at[i,invest_var[x]]=sim[invest_var[x]].values()[len(sim[invest_var[x]].values())-1]   
-    print(df_invest)
-    # dataframes are stored as session-variables --> not shure if necessary
-    print(df_const)
-    df_const_j = df_const.to_json()
-    df_var_j =df_var.to_json()
-    request.session['df_const'] = df_const_j
-    request.session['df_var'] = df_var_j
 
-    if request.method == "POST":
-        df_const = request.session['df_const']
-        df_var = request.session['df_var']
-        df_const = pd.read_json(df_const)
-        df_var = pd.read_json(df_var)
+    if request.method == 'POST':
+        comp_crit = request.POST['crit']
+        sim_detail=request.POST['crit2']
+        const_sorted = df_const.sort_values(by=[comp_crit])
+        best_const = const_sorted.iloc[:3,:]
+        sim_to_dropdown = best_const['simulation']
 
-        # comp_crit is the comparison criterion (e.g. Investment-Cost) which the user has chosen
-        comp_crit=request.POST["crit"]
-        request.session['comp_crit']=comp_crit
 
-        # dataframe is sorted by comparison-criterion
-        const_sorted=df_const.sort_values(by=[comp_crit])
-        # top 3 sorting 
-        best_const=const_sorted.iloc[:3,:]
-        # accessing the simulation names of the top 3 results (e.g. Waerme_32.mat etc)
-        sim_to_dropdown=best_const['simulation']
-        best_const=best_const.to_json()
-        request.session['best_const']=best_const
 
-    if request.method=="POST":
-        # sim_detail is the simulation which the user wants to look at in detail
-        sim_detail=request.POST["crit2"]
-        request.session["sim_detail"]=sim_detail
-    
-    comp_crit=request.session["comp_crit"]
-    sim_detail=request.session["sim_detail"]
-
-    if comp_crit != '':
-        # y != '' means the user submitted a comparison criterion
-
-        best_const=request.session['best_const']
-        best_const=pd.read_json(best_const)
-    
+    if not comp_crit == '':
         # each dictionary represents one barplot --> energy and costs   --> still hard coded and ugly
         energy_dict=best_const.iloc[:,:3]
         cost_dict=best_const.iloc[:,[0,3,4,5]]
@@ -326,36 +293,41 @@ def test(request):
 
         # barplots are created if data is available 
         p = figure(x_range=energy_dict['simulation'], plot_width=800, plot_height=300, title="Energiebedarf",
-               toolbar_location="below", tools="hover", tooltips="$name" ": " "@$name")
+            toolbar_location="below", tools="hover", tooltips="$name" ": " "@$name")
         p.left[0].formatter.use_scientific = False
         p.vbar_stack(list(energy_dict.columns[1:]), x='simulation', width=0.9, legend=var_const_expl[:len(energy_dict.columns)-1],color=energy_palette, source=energy_dict)
         p.yaxis.axis_label = "Energy in kWh"
         p1 = figure(x_range=cost_dict['simulation'], plot_width=800, plot_height=300, title="Kosten",
-               toolbar_location="below", tools="hover", tooltips="$name" ": " "@$name")
+            toolbar_location="below", tools="hover", tooltips="$name" ": " "@$name")
         p1.left[0].formatter.use_scientific = False
         p1.vbar_stack(list(cost_dict.columns[1:]), x='simulation', width=0.9,legend=var_const_expl[len(energy_dict)-1:],color=cost_palette, source=cost_dict)
         p1.yaxis.axis_label = "Cost in €"
+
     else:
         # barplots to display while data not available
-       p = figure(plot_width=800, plot_height=300,toolbar_location="below") 
-       p.line([0,1,2,3],[0,0,0,0])
-       p1 = figure(plot_width=800, plot_height=300, toolbar_location="below") 
-       p1.line([0,1,2,3],[0,0,0,0])
-    if sim_detail != '':
+        p = figure(plot_width=800, plot_height=300,toolbar_location="below") 
+        p.line([0,1,2,3],[0,0,0,0])
+        p1 = figure(plot_width=800, plot_height=300, toolbar_location="below") 
+        p1.line([0,1,2,3],[0,0,0,0])
+
+    
+    
+    
+    if not sim_detail == '':
         # ys2 != '' means user submitted the choice refering the simulation (waerme_1.mat etc)
 
         # dropdown choice 2 
-        request.session['view_detailled']=request.POST["crit2"]
+        # request.session['view_detailled']=request.POST["crit2"]
         #var_var_expl=["Strompreis","Leistung Heizkessel","Leistung BHKW","Leistung Elektrodenkessel"]
         #var_var=["Strommarkt.signalBus.Strompreis","Heizkessel.product.y","BHKW_.signalBus_BHKW.P_BHKW","Elektrodenkessel.signalBus_BHKW.P_EK"]
         
         # dataframe of non-time-constant variables is accessed
-        var_dict=request.session['df_var']
-        base_dict=pd.read_json(var_dict)
+        # var_dict=request.session['df_var']
+        # base_dict=pd.read_json(var_dict)
         
 
         # the variables of the chosen simulation are extracted from the whole dataframe
-        var_dict=(base_dict[base_dict['simulation']==request.session['view_detailled']])
+        var_dict=(df_var[df_var['simulation']==sim_detail])
         
         # converting seconds to days
         time_seconds=var_dict['time'].values[0]
@@ -387,18 +359,51 @@ def test(request):
         # change just some things about the y-axes
         p3.yaxis.axis_label = "Electric-Energy-Price in Euro/kWh"
         p3.line(list(var_dict['time'].values[0]),list(var_dict["Strommarkt.signalBus.Strompreis"].values[0]),legend=var_var_expl[0],color="plum")
+    
+    
     else:
         p2 = figure(plot_width=800, plot_height=300,toolbar_location="below") 
         p2.line([0,1,2,3],[0,0,0,0])
         p3 = figure(plot_width=800, plot_height=300, toolbar_location="below") 
         p3.line([0,1,2,3],[0,0,0,0])
-    # stacking of the figures
-    a = row(p,p1)
-    b = row(p2,p3)
-    c = column(a,b)
 
-    script, div = components(c)   
-    return render(request, 'app1/test_visu_speicher.html', {'script': script, 'div':div, 'variables': var_const, 'simulations': sim_to_dropdown})
+
+
+
+
+
+    a = column(p,p1,p2,p3)
+    script, div = components(a)
+    # b = row(p2,p3)
+    # c = column(a,b)
+
+         
+
+    context = {
+        'step': 4,
+        'file_chosen': request.session['file_chosen'],
+        'model_unpacked': request.session['model_unpacked'],
+        'params_uploaded': request.session['params_uploaded'],
+        'flex_chosen': request.session['flex_chosen'],
+        'variables': var_const, 
+        'simulations': sim_to_dropdown,
+        'script': script,
+        'div': div,
+    }
+    return render(request, 'app1/results.html', context=context)
+
+
+
+# TEST visulization
+
+
+
+
+
+
+
+
+
 
 
 

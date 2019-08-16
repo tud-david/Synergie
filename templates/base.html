@@ -23,10 +23,11 @@
   <link href="https://fonts.googleapis.com/css?family=Gudea:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet"> 
 
   <!-- Custom styles for this template-->
+
   <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
   <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
-  {% block css %}{% endblock %}
+  {% block css %}{% endblock css %}
 
 
 
@@ -292,7 +293,6 @@
 
   <!-- Custom Javascript for different apps -->
   {% block javascript %}{% endblock javascript %}
-
 
 </body>
 

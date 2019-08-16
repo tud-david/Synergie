@@ -369,9 +369,6 @@ def results(request):
 
 
 
-
-
-
     a = column(p,p1,p2,p3)
     script, div = components(a)
     # b = row(p2,p3)

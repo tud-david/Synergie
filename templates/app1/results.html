@@ -9,36 +9,45 @@
   <form method ="post" name="one">
     {% csrf_token %}
 
-    <table class="results border" style="width:100%">
-      <tr>
-        <th>1. Select comparison-criterion</th>
-        <th>2. Select Simulation</th> 
-        <th>Submit here</th>
-      </tr>
-      <tr>
-        <td>    
-          <select name="crit">
-            {% for variable in variables %}
-            <option value="{{variable}}">{{variable}}</option>
-            {% endfor %}
-          </select>
-        </td>
+    <table>
 
-        <td>
-          <select name="crit2">
-            <option value=""></option>
-            {% for simulation in simulations %}
-            <option value="{{simulation}}">{{simulation}}</option>
-            {% endfor %}
-          </select>
-        </td> 
-        <td>
-          <button type="submit" value="Submit">Submit</button>
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <th><h5>1. Vergleichskriterium:</h5></th>
+          <th><h5>2. Simulationslauf:</h5></th> 
+          <th><h5>3. Auswahl übergeben:</h5></th> 
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>    
+            <select name="crit">
+              {% for variable in variables %}
+              <option value="{{variable}}">{{variable}}</option>
+              {% endfor %}
+            </select>
+          </td>
+  
+          <td>
+            <select name="crit2">
+              <option value=""></option>
+              {% for simulation in simulations %}
+              <option value="{{simulation}}">{{simulation}}</option>
+              {% endfor %}
+            </select>
+          </td> 
+
+          <td>
+            <button type="submit" value="Submit">Anwenden</button>
+          </td>
+
+        </tr>
+      </tbody>
     </table>
 
   </form>
+
 
   {{ div|safe }}
   {{ script|safe }}

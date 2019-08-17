@@ -66,6 +66,19 @@ s
 /*# sourceMappingURL=app1.css.map */
 
 
-table.results > td{
+table {
+  table-layout: fixed;
+  width:100%;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+th {
+  height: 40px;
 
 }
+
+th > h5{
+  padding: .5rem 0 .1rem 0;
+}
+

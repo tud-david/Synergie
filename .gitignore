@@ -13,6 +13,3 @@ media/
 # ignore any useless ide created code
 .idea/
 .vscode/
-__pycache__/
-app1/__pycache__/
-users/__pycache__/

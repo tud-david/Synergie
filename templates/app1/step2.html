@@ -9,7 +9,7 @@
 {% block card-inhalt %}
 
       <div class="form-wrapper">
-        <h6>Components</h6>
+        <h6>Komponenten</h6>
         <hr>
         {{ form|crispy }}
 
@@ -24,7 +24,53 @@ Ein Titel für Step 2
 {% endblock %}
 
 {% block infobox-inhalt %} 
-<img class="model_png" src="{{ img_path }}" alt="">
-Und noch mehr Inhalt für diese Box
+
+Es wurden Komponenten identifiziert, die Records und CombiTimeTable beinhalten.
+<img class="border rounded my-3" src="{% static 'img/parameter.png' %}" width="100%">
+
+Die Werte der Records und CombiTimeTables werden durch die aus den hochgeladenen Excel Files ersetzt.
+<br>
+<br>
+Die Bezeichnung der Komponenten ('oe', 'bhkw', etc.) entspringen der <b>Bennungskonvention</b> wie sie in Dymola verwendet wird.
+Damit EASER die Daten korrekt einspeisen kann, müssen die Excel-Workbooks eine gewisse Struktur haben und ebenfalls der 
+Bennungskonvention folgen. Vorlagen für die Excel-Workbooks können sie sich in der Dokumentation oder direkt in den unterstehenden
+Links herunterladen.
+<br>
+
+<div class="my-3">
+    <table class="table" style="table-layout: auto; text-align: left; padding: 0; margin: 0">
+        <thead>
+          <tr>
+            <th>Abkürzung</th>
+            <th>Bezeichnung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>oe</td>
+            <td><a href="">Ökonomisches Parameterset</a></td>
+          </tr>
+          <tr>
+            <td>bhkw</td>
+            <td><a href="">Blockheizkraftwerk</a></td>
+          </tr>
+          <tr>
+            <td>hk</td>
+            <td><a href="">Heizkessel</a></td>
+          </tr>
+          <tr>
+            <td>ek</td>
+            <td><a href="">Elektronenkessel</a></td>
+          </tr>
+        </tbody>
+      </table>
+      
+
+</div>
+
+
+<!-- Das gewählte Modell hat folgende Struktur: -->
+<!-- <img class="model_png" src="{{ img_path }}" alt=""> -->
+
 {% endblock %}
 

@@ -11,8 +11,15 @@
   {{ form|crispy }}
 {% endblock %}
 
-{% block infobox-titel %}{% endblock %}
+{% block infobox-titel %}Modell auswähen{% endblock %}
 
-{% block infobox-inhalt %}{% endblock %}
+{% block infobox-inhalt %}
+EASER durchsucht den Packagebrowser ihrer der Dymoladatei nach Modellen auf einem definierten Pfad.
+
+<br>
+<img src="{% static 'img/packagebrowser.png' %}" alt="" class="border rounded p-3 my-3">
+<br>
+
+{% endblock %}
 
 

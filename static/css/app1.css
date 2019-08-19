@@ -48,8 +48,11 @@
   border: thin solid lightgrey;
   border-radius: .2rem;
   padding: 1rem;
+  margin: .5rem;
+  width: 300px;
+  display: inline-block;
 }
-s
+
 .form-wrapper .form-group input {
   display: block;
 }

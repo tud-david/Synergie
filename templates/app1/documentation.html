@@ -5,11 +5,103 @@
 
 {% block css %}
   <link href="{% static 'css/app1.css' %}" rel="stylesheet">
+  <link href="{% static 'css/app1_doc.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 
-<h1>Dokumentation für App1</h1>
-<p>hier kommt die Doku für die erste App hin</p>
+
+<div class="doc">
+  
+  <img class="float-left mr-3 mb-3" src="{% static 'img/Kachel_Dymola_klein.png'%}" alt="">
+
+  <h3>
+    <b>E</b>nergy <b>A</b>nalysis <b>S</b>upport for <b>E</b>ngineers and Decision-make<b>R</b>s
+    </h3>
+
+  <p>EASER unterstützt die Planung von energieoptimalen Kälte- und Wärmeversorgungssystemen in Produktionsbetrieben. Sie geben den Untersuchungsrahmen sowie die technischen und ökonomischen Randbedingungen Ihres Planungsvorhabens vor und EASER ermittelt für Sie die kostenoptimale Konfiguration (Technologieauswahl und Dimensionierung) des Versorgungssystems. Der Fokus liegt dabei auf Investitionsausgaben und Energiekosten. Durch die zusätzliche Einbeziehung schwankender Strompreise sind mögliche Entwicklungen durch den steigenden Anteil volatiler Erneuerbarer Energien berücksichtigt. 
+    EASER basiert auf einer objektorientierten Simulation in der Programmiersprache Modelica. Für die Nutzung von EASER werden allerdings keine Programmierkenntnisse benötigt, sondern Sie können Ihre Untersuchungen bequem über die webbasierte Oberfläche durchführen. Damit EASER Ihre Eingaben verwerten kann, verwenden Sie bitte folgende Vorlagen:
+  </p>
+
+
+  EASER unterstützt die Planung von energieoptimalen Kälte- und Wärmeversorgungssystemen in Produktionsbetrieben. Sie geben den Untersuchungsrahmen sowie die technischen und ökonomischen Randbedingungen Ihres Planungsvorhabens vor und EASER ermittelt für Sie die kostenoptimale Konfiguration (Technologieauswahl und Dimensionierung) des Versorgungssystems. Der Fokus liegt dabei auf Investitionsausgaben und Energiekosten. Durch die zusätzliche Einbeziehung schwankender Strompreise sind mögliche Entwicklungen durch den steigenden Anteil volatiler Erneuerbarer Energien berücksichtigt. 
+  EASER basiert auf einer objektorientierten Simulation in der Programmiersprache Modelica. Für die Nutzung von EASER werden allerdings keine Programmierkenntnisse benötigt, sondern Sie können Ihre Untersuchungen bequem über die webbasierte Oberfläche durchführen. Damit EASER Ihre Eingaben verwerten kann, verwenden Sie bitte folgende Vorlagen:
+
+
+  <hr>
+  <h6 class="doc">Parametersets</h6> 
+  <p>In sogenannten Parametersets können Sie die technischen Größen der zu untersuchenden Einzelkomponenten eintragen. 
+    Falls Sie die Daten nicht vorliegen haben, kann Ihnen üblicherweise der Hersteller Auskunft geben. 
+    Ansonsten können Sie auch auf die bestehende Datenbank von EASER zurückgreifen. 
+  </p>
+  <div>
+    <a href="/media/app1/excel/records.zip">Link zu den Vorlagen für Records</a>
+  </div>
+
+  <hr>
+  <h6 class="doc">Kälte- und Wärmebedarfe</h6> 
+  <p>Benötigte Temperaturniveaus der Kälte- bzw. WärmeverbraucherDie Temperaturniveaus geben Sie bitte in folgender Form vor:</p>  
+  <div>
+    <a href="/media/app1/excel/bhkw.xlsx">Link zum Record  (__ps__initialisierung)</a>
+  </div>
+
+  <br>
+  <p>Lastgänge für die benötigte Kälte- bzw. WärmeleistungDie Lastgänge geben Sie bitte in folgender Form vor: </p>
+
+  <div>
+    <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Heizlastverlauf, __ctt__Stromlastverlauf) </a>
+  </div>
+
+
+  <hr>
+
+
+
+  <h6 class="doc">Wetterdaten</h6>
+  <p>Die Wetterdaten Ihres Standorts geben Sie bitte  in folgender Form vor: </p>
+
+  <div>
+    <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Temperatur, __ctt__Feuchte)</a>
+  </div>
+
+
+  <hr>
+
+  <h6 class="doc">Strommarktdaten</h6>
+
+  <p>StrompreiseDie Strompreise, die Sie als Untersuchungsgrundlage verwenden möchten geben Sie bitte in folgender Form vor:</p>
+  
+  <div>
+    <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable</a>
+  </div>
+
+
+
+  <hr>
+
+  <h6 class="doc">Administrative Strompreisbestandteile  </h6>
+
+  <p>Die administrative Strompreisbestandteile (z.B. Steuern, Entgelte etc.) geben Sie bitte in folgender Form vor:</p>
+  
+  <div>
+    <a href="/media/app1/excel/bhkw.xlsx">Link zum record (__ps__oe)</a>
+  </div>
+
+
+
+  <hr>
+
+  <h6 class="doc">Basisdaten zur Wirtschaftlichkeitsrechnung</h6>
+
+  <p>Zur Bewertung der Wirtschaftlichkeit werden Ihre Eingaben in folgender Form benötigt :</p>
+  
+  <div>
+    <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Temperatur, __ctt__Feuchte)</a>
+  </div>
+
+
+</div>
+
+
 
 {% endblock content %}

@@ -90,3 +90,7 @@ body{
     background-color: #da8300;
     border-color:#dfa54e;
 }
+
+form.user .btn-user{
+    border-radius: .5rem;
+}

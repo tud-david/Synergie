@@ -60,6 +60,34 @@ class ComponentForm(forms.Form):
             self.fields[field_name] = forms.FileField(required=False, validators=[FileExtensionValidator(allowed_extensions=ps_extensions)])
 
 
+class ComponentFlexForm(forms.Form):
+    def __init__(self, components, *args, **kwargs):
+        super(ComponentFlexForm, self).__init__(*args, **kwargs)
+        ps_extensions = ['xlsx',]
+        for component in components:
+            field_name = component
+            self.fields[field_name] = forms.FileField(required=False, validators=[FileExtensionValidator(allowed_extensions=ps_extensions)])
+
+    flex_var = [('0','Option wählen ...'),
+                ('1','Bivalenz'),
+                ('2','Flexibilisierung der Eigenerzeugung')]
+            
+    flex_var = forms.ChoiceField(required=True, choices=flex_var)
+    
+    konf_BHKW = forms.BooleanField(required=False)
+    konf_Pufferspeicher = forms.BooleanField(required=False)
+    konf_WRG = forms.BooleanField(required=False)
+    konf_HK = forms.BooleanField(required=False)
+
+    Anzahl_WRG = forms.IntegerField(required=False, validators=[MinValueValidator(1),])
+    Anzahl_HK = forms.IntegerField(required=False, validators=[MinValueValidator(1),])
+
+    SimTime = forms.IntegerField(required=True)
+
+
+    ['konf_BHKW','konf_HK', 'konf_Pufferspeicher', 'konf_WRG', 'Anzahl_WRG', 'Anzahl_HK', 'SimTime']
+
+
 class FlexForm(forms.Form):
     flex_var = [('0','Option wählen ...'),
                 ('1','Bivalenz'),

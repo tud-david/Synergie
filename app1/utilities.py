@@ -246,6 +246,29 @@ def simulate_flex(model_name, model_path, sim_duration, param_dict):
     # return result
 
 
+def create_flex_string(param_dict):
+    if '1' in param_dict['flex_var']:
+        # erste Ebene
+        set_string = ", konf_Bivalenz=true, konf_HK=true, konf_BHKW_stromgefuehrt=false"
+        # zweite Ebene
+        set_string = set_string + ", konf_BHKW=" + str(param_dict["konf_BHKW"]) + ", konf_WRG=" + str(param_dict["konf_WRG"]) + ", konf_Pufferspeicher=" + str(param_dict["konf_Pufferspeicher"]) 
+        if not param_dict["Anzahl_HK"] None:
+            set_string = set_string + ", Anzahl_HK=" + str(param_dict["Anzahl_HK"]) 
+        if not param_dict["Anzahl_WRG"] None:
+            set_string = set_string + ", Anzahl_WRG=" + str(param_dict["Anzahl_WRG"])
+    
+    elif '2' in param_dict['flex_var']:
+        # erste Ebene
+        set_string = ", konf_BHKW=true, konf_Bivalenz=false, konf_BHKW_Puffer=true, konf_BHKW_stromgefuehrt=true"
+        # zweite Ebene
+        set_string = set_string + ", konf_HK=" + str(param_dict["konf_HK"]) + ", konf_WRG=" + str(param_dict["konf_WRG"]) 
+        if not param_dict["Anzahl_HK"] None:
+            set_string = set_string + ", Anzahl_HK=" + str(param_dict["Anzahl_HK"]) 
+        if not param_dict["Anzahl_WRG"] None:
+            set_string = set_string + ", Anzahl_WRG=" + str(param_dict["Anzahl_WRG"])
+    else:
+        print("Auswahl der Flexibilisierungsmaßnahme fehlerhaft")
+    return set_string
 
 
 def data2df(res_folder):

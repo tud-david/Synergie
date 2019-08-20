@@ -41,7 +41,7 @@ def search_xml(xml_file):
 
 def comp_search(xml_file):
     root = ET.parse(xml_file).getroot()
-    comps = ['Stromlastverlauf', 'Heizlastverlauf', 'hk', 'pufferspeicher', 'bhkw', 'Preise_Winter', 'Preise_Sommer', 'Preise_Uebergangszeit', 'an', 'ek', 'Feuchte', 'Temperatur', 'oe', 'initialisierung']
+    comps = ['Stromlastverlauf', 'Heizlastverlauf', 'hk', 'pufferspeicher', 'bhkw', 'an', 'ek', 'Temperatur', 'oe', 'initialisierung']
     components = []
     for elem in root.iter('ScalarVariable'):
         for comp in comps:

@@ -13,3 +13,4 @@ media/
 # ignore any useless ide created code
 .idea/
 .vscode/
+db.sqlite3

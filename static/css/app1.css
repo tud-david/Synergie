@@ -49,9 +49,41 @@
   border-radius: .2rem;
   padding: 1rem;
   margin: .5rem;
-  width: 300px;
+  width: 47%;
   display: inline-block;
 }
+
+
+.eflex .form-group {
+  border: thin solid lightgrey;
+  border-radius: .2rem;
+  padding: 1rem;
+  margin: .5rem;
+  width: 47%;
+  display: inline-block;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .form-wrapper .form-group {
+    width: 100%;
+  }
+  .e-flex .form-group {
+    width: 100%;
+  }
+  
+}
+
+@media only screen and (max-width: 800px) {
+  .form-wrapper .form-group {
+    width: 100%;
+  }
+  
+}
+
+
+
+
 
 .form-wrapper .form-group input {
   display: block;

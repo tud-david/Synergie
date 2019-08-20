@@ -1,6 +1,6 @@
 from django import forms
 from .models import Simulation
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator
 
     
 
@@ -71,8 +71,8 @@ class FlexForm(forms.Form):
     konf_WRG = forms.BooleanField(required=False)
     konf_HK = forms.BooleanField(required=False)
     # ek = forms.BooleanField(required=False)
-    Anzahl_WRG = forms.FloatField(required=False)
-    Anzahl_HK = forms.FloatField(required=False)
+    Anzahl_WRG = forms.IntegerField(required=False, validators=[MinValueValidator(1),])
+    Anzahl_HK = forms.IntegerField(required=False, validators=[MinValueValidator(1),])
     SimTime = forms.IntegerField(required=True)
 
 

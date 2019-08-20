@@ -228,10 +228,15 @@ def step3(request):
             #messages.warning(request, 'Alle Eingaben wurden gesetzt')
             print(form.cleaned_data)
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
-
+            
             Simulate(runs, dict_sheet_all, model_path, model_name)
             request.session['flex_chosen'] = True
             return redirect('app1-results')
+        else:
+            messages.warning(request, 'Bitte sinnvolle Eingaben verwenden')
+            return redirect('app1-step3')
+
+
     else:
         form = FlexForm()
         

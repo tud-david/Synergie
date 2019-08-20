@@ -159,7 +159,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
 
     return(runs, dict_sheet_all)
 
-def Simulate(runs, dict_sheet_all, model_path, model_name):
+def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time):
     idents = ['__ps__','__ctt__', '__ct1ds__', '__ct2ds__']
     dymola = DymolaInterface()
     boolean_open = dymola.openModel(model_path)
@@ -185,7 +185,7 @@ def Simulate(runs, dict_sheet_all, model_path, model_name):
         set_string = set_string[:-2]
         set_string = '(' + set_string + ')'
         run_sheetnames = run_sheetnames[:-2]
-        boolean = dymola.simulateModel(model_name + set_string, resultFile=os.path.join(save_root, 'results_' + run_sheetnames))
+        boolean = dymola.simulateModel(model_name + set_string, stopTime=sim_time*86400, resultFile=os.path.join(save_root, 'results_' + run_sheetnames))
         print(boolean, 'simulate')
         if len(error_list) > 0:
             print('These values could not have been set:')

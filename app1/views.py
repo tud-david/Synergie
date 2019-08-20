@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 import xlrd
 import pandas as pd
 import os, sys
-from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
+from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, ComponentFlexForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
 from .utilities import comp_search, data2df, crit_plot_1, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
 from dymola.dymola_interface import DymolaInterface
@@ -146,23 +146,18 @@ def step1(request):
 
 
 
-
-
-
-
-
+# comps = ['Stromlastverlauf', 'Heizlastverlauf', 'hk', 'pufferspeicher', 'bhkw', 'an', 'ek', 'Temperatur', 'oe', 'initialisierung']
 
 
 @login_required
 def step2(request):
     curr_sim = Simulation.objects.get(id=request.session['sim_id'])
     model_path = curr_sim.file.path
-    # img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'~FMUOutput','model.png')
-    # xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'~FMUOutput','modelDescription.xml')
-    
+    model_name = request.session['model_name']
+
     img_path = os.path.join('\media', os.path.dirname(curr_sim.file.name),'model.png')
     xml_path = os.path.join(os.path.dirname(curr_sim.file.path),'modelDescription.xml')
-    
+    konfList = ['konf_BHKW','konf_HK', 'konf_Pufferspeicher', 'konf_WRG', 'Anzahl_WRG', 'Anzahl_HK', 'SimTime', 'flex_var']
 
     records_idents, records_paths = search_xml(xml_path)
     ctt_idents, ctt_paths = search_xml_ctt(xml_path)
@@ -171,23 +166,42 @@ def step2(request):
     if request.method == 'POST':
         # form = ParameterForm(records_idents, request.POST, request.FILES)
         # form_ctt = CombiTableForm(ctt_idents, request.POST, request.FILES)
-        form = ComponentForm(components, request.POST, request.FILES)
+
+        form = ComponentFlexForm(components, request.POST, request.FILES)
 
         if form.is_valid():
             # messages.success(request, 'Die Paramter wurden hochgeladen ...')
             # dictionary_rec_ctt = dict_rec_ctt_fun(request.FILES, records_paths, ctt_paths)
             # param_setzen(df_final, model_path)
             # request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
-            print(request.FILES)
-            runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
-            print('HIER KOMMTS')
-            print(runs)
-            request.session['params_uploaded'] = True
-            request.session['dict_sheet_all'] = dict_sheet_all
-            request.session['runs'] = runs
-            return redirect('app1-step3')
+
+            formDict = form.cleaned_data
+            filesDICT = request.FILES
+            print("hier kommen die daten:", filesDICT)
+
+            # for key in formDict:
+            #     if 'konf' in key and type(formDict[key]) == bool:
+            #         if not formDict[key]:
+            #             print(formDict[key])
+            #             if konf2files[key] in files:
+            #                 print(konf2files[key])
+            #                 del files[konf2files[key]]
+
+
+                        
+
+            # runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
+
+            # Simulate(runs, dict_sheet_all, model_path, model_name, sim_time)
+
+            # print('HIER KOMMTS')
+            # print(runs)
+            # request.session['params_uploaded'] = True
+            # request.session['dict_sheet_all'] = dict_sheet_all
+            # request.session['runs'] = runs
+            return redirect('app1-results')
     else:
-        form = ComponentForm(components)
+        form = ComponentFlexForm(components)
         # form = ParameterForm(records_idents)
         # form_ctt = CombiTableForm(ctt_idents)
 
@@ -202,6 +216,7 @@ def step2(request):
         'model_unpacked': request.session['model_unpacked'],
         'params_uploaded': request.session['params_uploaded'],
         'flex_chosen': request.session['flex_chosen'],
+        'konfList' : konfList,
     }
     return render(request, 'app1/step2.html', context)
 
@@ -228,7 +243,7 @@ def step3(request):
             #messages.warning(request, 'Alle Eingaben wurden gesetzt')
             print(form.cleaned_data)
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
-            
+
             Simulate(runs, dict_sheet_all, model_path, model_name)
             request.session['flex_chosen'] = True
             return redirect('app1-results')

@@ -36,8 +36,6 @@ $(document).ready(function() {
             $("#komponenten").show();
             $("#komponenten").children().show();
 
-            $("#div_id_bhkw").hide();
-            $("#div_id_pufferspeicher").hide();
             $("#div_id_ek").hide();
           break;
     };

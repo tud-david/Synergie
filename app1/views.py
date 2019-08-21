@@ -7,7 +7,7 @@ import pandas as pd
 import os, sys
 from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, ComponentFlexForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
-from .utilities import comp_search, data2df, crit_plot_1, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
+from .utilities import comp_search, create_flex_string, data2df, crit_plot_1, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
 from dymola.dymola_interface import DymolaInterface
 from .Test_sheet_iter import runs_place_sim, Simulate
 
@@ -176,23 +176,10 @@ def step2(request):
             # request.session['dictionary_rec_ctt'] = dictionary_rec_ctt
 
             formDict = form.cleaned_data
-            filesDICT = request.FILES
-            print("hier kommen die daten:", filesDICT)
-
-            # for key in formDict:
-            #     if 'konf' in key and type(formDict[key]) == bool:
-            #         if not formDict[key]:
-            #             print(formDict[key])
-            #             if konf2files[key] in files:
-            #                 print(konf2files[key])
-            #                 del files[konf2files[key]]
-
-
-                        
-
-            # runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
-
-            # Simulate(runs, dict_sheet_all, model_path, model_name, sim_time)
+            sim_time = formDict['SimTime']
+            inputString = create_flex_string(formDict)     
+            runs, dict_sheet_all = runs_place_sim(ctt_paths, records_paths, request.FILES)
+            Simulate(runs, dict_sheet_all, model_path, model_name, sim_time, inputString)
 
             # print('HIER KOMMTS')
             # print(runs)
@@ -263,6 +250,7 @@ def step3(request):
         'model_unpacked': request.session['model_unpacked'],
         'params_uploaded': request.session['params_uploaded'],
         'flex_chosen': request.session['flex_chosen'],
+        'ladezeit': True,
     }
     return render(request, 'app1/step3.html', context)
 
@@ -290,15 +278,16 @@ def results(request):
     comp_crit=''
     sim_detail=''
 
-
-
-
     if request.method == 'POST':
-        comp_crit = request.POST['crit']
-        sim_detail=request.POST['crit2']
-        const_sorted = df_const.sort_values(by=[comp_crit])
-        best_const = const_sorted.iloc[:3,:]
-        sim_to_dropdown = best_const['simulation']
+        if not os.listdir(res_folder):
+            messages.warning(request, 'Es wurden keine Ergebnisse erzeugt')
+            return redirect('app1-results')
+        else:
+            comp_crit = request.POST['crit']
+            sim_detail = request.POST['crit2']
+            const_sorted = df_const.sort_values(by=[comp_crit])
+            best_const = const_sorted.iloc[:3,:]
+            sim_to_dropdown = best_const['simulation']
 
 
 

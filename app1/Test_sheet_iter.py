@@ -9,6 +9,7 @@
 # }
 
 import os
+import shutil
 import pandas as pd
 import numpy as np
 import xlrd
@@ -159,7 +160,7 @@ def runs_place_sim(ctt_paths, records_paths, dict_files):
 
     return(runs, dict_sheet_all)
 
-def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time):
+def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time, inputString):
     idents = ['__ps__','__ctt__', '__ct1ds__', '__ct2ds__']
     dymola = DymolaInterface()
     boolean_open = dymola.openModel(model_path)
@@ -183,8 +184,11 @@ def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time):
                 else:
                     error_list.append(path)
         set_string = set_string[:-2]
-        set_string = '(' + set_string + ')'
+        set_string = '(' + set_string + inputString + ')'
+        print(set_string)
         run_sheetnames = run_sheetnames[:-2]
+        # if os.path.join(save_root, 'results'):
+        #     shutil.rmtree(os.path.join(save_root, 'results'), ignore_errors=True)
         boolean = dymola.simulateModel(model_name + set_string, stopTime=sim_time*86400, resultFile=os.path.join(save_root, 'results_' + run_sheetnames))
         print(boolean, 'simulate')
         if len(error_list) > 0:

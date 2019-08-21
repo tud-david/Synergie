@@ -5,6 +5,14 @@ from django.contrib.auth.models import User
 import xlrd
 import pandas as pd
 import os, sys
+import sys
+sys.path.insert(0, os.path.join('C:\\',
+                                'Program Files',
+                                'Dymola 2019 FD01',
+                                'Modelica',
+                                'Library',
+                                'python_interface',
+                                'dymola.egg'))
 from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, ComponentFlexForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
 from .utilities import comp_search, create_flex_string, data2df, crit_plot_1, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
@@ -19,12 +27,6 @@ from bokeh.models import HoverTool
 import bokeh.colors.named 
 from bokeh.plotting import figure, show, output_file
 from bokeh.layouts import column, row
-
-
-
-
-
-
 
 
 def layout(request):

@@ -232,7 +232,7 @@ def step3(request):
             #simulate_flex(model_name, model_path, 1, form.cleaned_data)
 
             Simulate(runs, dict_sheet_all, model_path, model_name)
-            request.session['flex_chosen'] = True
+            request.session['params_uploaded'] = True
             return redirect('app1-results')
         else:
             messages.warning(request, 'Bitte sinnvolle Eingaben verwenden')

@@ -94,3 +94,10 @@ body{
 form.user .btn-user{
     border-radius: .5rem;
 }
+
+
+.app{
+    background-image: url(/static/img/folie2.png);
+    background-size: cover;
+    height: 100%;
+}

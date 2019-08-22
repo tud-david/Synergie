@@ -20,12 +20,12 @@ def register(request):
             return redirect('dashboard-view')
     else:
         form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form, 'page': 'register'})
 
 
 @login_required
 def dashboard(request):
-    return render(request, 'users/dashboard.html')
+    return render(request, 'users/dashboard.html', {'page': 'Dashboard'})
 
 
 @login_required
@@ -44,7 +44,7 @@ def ablage(request):
 
     else:
         form = SimulationForm()
-    return render(request, 'users/ablage.html', {'form': form, 'files': files})
+    return render(request, 'users/ablage.html', {'form': form, 'files': files, 'page': 'Ablage'})
 
 
 

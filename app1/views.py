@@ -5,6 +5,14 @@ from django.contrib.auth.models import User
 import xlrd
 import pandas as pd
 import os, sys
+import sys
+sys.path.insert(0, os.path.join('C:\\',
+                                'Program Files',
+                                'Dymola 2019 FD01',
+                                'Modelica',
+                                'Library',
+                                'python_interface',
+                                'dymola.egg'))
 from .forms import ModelFileForm, ParameterForm, ModelSelectForm, ComponentForm, ComponentFlexForm, SimulationForm, FlexForm, CombiTableForm, SimSelectForm
 from .models import Simulation
 from .utilities import comp_search, create_flex_string, data2df, crit_plot_1, get_unzip_FMU, search_xml, PackageBrowser, param_setzen, search_xml_ctt, simulate_flex, dict_rec_ctt_fun, simulate_complete
@@ -21,18 +29,12 @@ from bokeh.plotting import figure, show, output_file
 from bokeh.layouts import column, row
 
 
-
-
-
-
-
-
 def layout(request):
     return render(request, 'app1/layout.html')
 
 
 def documentation(request):
-    return render(request, 'app1/documentation.html')
+    return render(request, 'app1/documentation.html', {'page' : 'EASER',})
 
 
 
@@ -52,10 +54,10 @@ def info(request):
     request.session['df_var'] = None
 
     context={
-        'records': os.path.join('\media','app1','ExcelVorlage','Records.zip'), 
-        'tables': os.path.join('\media','app1','ExcelVorlage','Tables.zip'), 
+        'page' : 'EASER',
     }
-    return render(request, 'app1/info.html')
+
+    return render(request, 'app1/info.html', context)
 
 
 
@@ -94,6 +96,7 @@ def start(request):
         'model_unpacked': request.session['model_unpacked'],
         'params_uploaded': request.session['params_uploaded'],
         'flex_chosen': request.session['flex_chosen'],
+        'page' : 'EASER',
     }
     return render(request, 'app1/start.html', context)
 
@@ -136,6 +139,7 @@ def step1(request):
         'model_unpacked': request.session['model_unpacked'],
         'params_uploaded': request.session['params_uploaded'],
         'flex_chosen': request.session['flex_chosen'],
+        'page' : 'EASER',
     }
     return render(request, 'app1/step1.html', context=context)
 
@@ -204,9 +208,9 @@ def step2(request):
         'params_uploaded': request.session['params_uploaded'],
         'flex_chosen': request.session['flex_chosen'],
         'konfList' : konfList,
+        'page' : 'EASER',
     }
     return render(request, 'app1/step2.html', context)
-
 
 
 
@@ -251,6 +255,7 @@ def step3(request):
         'params_uploaded': request.session['params_uploaded'],
         'flex_chosen': request.session['flex_chosen'],
         'ladezeit': True,
+        'page' : 'EASER',
     }
     return render(request, 'app1/step3.html', context)
 
@@ -395,6 +400,7 @@ def results(request):
         'simulations': sim_to_dropdown,
         'script': script,
         'div': div,
+        'page' : 'EASER',
     }
     return render(request, 'app1/results.html', context=context)
 

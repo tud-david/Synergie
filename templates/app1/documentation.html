@@ -30,10 +30,33 @@
   <br>
   <hr>
   <h6 class="doc">Funktionsweise des Webtools</h6>
-  <img src="{% static 'img/prozess.jpg'%}" alt="" width="auto">
+  <!-- <img src="{% static 'img/prozess.jpg'%}" alt="" width="auto"> -->
+
+  <style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{padding:13px 15px;border-style:solid; border-width:1px;overflow:hidden;word-break:normal;border-color:lightgray;}
+    .tg th{padding:13px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:lightgray;}
+    .tg .tg-0lax{text-align:left;vertical-align:top}
+    </style>
+    <table class="tg">
+      <tr>
+        <th class="tg-0lax">1. Datei hochladen</th>
+        <th class="tg-0lax">2. Modell wählen</th>
+        <th class="tg-0lax">3. Konfiguration</th>
+        <th class="tg-0lax">4. Ergebnisse</th>
+      </tr>
+
+      <tr>
+        <td class="tg-0lax">In ihrer Ablage können sie Simulationsdateien des Typs .mo hochladen.</td>
+        <td class="tg-0lax">In ihrer Datei können sich zuweilen mehrere Modelle befinden. EASER identifiziert dieseModelle und sie können eins wählen.</td>
+        <td class="tg-0lax">An dieser Stelle können sie verschiedenen Einstellungen an ihrem Modell vornehmen.</td>
+        <td class="tg-0lax">Ihnen werden die Top Drei Ergebnisse ausgegeben.</td>
+      </tr>
+    </table>
 
 
-  Bei dem Finden der Variablen wird auf eine Bennenungskonvention zurückgegriffen:
+  Damit Parametersets und CombiTimeTables in ihrem Modell indetifiziert werden können müssen die Variablen entsprechend
+  der folgend ausgelegten Bennenungskonvention benannt werden.
   
   <div class="my-3">
     <table class="table" style="table-layout: auto; text-align: left; padding: 0; margin: 0">
@@ -59,6 +82,16 @@
           <tr>
             <td>ek</td>
             <td><a href="">Elektronenkessel</a></td>
+          </tr>
+
+          <tr>
+            <td>ps</td>
+            <td><a href="">Pufferspeicher</a></td>
+          </tr>
+
+          <tr>
+            <td>an</td>
+            <td><a href="">Annuität</a></td>
           </tr>
         </tbody>
       </table>

@@ -80,6 +80,14 @@
         </div>
       </li>
 
+      <li class="nav-item" id="EASER">
+        <a class="nav-link collapsed" href="http://130.83.225.183:8001/" >
+          <i class="fab fa-modx"></i>
+          <span>Zu den anderen Apps</span>
+        </a>
+      </li>
+
+
 
       <!-- Nav Item - Utilities Collapse Menu -->
 
@@ -117,11 +125,11 @@
       <!-- Main Content -->
       <div id="content">
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top border-bottom">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar static-top border-bottom">
           <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+          <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
-          </button>
+          </button> -->
 
           <!-- Topbar Sidebar Collapse -->
           <!-- <div class="menu-collapse">
@@ -130,9 +138,23 @@
             </a>             
           </div> -->
 
+          <h6 class="m-0 px-3"> <b>Home</b> / {{ page }}</h6>
+
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
             <!-- Nav Item - Alerts -->
+
+            {% if request.user.is_superuser %}
+              <li class="nav-item mx-1">
+                <a class="nav-link" href="{% url 'register-view' %}">
+                  <i class="fas fa-user-plus fa-fw"></i>
+                  <!-- Counter - Messages -->
+                  <span class="badge badge-danger badge-counter hide"></span>
+                </a>
+              </li>
+            {% endif %}
+
+
             <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
@@ -169,15 +191,7 @@
             </li>
 
 
-            {% if request.user.is_superuser %}
-              <li class="nav-item mx-1">
-                <a class="nav-link" href="{% url 'register-view' %}">
-                  <i class="fas fa-user-plus fa-fw"></i>
-                  <!-- Counter - Messages -->
-                  <span class="badge badge-danger badge-counter hide"></span>
-                </a>
-              </li>
-            {% endif %}
+
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -218,7 +232,7 @@
 
 
         <!-- Begin Page Content -->
-        <div class="container-fluid app">
+        <div class="container-fluid app py-4">
           {% if messages %}
             {% for message in messages %}
               <div class="mt-3 alert alert-{{ message.tags }}">
@@ -227,7 +241,7 @@
             {% endfor %}
           {% endif %}
           <!-- Page Heading -->
-              {% block content %}{% endblock %} 
+          {% block content %}{% endblock %} 
 
         </div>
         <!-- /.container-fluid -->

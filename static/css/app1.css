@@ -10,16 +10,18 @@
 .card{
   margin-bottom: 1rem;
 }
+
+
 .card .info{
-  background-color: #1d393b;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #336467), to(#1d393b));
-  background-image: linear-gradient(300deg, #336467 30%, #2a5a5c 100%);
-  background-size: cover;
+  background-color: rgba(87, 101, 108);
   color: white!important;
 }
 
+
+
 .custom-header{
-  background-color: rgba(171, 245, 106, 0.48);
+  background-color: rgba(34, 143, 156);
+  color: white!important;
 }
 
 

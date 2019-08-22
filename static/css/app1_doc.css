@@ -1,8 +1,10 @@
 
 h6.doc{
-    background-color: white;
+    /* background-color: white; */
     border-radius: 5px;
     width: 100%;
     padding: 1rem;
     border: thin solid lightgray;
+    background-color: rgba(87, 101, 108, 0.5);
+    color: white;
 }

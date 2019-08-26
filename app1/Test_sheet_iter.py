@@ -169,7 +169,8 @@ def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time, inputString
     print(boolean_trans, 'translate')
     dir_path = os.path.dirname(os.path.realpath(model_path))
     save_root = os.path.join(dir_path, 'results')
-    # os.mkdir(save_root)
+    if not os.path.exists(save_root):
+        os.mkdir(save_root)
     print(dict_sheet_all)
     error_list = []
     for key in runs:
@@ -191,6 +192,8 @@ def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time, inputString
         #     shutil.rmtree(os.path.join(save_root, 'results'), ignore_errors=True)
         boolean = dymola.simulateModel(model_name + set_string, stopTime=sim_time*86400, resultFile=os.path.join(save_root, 'results_' + run_sheetnames))
         print(boolean, 'simulate')
+        log = dymola.getLastErrorLog()
+        print('Error Sim: ', log)
         if len(error_list) > 0:
             print('These values could not have been set:')
             print(error_list)

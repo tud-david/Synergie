@@ -27,143 +27,156 @@
   EASER unterstützt die Planung von energieoptimalen Kälte- und Wärmeversorgungssystemen in Produktionsbetrieben. Sie geben den Untersuchungsrahmen sowie die technischen und ökonomischen Randbedingungen Ihres Planungsvorhabens vor und EASER ermittelt für Sie die kostenoptimale Konfiguration (Technologieauswahl und Dimensionierung) des Versorgungssystems. Der Fokus liegt dabei auf Investitionsausgaben und Energiekosten. Durch die zusätzliche Einbeziehung schwankender Strompreise sind mögliche Entwicklungen durch den steigenden Anteil volatiler Erneuerbarer Energien berücksichtigt. 
   EASER basiert auf einer objektorientierten Simulation in der Programmiersprache Modelica. Für die Nutzung von EASER werden allerdings keine Programmierkenntnisse benötigt, sondern Sie können Ihre Untersuchungen bequem über die webbasierte Oberfläche durchführen. Damit EASER Ihre Eingaben verwerten kann, verwenden Sie bitte folgende Vorlagen:
   
-  <br>
-  <hr>
+  
   <h6 class="doc">Funktionsweise des Webtools</h6>
   <!-- <img src="{% static 'img/prozess.jpg'%}" alt="" width="auto"> -->
-
+  <div class="m-3">
   <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
     .tg td{padding:13px 15px;border-style:solid; border-width:1px;overflow:hidden;word-break:normal;border-color:lightgray;}
     .tg th{padding:13px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:lightgray;}
     .tg .tg-0lax{text-align:left;vertical-align:top}
-    </style>
-    <table class="tg">
-      <tr>
-        <th class="tg-0lax">1. Datei hochladen</th>
-        <th class="tg-0lax">2. Modell wählen</th>
-        <th class="tg-0lax">3. Konfiguration</th>
-        <th class="tg-0lax">4. Ergebnisse</th>
-      </tr>
+  </style>
 
-      <tr>
-        <td class="tg-0lax">In ihrer Ablage können sie Simulationsdateien des Typs .mo hochladen.</td>
-        <td class="tg-0lax">In ihrer Datei können sich zuweilen mehrere Modelle befinden. EASER identifiziert dieseModelle und sie können eins wählen.</td>
-        <td class="tg-0lax">An dieser Stelle können sie verschiedenen Einstellungen an ihrem Modell vornehmen.</td>
-        <td class="tg-0lax">Ihnen werden die Top Drei Ergebnisse ausgegeben.</td>
-      </tr>
-    </table>
+  <table class="tg">
+    <tr>
+      <th class="tg-0lax">1. Datei hochladen</th>
+      <th class="tg-0lax">2. Modell wählen</th>
+      <th class="tg-0lax">3. Konfiguration</th>
+      <th class="tg-0lax">4. Ergebnisse</th>
+    </tr>
+
+    <tr>
+      <td class="tg-0lax">In ihrer Ablage können sie Simulationsdateien des Typs .mo hochladen.</td>
+      <td class="tg-0lax">In ihrer Datei können sich zuweilen mehrere Modelle befinden. EASER identifiziert 
+        dieseModelle und sie können eins wählen.</td>
+      <td class="tg-0lax">An dieser Stelle können sie verschiedenen Einstellungen 
+        an ihrem Modell vornehmen.</td>
+      <td class="tg-0lax">Ihnen werden die Top Drei Ergebnisse ausgegeben.</td>
+    </tr>
+  </table>
 
 
-  Damit Parametersets und CombiTimeTables in ihrem Modell indetifiziert werden können müssen die Variablen entsprechend
-  der folgend ausgelegten Bennenungskonvention benannt werden.
+  <p> Damit Parametersets und CombiTimeTables in ihrem Modell indetifiziert werden können müssen die Variablen entsprechend
+    der folgend ausgelegten Bennenungskonvention benannt werden. <br></p>
   
-  <div class="my-3">
+  
+
     <table class="table" style="table-layout: auto; text-align: left; padding: 0; margin: 0">
         <thead>
           <tr>
             <th>Abkürzung</th>
             <th>Bezeichnung</th>
+            <th>Beschreibung</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>oe</td>
             <td><a href="">Ökonomisches Parameterset</a></td>
+            <td>In diesem Parameter befinden sich Werte zu ökonomischen Größen der Simulation</td>
           </tr>
           <tr>
             <td>bhkw</td>
             <td><a href="">Blockheizkraftwerk</a></td>
+            <td>In diesem Parameterset befinden sich Werte zum Blockheizkraftwerk.</td>
           </tr>
           <tr>
             <td>hk</td>
             <td><a href="">Heizkessel</a></td>
+            <td>Beschreibung HK</td>
           </tr>
           <tr>
             <td>ek</td>
             <td><a href="">Elektronenkessel</a></td>
+            <td>Beschreibung EK</td>
           </tr>
 
           <tr>
             <td>ps</td>
             <td><a href="">Pufferspeicher</a></td>
+            <td>Beschreibung PS</td>
           </tr>
 
           <tr>
             <td>an</td>
             <td><a href="">Annuität</a></td>
+            <td>Beschreibung AN </td>
           </tr>
         </tbody>
       </table>
     </div>
-  <hr>
+
+
+
+
+
   <h6 class="doc">Parametersets</h6> 
-  <p>In sogenannten Parametersets können Sie die technischen Größen der zu untersuchenden Einzelkomponenten eintragen. 
+  <p class="pl-3">In sogenannten Parametersets können Sie die technischen Größen der zu untersuchenden Einzelkomponenten eintragen. 
     Falls Sie die Daten nicht vorliegen haben, kann Ihnen üblicherweise der Hersteller Auskunft geben. 
     Ansonsten können Sie auch auf die bestehende Datenbank von EASER zurückgreifen. 
   </p>
-  <div>
+
+  <div class="pl-3">
     <a href="/media/app1/excel/records.zip">Link zu den Vorlagen für Records</a>
   </div>
 
-  <hr>
+
+  
+
   <h6 class="doc">Kälte- und Wärmebedarfe</h6> 
-  <p>Benötigte Temperaturniveaus der Kälte- bzw. WärmeverbraucherDie Temperaturniveaus geben Sie bitte in folgender Form vor:</p>  
-  <div>
+  <p class="pl-3">Benötigte Temperaturniveaus der Kälte- bzw. WärmeverbraucherDie Temperaturniveaus geben Sie bitte in folgender Form vor:</p>  
+  <div class="pl-3">
     <a href="/media/app1/excel/bhkw.xlsx">Link zum Record  (__ps__initialisierung)</a>
   </div>
 
   <br>
-  <p>Lastgänge für die benötigte Kälte- bzw. WärmeleistungDie Lastgänge geben Sie bitte in folgender Form vor: </p>
+  <p class="pl-3">Lastgänge für die benötigte Kälte- bzw. WärmeleistungDie Lastgänge geben Sie bitte in folgender Form vor: </p>
 
-  <div>
+  <div class="pl-3">
     <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Heizlastverlauf, __ctt__Stromlastverlauf) </a>
   </div>
 
 
-  <hr>
+
 
 
 
   <h6 class="doc">Wetterdaten</h6>
-  <p>Die Wetterdaten Ihres Standorts geben Sie bitte  in folgender Form vor: </p>
+  <p class="pl-3">Die Wetterdaten Ihres Standorts geben Sie bitte  in folgender Form vor: </p>
 
-  <div>
+  <div class="pl-3">
     <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Temperatur, __ctt__Feuchte)</a>
   </div>
 
 
-  <hr>
+
 
   <h6 class="doc">Strommarktdaten</h6>
 
-  <p>StrompreiseDie Strompreise, die Sie als Untersuchungsgrundlage verwenden möchten geben Sie bitte in folgender Form vor:</p>
+  <p class="pl-3">StrompreiseDie Strompreise, die Sie als Untersuchungsgrundlage verwenden möchten geben Sie bitte in folgender Form vor:</p>
   
-  <div>
+  <div class="pl-3">
     <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Strommarktdaten)</a>
   </div>
 
 
 
-  <hr>
+
 
   <h6 class="doc">Administrative Strompreisbestandteile  </h6>
 
-  <p>Die administrative Strompreisbestandteile (z.B. Steuern, Entgelte etc.) geben Sie bitte in folgender Form vor:</p>
+  <p class="pl-3">Die administrative Strompreisbestandteile (z.B. Steuern, Entgelte etc.) geben Sie bitte in folgender Form vor:</p>
   
-  <div>
-    <a href="/media/app1/excel/bhkw.xlsx">Link zum record (__ps__oe)</a>
-  </div>
+  <div class="pl-3"><a href="/media/app1/excel/bhkw.xlsx">Link zum record (__ps__oe)</a></div>
 
 
-
-  <hr>
 
   <h6 class="doc">Basisdaten zur Wirtschaftlichkeitsrechnung</h6>
 
-  <p>Zur Bewertung der Wirtschaftlichkeit werden Ihre Eingaben in folgender Form benötigt :</p>
+  <p class="pl-3">Zur Bewertung der Wirtschaftlichkeit werden Ihre Eingaben in folgender Form benötigt :</p>
   
-  <div>
+  <div class="pl-3">
     <a href="/media/app1/excel/bhkw.xlsx">Link zum CombiTimeTable (__ctt__Wirtschaftlichkeit)</a>
   </div>
 

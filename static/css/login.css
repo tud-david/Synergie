@@ -2,3 +2,8 @@
     width: 600px;
 }
 
+.bg-gradient-primary{
+    background-image: url(/static/img/overlay2.png);
+    background-size: cover;
+}
+

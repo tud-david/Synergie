@@ -7,4 +7,9 @@ h6.doc{
     border: thin solid lightgray;
     background-color: rgba(87, 101, 108, 0.5);
     color: white;
+    margin-top: 2rem;
+}
+
+p.doc{
+    padding: 1rem;
 }

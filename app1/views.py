@@ -237,6 +237,8 @@ def step3(request):
 
             Simulate(runs, dict_sheet_all, model_path, model_name)
             request.session['params_uploaded'] = True
+            request.session['flex_chosen'] = True
+            
             return redirect('app1-results')
         else:
             messages.warning(request, 'Bitte sinnvolle Eingaben verwenden')
@@ -263,10 +265,6 @@ def step3(request):
 
 def step4(request):
     return render(request, 'app1/step4.html')
-
-
-
-
 
 
 
@@ -401,6 +399,7 @@ def results(request):
         'script': script,
         'div': div,
         'page' : 'EASER',
+        'sim': curr_sim,
     }
     return render(request, 'app1/results.html', context=context)
 

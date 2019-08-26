@@ -169,7 +169,7 @@ def Simulate(runs, dict_sheet_all, model_path, model_name, sim_time, inputString
     print(boolean_trans, 'translate')
     dir_path = os.path.dirname(os.path.realpath(model_path))
     save_root = os.path.join(dir_path, 'results')
-    os.mkdir(save_root)
+    # os.mkdir(save_root)
     print(dict_sheet_all)
     error_list = []
     for key in runs:

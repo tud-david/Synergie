@@ -1,16 +1,67 @@
+Building FMU (Visual C++) 
+64-bit mode activated. 
+Compiling the model (Visual C++) with FMI. 
  
-Compiling and linking the model (Visual C++). 
- 
+fmi2Functions.c
 dsmodel.c
-dsmodel.c(9617): warning C4244: "Funktion": Konvertierung von "double" in "int", m”glicher Datenverlust
+C:/Program Files/Dymola 2019 FD01\source\matrixop.h(201): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+C:/Program Files/Dymola 2019 FD01\source\matrixop.h(993): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(157): warning C4090: "Funktion": Unterschiedliche "const"-Qualifizierer
+c:\program files\dymola 2019 fd01\source\matrixop.c(3129): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3519): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3567): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3577): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3586): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3595): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3607): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3617): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3627): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+c:\program files\dymola 2019 fd01\source\matrixop.c(3712): warning C4267: "Funktion": Konvertierung von "size_t" nach "SizeType", Datenverlust m”glich
+C:/Program Files/Dymola 2019 FD01\source\ModelicaStrings.c(99): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust m”glich
+C:/Program Files/Dymola 2019 FD01\source\ModelicaStrings.c(132): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust m”glich
+C:/Program Files/Dymola 2019 FD01\source\ModelicaStrings.c(230): warning C4244: "return": Konvertierung von "__int64" in "int", m”glicher Datenverlust
+dsmodel.c(10093): warning C4244: "Funktion": Konvertierung von "double" in "int", m”glicher Datenverlust
 dsmodelext1.c
+dsmodelext2.c
 Code wird generiert...
-   Bibliothek "dymosim.lib" und Objekt "dymosim.exp" werden erstellt.
-libds.lib(amat.obj) : warning LNK4217: Lokal definiertes Symbol "___iob_func" wurde in _amatGetMatrixP3-Funktion importiert.
-libds.lib(dymosim2.obj) : warning LNK4217: Lokal definiertes Symbol "___iob_func" wurde in _dymosimMainModel-Funktion importiert.
-libds.lib(aprint.obj) : warning LNK4049: Lokal definiertes Symbol "___iob_func" wurde importiert.
-libds.lib(dsres.obj) : warning LNK4049: Lokal definiertes Symbol "___iob_func" wurde importiert.
-libds.lib(rsyaux.obj) : warning LNK4049: Lokal definiertes Symbol "___iob_func" wurde importiert.
+   Bibliothek "~FMUOutput\binaries\win64\Bibliothek_Simulationswerkzeug_Modelle_Waerme.lib" und Objekt "~FMUOutput\binaries\win64\Bibliothek_Simulationswerkzeug_Modelle_Waerme.exp" werden erstellt.
+Compiling the model (Visual C++) with FMI. 
  
-Successful generation of Dymosim. 
+fmi2Functions.c
+dsmodel.c
+c:\program files\dymola 2019 fd01\source\matrixop.c(157): warning C4090: "Funktion": Unterschiedliche "const"-Qualifizierer
+dsmodel.c(10093): warning C4244: "Funktion": Konvertierung von "double" in "int", m”glicher Datenverlust
+dsmodelext1.c
+dsmodelext2.c
+Code wird generiert...
+   Bibliothek "~FMUOutput\binaries\win32\Bibliothek_Simulationswerkzeug_Modelle_Waerme.lib" und Objekt "~FMUOutput\binaries\win32\Bibliothek_Simulationswerkzeug_Modelle_Waerme.exp" werden erstellt.
+Adding [modelDescription.xml] ... OK
+Adding [binaries\win32\Bibliothek_Simulationswerkzeug_Modelle_Waerme.dll] ... OK
+Adding [binaries\win64\Bibliothek_Simulationswerkzeug_Modelle_Waerme.dll] ... OK
+Adding [documentation\index.html] ... OK
+Adding [documentation\LICENSE_CVODE.txt] ... OK
+Adding [documentation\LICENSE_f2c.txt] ... OK
+Adding [documentation\LICENSE_FMI.txt] ... OK
+Adding [documentation\LICENSE_HDF5.txt] ... OK
+Adding [documentation\LICENSE_LAPACK.txt] ... OK
+Adding [documentation\LICENSE_ModelicaFFT.txt] ... OK
+Adding [documentation\LICENSE_ModelicaInternal.txt] ... OK
+Adding [documentation\LICENSE_ModelicaIO.txt] ... OK
+Adding [documentation\LICENSE_ModelicaMatIO.txt] ... OK
+Adding [documentation\LICENSE_ModelicaRandom.txt] ... OK
+Adding [documentation\LICENSE_ModelicaStandardTables.txt] ... OK
+Adding [documentation\LICENSE_ModelicaStrings.txt] ... OK
+Adding [documentation\LICENSE_ModelicaUtilities.txt] ... OK
+Adding [documentation\LICENSE_SUNDIALS.txt] ... OK
+Adding [documentation\LICENSE_SuperLU_MT.txt] ... OK
+Adding [documentation\LICENSE_TPL.txt] ... OK
+Adding [documentation\LICENSE_uthash.txt] ... OK
+Adding [documentation\LICENSE_win32_dirent.txt] ... OK
+Adding [documentation\LICENSE_ZLIB.txt] ... OK
+Adding [documentation\ModelicaLicense2.html] ... OK
+Adding [documentation\_main.html] ... OK
+Adding [documentation\_opensource.html] ... OK
+Adding [model.png] ... OK
+ 
+Successful creation of Bibliothek_Simulationswerkzeug_Modelle_Waerme.fmu. 
  

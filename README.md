@@ -1,3 +1,2 @@
 # Synergie
-## to do
 

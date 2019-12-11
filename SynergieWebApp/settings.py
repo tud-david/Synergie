@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'app1.apps.App1Config',
+    'ExcelDBImport.apps.ExceldbimportConfig',
     'crispy_forms',
 ]
 

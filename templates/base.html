@@ -12,8 +12,6 @@
 
   <title>SynErgie Webapplikationen</title>
 
-
-
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
@@ -61,12 +59,12 @@
       <hr class="sidebar-divider">
 
       <!-- Heading -->
-      <div class="sidebar-heading">
+      {% comment %} <div class="sidebar-heading">
         Apps
-      </div>
+      </div> {% endcomment %}
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item" id="EASER">
+      {% comment %} <li class="nav-item" id="EASER">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#App1Menu" aria-expanded="true" aria-controls="App1Menu">
           <i class="fab fa-modx"></i>
           <span>EASER</span>
@@ -85,7 +83,35 @@
           <i class="fab fa-modx"></i>
           <span>Zu den anderen Apps</span>
         </a>
+      </li> {% endcomment %}
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        App Menu
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'app1-info' %}">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Start</span>
+        </a>
       </li>
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'app1-doc' %}">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Documentation</span></a>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'excel_upload' %}">
+          <i class="fas fa-fw fa-file-excel"></i>
+          <span>Excel Upload</span></a>
+      </li>
+
 
 
 
@@ -143,7 +169,10 @@
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
             <!-- Nav Item - Alerts -->
+            
 
+
+            {% comment %} Integrating python in HTML {% endcomment %}
             {% if request.user.is_superuser %}
               <li class="nav-item mx-1">
                 <a class="nav-link" href="{% url 'register-view' %}">
@@ -241,7 +270,13 @@
             {% endfor %}
           {% endif %}
           <!-- Page Heading -->
+
+
+
           {% block content %}{% endblock %} 
+
+
+
 
         </div>
         <!-- /.container-fluid -->

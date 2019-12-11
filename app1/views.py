@@ -39,10 +39,6 @@ def documentation(request):
 
 
 
-
-
-
-
 @login_required
 def info(request):
     request.session['model_name'] = None

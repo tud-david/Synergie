@@ -18,6 +18,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from users import views as user_views
+from ExcelDBImport import views as excel_views
+
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 
@@ -31,12 +33,17 @@ urlpatterns = [
     path('ablage/delete/<int:id>/', user_views.delete, name='delete-view'),
     path('nutzer_anlegen/', user_views.register, name='register-view'),
 
+    #excel views
+    path('upload_excel/', excel_views.upload, name='excel_upload'),
+
     #auth-viewss
     path('login/', LoginView.as_view(template_name="users/login.html"), name='login-view'),
     path('logout/', LogoutView.as_view(template_name="users/logout.html"), name='logout-view'),
     
+    
     #app-views
     path('app1/', include('app1.urls')),
+
 ] 
 
 if settings.DEBUG:
